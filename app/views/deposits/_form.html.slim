@@ -1,0 +1,93 @@
+#weekly = form_for @deposit do |f|
+  .w3-row-padding
+
+    - if @deposit.errors.any?
+      #error_explanation
+        h2 = "#{pluralize(@deposit.errors.count, "error")} prohibited this deposit from being saved:"
+        ul
+          - @deposit.errors.full_messages.each do |message|
+            li = message
+
+    .m2.w3-col.field
+      = f.label :date
+      = f.text_field :date, class:'datepicker-yymm w10'
+    .m2.w3-col.field
+      = f.label :sales_revenue
+      = f.text_field :sales_revenue, class:'w10', disabled: true
+    .m2.w3-col.field
+      = f.label :credit_sales
+      = f.text_field :credit_sales, class:'w10'
+    .m2.w3-col.field
+      = f.label :tips_paid
+      = f.text_field :tips_paid, class:'w10'
+    .m2.w3-col.field
+      = f.label :sales_deposit
+      = f.text_field( :sales_deposit, class:'w10', disabled:true)
+    .m2.w3-col.field
+      = f.label :submit
+      .actions.w10 = f.submit( disabled:true,id:'submit_button')
+  .w3-row-padding
+    .m4.w3-col.field
+      label CashPayments (Sales - Credit + Tips)
+      = number_field_tag  "cash_payments", nil, disabled: true, class:'w10'
+      / = f.text_field :cash_out, class:'w10'
+      / / = f.input :payouts, input_html:{ class:'payout_sum'},disabled: true
+      label Cash Out
+      = f.text_field :cash_out, disabled: true, class:'w10'
+
+      label Cash Expected (Payments - Tips - Out)
+      = number_field_tag  "cash_expected", nil, disabled: true, class:'w10'
+
+      label Cash Counted 
+      = number_field_tag  "cash_counted", nil, class:'w10', step:0.01
+
+      label Over/Under
+      = number_field_tag  "over_under", nil, disabled:true, class:'w10'
+      / = f.input :revenue_sales,label:'Cash Counted'
+      / = f.input :over_under,label:"OverUnder (corrected)",input_html:{class:'over_under'}
+    .m8.w3-col
+      .w3-row.w3-row-padding
+        .m12.w3-col
+          h4.strong Revenue Sales from POS
+        .m4.w3-col
+          strong Revenue Dept
+        .m4.w3-col
+          strong Quanity
+        .m4.w3-col
+          strong Amount
+
+      .w3-row.w3-row-padding.w3-margin
+        = f.fields_for :sales_revenues  do |sales|
+          .s4.w3-col.padb-4
+            = sales.hidden_field :item, class:'sales-item'
+            = sales.hidden_field :id
+            = sales.object.item
+          .s4.w3-col.padb-4
+            = sales.text_field :quanity, class:'sales-quanity tright w10'
+          .s4.w3-col.padb-4
+            = sales.text_field :amount, class:'sales-amount tright w10'
+      .w3-row.w3-row-padding.w3-margin
+
+        = f.fields_for :cash_outs do |cashout|
+          .m3.w3-col
+            h4.strong Cash Out
+          .m3.w3-col
+            .strong Amount
+          .m6.w3-col
+            .strong Remarks
+          .m3.w3-col
+            = cashout.hidden_field :item, class:'cashout-item'
+            = cashout.hidden_field :id
+          .m3.w3-col
+            = cashout.text_field :amount, class:'cashout-amount w10 tright'
+          .m6.w3-col
+            = cashout.text_field :remarks, class:'cashout-remarks w25'
+
+
+  javascript:
+    $(function() {
+      $('#weekly').trigger('load');
+      
+    });
+
+

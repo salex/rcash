@@ -1,0 +1,77 @@
+h5 = header
+
+button= link_to(nil,'Validate', id:'bvalidate')
+- unless @entry.new_record?
+  button= link_to 'Delete Entry',@entry, data: { confirm: 'Are you sure?' }, method: :delete 
+  button= link_to 'Void Entry',void_entry_path(@entry), data: { confirm: 'Are you sure?' }, method: :patch 
+button.cancel= link_to 'Cancel', session[:current_acct].present? ? account_path(session[:current_acct]) :request.headers['HTTP_REFERER']
+.fclear
+= form_for @entry do |f| 
+  - if @entry.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@entry.errors.count, "error")} prohibited this entry from being saved:"
+      ul
+        - @entry.errors.full_messages.each do |message|
+          li = message
+  #ledger
+    table.gl-table
+      thead
+        tr.header-row
+          td.strong.wp10 Date
+          td.strong.wp6 Numb &plusmn;
+          td.strong Description
+          td.strong 
+            |Transfers&nbsp;&nbsp;&nbsp;
+            = link_to(nil,'Add Split Row', id:'b_add_split', class:' button lime')
+            = link_to(nil,'Clear Amounts', id:'b_clear_amounts', class:' button crimson') 
+          td.strong R
+          td.strong.wp9 Increase
+          td.strong.wp9 Decrease
+      tbody id="entry"
+        = entry_row(f.text_field(:post_date,class:'w8 e-date datepicker-yymm required'),f.text_field(:numb,class:'w5 e-numb'),f.text_area(:description,class:"w22 e-desc required"), 
+          f.hidden_field(:fit_id))
+      tbody#splits
+        - rid = 0
+        = f.fields_for :splits do |f|
+          - eid = f.object.id
+          - action = f.text_field(:action,class:'w5 s-action')
+          - memo = f.text_field(:memo,class:'w22 s-memo')
+          - sel_acct = f.select(:account_id,
+              options_for_select(current_book.settings[:acct_sel_opt_rev],selected: f.object.account_id,disabled:current_book.settings[:dis_opt],include_blank: ''),
+              {},
+              {class:'w30 s-acct required',dir:"ltr"})
+              / remember, disabled can be an array!
+          - rstate = f.text_field(:reconcile_state,value:f.object.reconcile_state ||='n', class:'w1 w3-hide')
+          - debit = f.text_field(:debit,value:Ledger.to_fixed(f.object.debit),class:'w8 s-debit required w3-right-align')
+          - credit = f.text_field(:credit,value:Ledger.to_fixed(f.object.credit),class:'w8 s-credit required w3-right-align')
+          - amount = f.hidden_field(:amount,class:'s-amount')
+          - idhide = f.hidden_field(:id)
+          - destroy = f.check_box('_destroy', {class:'s-delete',data:{behavior:'clear_row',row_id:"split_#{rid}"}})
+          - reconcile = f.object.reconcile_state
+          = split_row(rid,
+            eid,
+            action,
+            memo,
+            sel_acct,
+            rstate,
+            debit,
+            credit,
+            amount,
+            idhide,
+            destroy,
+            reconcile)
+          - rid += 1
+      tbody id="deletes"
+        tr
+          th colspan="7" Deleted Splits
+
+    div style="float:right;"
+      span#balanced Start
+    #submit.submit = f.submit "#{action_name == 'edit' ? 'Update' : 'Create'} Entry", disabled: true
+    #last_numbers data_numbers=current_book.last_numbers.to_json
+    br
+- unless @entry.new_record?
+  javascript:
+    $(function() {
+      $('#bvalidate').trigger('click');
+    });

@@ -1,0 +1,12 @@
+/ .w3-row.mhead.noprint
+/   .s9.columns
+/      == render partial:'home/underbar'
+/   .s3.columns
+/     h6.strong.malty Wilson-Parris Post - Gadsden AL
+
+.w3-row.w3-container.print
+  .s12.w3-col
+    h3.strong.text-center = "Trial Balance"
+
+  .w3-col.s8
+    = trial_balance_report(@report)

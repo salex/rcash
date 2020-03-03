@@ -1,0 +1,84 @@
+// Place all the styles related to the books controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+// button, input[type='submit'], input[type='button'] {
+//   display: inline-block;
+//   border: none;
+// }
+
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+  background:inherit;
+  border: none;
+  font-weight: bold;
+}
+
+.link-button {
+  background-color: lightgreen;
+  padding:2px 8px;
+  text-decoration: none;
+  border:solid 1px green;
+  margin-right: 0 2px;
+  // font-variant: small-caps;
+  // font-family: times;
+  font-weight: bold;
+  // font-size: 1.1rem;
+  &:hover{
+    background-color: green;
+    color:#eee;
+  }
+}
+.blue-link{
+  color:blue;
+  &:hover{
+    color:green;
+  }
+}
+
+.lime-link-button {
+  background-color: lime;
+  padding:1px 4px;
+  text-decoration: none;
+  // border:solid 1px green;
+  margin-right: 4px;
+  // font-variant: small-caps;
+  // font-family: times;
+  font-weight: bold;
+  // font-size: 1.1rem;
+  &:hover{
+    background-color: green;
+    color:#eee!important;
+  }
+}
+
+.blue-link-button {
+  background-color: blue;
+  padding:1px 4px;
+  text-decoration: none;
+  // border:solid 1px green;
+  margin-right: 4px;
+  // font-variant: small-caps;
+  // font-family: times;
+  font-weight: bold;
+  // font-size: 1.1rem;
+  &:hover{
+    background-color: lightblue;
+    color:#eee;
+  }
+}
+
+
+
+a {text-decoration: none;}
+
+td.actions, div.actions {
+  a {padding-right: 14px;}
+}
+.actions{
+  i {padding-right: 8px;}
+}

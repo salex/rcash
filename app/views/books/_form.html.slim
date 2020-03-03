@@ -1,0 +1,21 @@
+= form_for @book do |f|
+  - if @book.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@book.errors.count, "error")} prohibited this book from being saved:"
+      ul
+        - @book.errors.full_messages.each do |message|
+          li = message
+  .w3-row
+    .m3.w3-col
+      h5 = header
+      / - links.each do |l|
+      /   div = l
+    .m9.w3-col
+      .actions 
+        / strong Submit 
+        button[class='w3-button w3-round w3-hover-teal w3-blue']= f.submit
+
+    table.show-table
+
+        = show_table_row(f.label( :name),f.text_field( :name))
+        = show_table_row('A longer label', text_field_tag(:sruff))

@@ -1,0 +1,89 @@
+.w3-row[data-controller="entryLedger"]
+  .w3-col.s2
+    h5.strong = header
+  .w3-col.s10.w3-padding
+    / = link_to('Validate',nil, class="w3-button w3-blue", data:{action:"click->entryLedger#validate"})
+    = link_to("Validate",nil, id:'bvalidate',class:"w3-button w3-blue", data:{action:"click->entryLedger#validate"})
+    = link_to('Cancel', session[:current_acct].present? ? account_path(session[:current_acct]) :request.headers['HTTP_REFERER'],
+      class:"w3-button w3-yellow")
+    - unless @entry.new_record?
+      button= link_to 'Delete Entry',@entry, data: { confirm: 'Are you sure?' },class:'link-button', method: :delete 
+      button= link_to 'Void Entry',void_entry_path(@entry),class:'link-button', data: { confirm: 'Are you sure?' }, method: :patch 
+  .w3-row
+    = form_with model: @entry, data:{target:"entryLedger.theForm"} do |f| 
+      - if @entry.errors.any?
+        #error_explanation[data-target="entryLedger.errors"]
+          h2 = "#{pluralize(@entry.errors.count, "error")} prohibited this entry from being saved:"
+          ul
+            - @entry.errors.full_messages.each do |message|
+              li = message
+      #ledger
+        table.gl-table
+          thead
+            tr.header-row
+              td.strong.wp10 Date
+              td.strong.wp6 Numb &plusmn;
+              td.strong Description
+              td.strong 
+                |Transfers&nbsp;&nbsp;&nbsp;
+                = content_tag(:span,'Add Split Row', class:' button link-button',
+                  data:{action:"click->entryLedger#addSplit"}) 
+                = content_tag(:span,'Clear Amounts', class:' button link-button',
+                  data:{action:"click->entryLedger#clearAmounts"}) 
+              td.strong R
+              td.strong.wp9 Increase
+              td.strong.wp9 Decrease
+          tbody id="entry"
+
+            = entry_row(f.text_field(:post_date,class:'w8',
+              data:{controller:'flatpickr',action:"change->entryLedger#changed"},data:{target:'entryLedger.date'}),
+              f.text_field(:numb,class:'w5',data:{target:'entryLedger.numb',action:'keydown->entryLedger#numbChange'}),
+              f.text_area(:description,class:"w22",data:{target:'entryLedger.description',action:"change->entryLedger#changed"}), 
+              f.hidden_field(:fit_id))
+
+          / render partial
+          tbody[data-target="entryLedger.splitsTbody"]
+            - rid = 0
+            = f.fields_for :splits do |f|
+              - eid = f.object.id
+              - action = f.text_field(:action,class:'w5')
+              - memo = f.text_field(:memo,class:'w22')
+              - sel_acct = f.select(:account_id,
+                  options_for_select(current_book.settings[:acct_sel_opt_rev],selected: f.object.account_id,disabled:current_book.settings[:dis_opt],include_blank: ''),
+                  {},
+                  class:'w30 entry-select',dir:"ltr",data:{target:'entryLedger.transfer',action:"change->entryLedger#changed"})
+                  / remember, disabled can be an array!
+              - rstate = f.text_field(:reconcile_state,value:f.object.reconcile_state ||='n', class:'w1 w3-hide')
+              - debit = f.text_field(:debit,value:Ledger.to_fixed(f.object.debit),class:'w8 w3-right-align',
+                data:{target:"entryLedger.debit",action:"click->entryLedger#selectit change->entryLedger#changed" })
+              - credit = f.text_field(:credit,value:Ledger.to_fixed(f.object.credit),class:'w8  w3-right-align',
+                data:{target:"entryLedger.credit",action:"click->entryLedger#selectit change->entryLedger#changed"})
+              - amount = f.hidden_field(:amount,class:'',
+                data:{target:"entryLedger.amount"})
+              - idhide = f.hidden_field(:id)
+              - destroy = f.check_box('_destroy',class:'s-delete',data:{action:"click->entryLedger#deleteRow"})
+              - reconcile = f.object.reconcile_state
+              = split_row(rid,
+                eid,
+                action,
+                memo,
+                sel_acct,
+                rstate,
+                debit,
+                credit,
+                amount,
+                idhide,
+                destroy,
+                reconcile)
+              - rid += 1
+          tbody[data-target="entryLedger.deletesTbody"]
+            tr
+              th colspan="7" Deleted Splits
+
+        div style="float:right;"
+          span.balanced[data-target="entryLedger.balanced"] Start
+        #submit = f.submit( "#{action_name == 'edit' ? 'Update' : 'Create'} Entry", 
+          disabled: true,class:'w3-button w3-red',data:{target:'entryLedger.submit',action:'click->entryLedger#submitForm'})
+        #last_numbers[data-target="entryLedger.last_numbers" data-numbers="#{current_book.last_numbers.to_json}"]
+  
+      

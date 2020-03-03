@@ -1,0 +1,25 @@
+.w3-container.w3-white.min-height
+  h6.strong Users
+  nav.list-links
+    = link_to 'New User', new_user_path
+  table
+    tr.malt
+      th Username
+      th Email
+      th Full name
+      th Default Book
+      th Roles
+      th Actions
+
+    - @users.each do |user|
+      tr
+        td = user.username
+        td = user.email
+        td = user.full_name
+        td = user.default_book
+        td = user.roles
+        td.actions 
+          = link_to 'Show', user
+          = link_to 'Edit', edit_user_path(user)
+          = link_to 'Destroy', user, data: { confirm: 'Are you sure?' }, :method => :delete
+

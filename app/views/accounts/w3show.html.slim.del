@@ -1,0 +1,90 @@
+.w3-container.w3-white
+  .w3-row-padding.noprint
+    .w3-col.s12 
+      / - if policy(@account).trustee?
+      .w3-row-padding.bbottom
+        .w3-col.s6
+          - unless @account.placeholder.present?
+            button= link_to 'New Entry', new_entry_path(account_id:@account.id)
+            |&nbsp;&nbsp;
+          span.left.mr3[data-tooltip="" tabindex="1" title="Start typing an Entry Description into the search box. Click on Discription in list you want to duplicate. Click Duplicate button."]
+            i.fas.fa-question-circle
+
+          span.autocomplete style="width:300px;" 
+            input#autoInput name="lookup" placeholder="Lookup Description to Duplicate" type="text" 
+          |&nbsp;&nbsp;
+          button#autoAction class="hidden" Duplicate
+
+        .w3-col.s3
+          = check_box_tag :recent_acct, @account.id, session[:recent][@account.id.to_s].present?, data:{id: @account.id}
+          i.toggle &nbsp;Toggle Acct in Recent Ledger
+        .w3-col.s3
+          i.fa.fa-toggle-off.toggle#b_toggle_summary
+            |&nbsp;
+            i.toggle Toggle Date/Summary Filter
+
+
+  
+
+    .w3-col.s12
+      span.indent
+        strong Name: 
+        = @account.name
+      span.indent
+        strong Account type: 
+        = @account.account_type
+      span.indent
+        strong Parent: 
+        = @account.parent_id
+      span.indent
+        strong Code: 
+        = @account.code
+      span.indent
+        strong Description: 
+        = @account.description
+      span.indent
+        strong Placeholder: 
+        = @account.placeholder
+    #summary.hidden.w3-col.s12
+      .w3-row-padding
+        .w3-col.s4
+          .strong =  "Account Summary (#{@today})"
+          = summary_list(@account)
+
+        .w3-col.s8
+          .w3-row-padding
+            .w3-col.s8
+              .strong Filter - Select Period or Pick Date for Report Options
+              .w3-row
+                .w3-col.s7= from_period_select
+                .w3-col.s5= text_field_tag :from_date, nil,class:'datepicker-yymm',placeholder:'Pick From Date'
+                .w3-col.s7= to_period_select
+                .w3-col.s5= text_field_tag :to_date, nil,class:'datepicker-yymm',placeholder:'Pick To Date'
+
+            .w3-col.s4
+              .strong Report Options
+              = select_tag('register',options_for_select(report_select_options(nil,"/accounts/#{@account.id}")),prompt:"Register",data:{behavior:'select_ajax_url'})
+              = select_tag('register_pdf',options_for_select(report_select_options(nil,"/accounts/#{@account.id}/register_pdf")),prompt:"Register PDF",data:{behavior:'select_data_url'})
+              = select_tag('register_pdf',options_for_select(report_select_options(nil,"/accounts/#{@account.id}/split_register_pdf")),prompt:"Split Register PDF",data:{behavior:'select_data_url'})
+               
+#ajax.w3-container.w3-white
+  - last_tran = @account.last_entry_date ||= Date.today.beginning_of_year
+  - if @from.blank?
+    - @from = last_tran.beginning_of_month
+    - @to = @from.end_of_month
+    - @from -= 5.days
+
+  #Ledger
+    = render partial: 'accounts/ledger', locals:{from:@from,to:@to,account:@account}
+
+
+- arr =  current_book.description_lookup(6)
+- desc = arr.pluck(0).to_json
+- ids = arr.pluck(1).to_json
+
+#autoData.hidden data-array=desc data-match=ids 
+  javascript:
+    $(function() {
+      $('#autoData').trigger('load');
+      
+    });

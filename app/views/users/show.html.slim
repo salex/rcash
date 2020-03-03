@@ -1,0 +1,31 @@
+.w3-container.w3-white.min-height.w3-row
+  .actions
+    = link_to 'Edit', edit_user_path(@user), class: :button
+    = link_to 'Back', users_path, class: :button
+  h6.strong User
+  .w3-row.w3-row-padding    
+
+    .s3.m3.w3-col.text-right
+      strong Username:
+    .s8.m8.w3-col
+      = @user.username
+    .s3.m3.w3-col.text-right
+      strong Email:
+    .s8.m8.w3-col
+      = @user.email
+    .s3.m3.w3-col.text-right
+      strong Full name:
+    .s8.m8.w3-col
+      = @user.full_name
+    .s3.m3.w3-col.text-right
+      strong Default Book ID:
+    .s8.m8.w3-col
+      = @user.default_book
+    .s3.m3.w3-col.text-right
+      strong Roles:
+    .s8.m8.w3-col
+      = @user.roles
+    .s3.m3.w3-col.text-right
+      strong Reset token:
+   
+

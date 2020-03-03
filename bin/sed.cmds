@@ -1,0 +1,11 @@
+s/\.medium-/.m/g
+s/\.small-table7/.smalltable7/g
+s/\.small-/.s/g
+s/\.row/.w3-row/g
+s/\.cell/.w3-col/g
+s/fieldset/.w3-container.w3-border/g
+s/\.grid-container/.w3-container/g
+s/\.grid-x/.w3-row/g
+s/\.grid-padding-x/.w3-row-padding/g
+s/\.grid-margin-x/.w3-margin/g
+
