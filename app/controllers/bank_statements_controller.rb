@@ -76,18 +76,20 @@ class BankStatementsController < ApplicationController
 
   def clear_splits
     @bank_statement = BankStatement.find(session[:reconcile_id])
-    entry = Entry.find(params[:entry_id])
+    entry = Entry.find(params[:id])
     splits = entry.splits.where(reconcile_state:'n')
     splits.update_all(reconcile_state:'c')
     @reconcile = @bank_statement.reconcile
+    render partial: 'bank_statements/reconcile'
   end
 
   def unclear_splits
     @bank_statement = BankStatement.find(session[:reconcile_id])
-    entry = Entry.find(params[:entry_id])
+    entry = Entry.find(params[:id])
     splits = entry.splits.where(reconcile_state:'c')
     splits.update_all(reconcile_state:'n')
     @reconcile = @bank_statement.reconcile
+    render partial: 'bank_statements/reconcile'
   end
 
   def update_reconcile
@@ -101,6 +103,7 @@ class BankStatementsController < ApplicationController
         @reconcile.cleared_splits.update_all(reconcile_state:'y',reconcile_date:@bank_statement.statement_date + 1.day)
         @bank_statement.update(reconciled_date:@bank_statement.statement_date + 1.day)
         # update reconcile_state and reconcile_date
+        session.delete(:reconcile_id)
         format.html { redirect_to @bank_statement, notice: 'Bank statement was successfully reconciled.' }
       else
         format.html { redirect_to @bank_statement, alert: "Bank statement was not reconciled. Difference = #{@reconcile[:difference]} "}

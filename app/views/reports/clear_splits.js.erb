@@ -1,2 +1,2 @@
-$('#partial').html('<%= escape_javascript(render partial: "reports/balance",locals:{balance:@balance}) %>');
+document.getElementById('partial').innerHTML=('<%= escape_javascript(render partial: "reports/balance") %>');
 

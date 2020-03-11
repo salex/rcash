@@ -6,6 +6,7 @@ module Ledger
   end
 
   def self.money(int,sign="")
+    int = 0 if int.blank?
     dollars = int / 100
     cents = (int % 100) / 100.0
     amt = dollars + cents

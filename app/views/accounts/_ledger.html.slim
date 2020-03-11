@@ -32,7 +32,7 @@ table.small-table7[data-controller="sortTable toggleSplits"]
         / - if policy(account).trustee?
         - if true
           |Date-
-          i class="fas fa-edit" 
+          i class="fas fa-edit " 
           |&nbsp;&nbsp;Dup
         - else
           |Date
@@ -60,7 +60,7 @@ table.small-table7[data-controller="sortTable toggleSplits"]
           |&nbsp;&nbsp; 
 
           = link_to duplicate_entry_path(row[:id]), data: { confirm: 'Duplicate Entry: Are you sure?' } do
-            i class="fas fa-copy noprint"
+            i class="fas fa-copy noprint blue-link"
         - else
           = row[:date]
       td = row[:numb]

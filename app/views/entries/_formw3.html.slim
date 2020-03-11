@@ -3,7 +3,8 @@
     h5.strong = header
   .w3-col.s10.w3-padding
     / = link_to('Validate',nil, class="w3-button w3-blue", data:{action:"click->entryLedger#validate"})
-    = link_to("Validate",nil, id:'bvalidate',class:"w3-button w3-blue", data:{action:"click->entryLedger#validate"})
+    / = link_to("Validate",nil, id:'bvalidate',class:"w3-button w3-blue", data:{action:"click->entryLedger#validate"})
+    button.w3-button.w3-blue[data-action="click->entryLedger#validate"] Validate
     = link_to('Cancel', session[:current_acct].present? ? account_path(session[:current_acct]) :request.headers['HTTP_REFERER'],
       class:"w3-button w3-yellow")
     - unless @entry.new_record?

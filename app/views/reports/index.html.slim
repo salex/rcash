@@ -1,5 +1,5 @@
 .w3-container.w3-white.min-height
-  #reports.w3-row.w3-row-padding
+  #reports.w3-row.w3-row-padding[data-controller="rangePicker"]
     .w3-col.s5
       h5 Under Construction
 
@@ -12,17 +12,17 @@
         .s6.w3-col
           = from_period_select
           |or 
-          = text_field_tag :from_date, nil,class:'datepicker-yymm',placeholder:'Pick From Date'
+          = text_field_tag :from_date, nil,data:{controller:'flatpickr',target:'rangePicker.from_date'},placeholder:'Pick From Date'
         .s6.w3-col
           = to_period_select
           |or 
-          = text_field_tag :to_date, nil,class:'datepicker-yymm',placeholder:'Pick To Date'
+          = text_field_tag :to_date, nil,data:{controller:'flatpickr',target:'rangePicker.to_date'},placeholder:'Pick To Date'
         .s6.w3-col
           strong Account Ledger(pdf)
-          div= select_tag('register_pdf',options_for_select(report_select_options(7,'/reports/register_pdf')),prompt:"-Select Date-",data:{behavior:'select_data_url'})
+          div= select_tag('register_pdf',options_for_select(report_select_options(7,'/reports/register_pdf')),prompt:"-Select Date-",data:{action:'rangePicker#selectPDF'})
         .s6.w3-col
           strong Split Account Ledger(pdf)
-          div= select_tag('register_pdf',options_for_select(report_select_options(7,'/reports/split_register_pdf')),prompt:"-Select Date-",data:{behavior:'select_data_url'})
+          div= select_tag('register_pdf',options_for_select(report_select_options(7,'/reports/split_register_pdf')),prompt:"-Select Date-",data:{action:'rangePicker#selectSplit'})
 
 
 
@@ -38,7 +38,8 @@
         button = link_to "Trial Balance", trial_balance_reports_path
       p.clearfix
       .strong Select Account
-      .wrap = content_tag(:select,options_for_select(@acct_options),id: :account_select)
+      .wrap = content_tag(:select,options_for_select(@acct_options),id: :account_select,
+        data:{target:'rangePicker.account'})
       .box
         button = link_to "Account Summary", summary_reports_path ,data:{behavior:'select_report_url'}
         button = link_to "QM Report", summary_reports_path ,data:{behavior:'select_report_url',combo:true}

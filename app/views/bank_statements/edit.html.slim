@@ -4,7 +4,7 @@
     .w3-col.s4
       == render partial: 'form', locals:{header:'Edit account'}
     .w3-col.s6
-      => link_to 'Show', @bank_statement, class: :button
+      => link_to 'Cancel/Show', @bank_statement, class: 'lime-link-button'
     
-      =< link_to 'Index', bank_statements_path, class: :button
+      =< link_to 'Cancel/Index', bank_statements_path, class: 'lime-link-button'
 

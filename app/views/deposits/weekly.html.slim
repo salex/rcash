@@ -3,9 +3,9 @@
     h6.strong.s2.w3-col
       |Last 5 weekly deposits
     .m10.w3-col
-      = link_to "List Deposits", deposits_path, class: "button bbutton"
-      = link_to "Month Summary", month_summary_deposits_path, class: "button bbutton"
-      = link_to "Last Month Summary", month_summary_deposits_path(date:(Date.today - 1.month)), class: "button bbutton"
+      = link_to "List Deposits", deposits_path, class: "lime-link-button"
+      = link_to "Month Summary", month_summary_deposits_path, class: "lime-link-button"
+      = link_to "Last Month Summary", month_summary_deposits_path(date:(Date.today - 1.month)), class: "lime-link-button"
 
   hr
   .w3-row-padding
@@ -13,15 +13,15 @@
       - range = (deposit.date - 6.days)..deposit.date
       / - sales_dates = deposit.daily_sales.pluck(:date)
       .m9.w3-col
-        table
+        table.w3-table
           th.strong 
             =  range
             |&nbsp;&nbsp;
-          - color = deposit.sales_revenues.count > 0 ? 'success' : 'secondary'
+          - color = deposit.sales_revenues.count > 0 ? 'blue-link' : 'secondary-link'
 
           td 
-            = link_to 'Sales Revenue',edit_deposit_path(deposit),class:" #{color}"
+            = link_to 'Sales Revenue',edit_deposit_path(deposit),class:"#{color}"
           / h6 = link_to "Report",deposit_path(deposit), class:'button small notice'
-          - color = deposit.other_revenues.count > 0 ? 'success' : 'secondary'
+          - color = deposit.other_revenues.count > 0 ?  'blue-link' : 'secondary-link'
           td= link_to "Non-Sales Revenue",edit_other_deposit_path(deposit), class:" #{color}"
-          td= link_to "Summary",deposit_path(deposit), class:' bbutton'
+          td= link_to "Summary",deposit_path(deposit), class:" #{color}"

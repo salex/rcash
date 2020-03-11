@@ -6,7 +6,7 @@ class OfxesController < ApplicationController
   end
 
   def latest
-    @ofx = current_book.ofxes.order(:date).last
+    @ofx = current_book.ofxes.order(:statement_date).last
     @account = @ofx.ofx_account
 
     render action: :show
@@ -36,7 +36,7 @@ class OfxesController < ApplicationController
   end
 
   def create
-    @ofx = current_book.ofxes.new
+    @ofx = current_book.ofxes.new(statement_date:Date.today.beginning_of_month)
     uploaded_io = params[:ofx][:text_field]
     if @ofx.upload_io(uploaded_io)
       redirect_to ofxes_path, notice: "The ofx #{@ofx.key} has been uploaded."
@@ -104,20 +104,33 @@ class OfxesController < ApplicationController
     render template:'entries/new'
   end
 
-  def search
-    match_entry = current_book.entries.where(Entry.arel_table[:description].matches("#{params[:lookup]}%")).order(:post_date).last
+  def matched
+    match_entry = current_book.entries.find(params[:entry_id])
     if match_entry.splits.count > 2
       redirect_to latest_ofxes_path, alert:'Sorry, you can\'t duplicate entries with more than 2 splits from Bank Transactions. Deplicate it in the ledger.'
     else
-      @options  = current_book.settings[:acct_sel_opt]
-
-      bank = Ofx.find_fit_id(params[:id])
+      # @options  = current_book.settings[:acct_sel_opt]
+      bank = Ofx.find_fit_id(params[:fit_id])
       @entry = match_entry.duplicate_with_bank(bank)
-      # render plain: "#{new_entry.inspect} #{new_entry.splits.inspect} "
       render template: 'entries/duplicate'
     end
 
   end
+
+  # def search
+  #   match_entry = current_book.entries.where(Entry.arel_table[:description].matches("#{params[:lookup]}%")).order(:post_date).last
+  #   if match_entry.splits.count > 2
+  #     redirect_to latest_ofxes_path, alert:'Sorry, you can\'t duplicate entries with more than 2 splits from Bank Transactions. Deplicate it in the ledger.'
+  #   else
+  #     @options  = current_book.settings[:acct_sel_opt]
+
+  #     bank = Ofx.find_fit_id(params[:id])
+  #     @entry = match_entry.duplicate_with_bank(bank)
+  #     # render plain: "#{new_entry.inspect} #{new_entry.splits.inspect} "
+  #     render template: 'entries/duplicate'
+  #   end
+
+  # end
 
   private
     def require_book

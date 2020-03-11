@@ -1,6 +1,6 @@
 .w3-container.w3-white.min-height
   .w3-row-padding-x
-    #ledger.cell
+    #ledger.cell[data-controller="ofx" data-controller-entryID="" data-controller-fitID=""]
       / #btModal.reveal data-reveal="" 
       /   p If your recongnize the Entry as a reapeating Entry, select a matching name in the folloing pulldown and click the Duplicate Match button and it will duplicate that transaction with the information from the bank statement.
       /   button.close-button aria-label=("Close modal") data-close="" type="button" 
@@ -10,19 +10,21 @@
       /     = hidden_field_tag :entry_id, 1
       /     = hidden_field_tag :fit_id, ''
       /     button#submit_ofx_search_tag Duplicate Match
-      button.w3-button.w3-black onclick="document.getElementById('id01').style.display='block'"  Open Modal
-      #id01.w3-modal
+      / button.w3-button.w3-black onclick="document.getElementById('id01').style.display='block'"  Open Modal
+      #id01.w3-modal[data-target="ofx.modal"]
         .w3-modal-content.w3-card-4
           header.w3-container.w3-teal
             span.w3-button.w3-display-topright onclick="document.getElementById('id01').style.display='none'"  &times;
             h2 About OFX Bank Transaction
           .w3-container
-            p If your recongnize the Entry as a reapeating Entry, search for a matching name in the folloing field and click the Duplicate Match button and it will duplicate that transaction with the information from the bank statement.
-            div.w3-left[data-controller="autocomplete entrySearch" 
+            p If your recongnize the Entry as a reapeating Entry, search for a matching name in the following search field and click the Duplicate Match button and it will duplicate a new Entry with the information from the bank statement. You can then save the Entry if it validates. You can also Cancel the Entry if you picked the wrong match.
+            div.w3-left[data-controller="autocomplete" 
                data-autocomplete-url="/entries/entry_search" data-autocomplete-min-length="2"]
-               input[type="text" data-target="autocomplete.input" placeholder="Entry Description Search" data-action="change->entrySearch#showSearched" style="width:300px;margin-right:8px;"]
-               input[type="hidden" name="entry_id" data-target="autocomplete.hidden entrySearch.hidden" ]
-               .w3-right.lime-link-button.w3-hide[data-target="entrySearch.showButton" data-action="click->entrySearch#addSearched" data-entryID="" data-fitID=""] Duplicate
+               input[type="text" data-target="autocomplete.input" placeholder="Entry Description Search" data-action="change->ofx#showSearched" style="width:300px;margin-right:8px;"]
+               input[type="hidden" name="entry_id" data-target="autocomplete.hidden ofx.hidden" ]
+               input[type="hidden" name="fit_id" data-target="ofx.fitID" ]
+
+               .w3-right.lime-link-button.w3-hide[data-target="ofx.showButton" data-action="click->ofx#dupSearched" data-entryID="" data-fitID=""] Duplicate Match
                ul.w3-ul.w3-border[data-target="autocomplete.results"]
 
           footer.w3-container.w3-teal
@@ -31,7 +33,7 @@
 
 
 
-      button = link_to 'List All',ofxes_path
+      button = link_to 'List All',ofxes_path, class:'blue-link-button'
       table.small-table7.sortable
         - @ofx.update_data(true)
         - balance = @ofx.hash_data[:balance]
@@ -79,13 +81,13 @@
                   td
                     |Possible Link(s)&nbsp;
                     - bt.payee[bt.fit_id].each do |e|
-                      button[class="green small link-td link-td-#{e[:entry_id]}"]
-                        = link_to "#{e[:description]}-#{e[:post_date]}",link_ofx_path(bt.fit_id, entry:e[:entry_id])
+                      button[class="blue-link"]
+                        = link_to "#{e[:description]}-#{e[:post_date]}",link_ofx_path(bt.fit_id, entry:e[:entry_id],class:'blue-link')
                 -else
                   td 
-                    - params ={amount:bt.amount_in_pennies,date:bt.posted_at.to_date,description:bt.name,memo:bt.memo,numb:bt.check_number}
-                    = link_to "NewEntry", new_entry_ofx_path(id:bt.fit_id,amount:bt.amount_in_pennies,date:bt.posted_at.to_date,description:bt.name,memo:bt.memo,numb:bt.check_number,type_tran:bt.type)
-                    button.blue.small[class="open-search" data-open="btModal" data-btran="#{bt.fit_id}"] Search Entries
+                    / - params ={amount:bt.amount_in_pennies,date:bt.posted_at.to_date,description:bt.name,memo:bt.memo,numb:bt.check_number}
+                    = link_to( "NewEntry", new_entry_ofx_path(id:bt.fit_id,amount:bt.amount_in_pennies,date:bt.posted_at.to_date,description:bt.name,memo:bt.memo,numb:bt.check_number,type_tran:bt.type),class:"lime-link-button")
+                    button.lime-link-button[data-action="click->ofx#openModal" data-fitid="#{bt.fit_id}"] Search Entries
 
 
               td.tright = imoney(bt.amount_in_pennies)

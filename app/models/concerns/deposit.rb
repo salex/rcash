@@ -11,6 +11,7 @@ class Deposit < ApplicationRecord
   validates_uniqueness_of :date
 
   RevenueClasses = %w(Beer Beverage Liquor Food)
+  SalesClasses = {Beer:{amt:2.0,tax:0.1},Beverage:{amt:1.0,tax:0.1},Food:{amt:1.0,tax:0.1},Liquor:{amt:3.0,tax:0.17}}
 
   def self.deposit_totals(dids)
     deposits = Deposit.where(id:dids)

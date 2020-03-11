@@ -80,22 +80,39 @@ class ReportsController < ApplicationController
     @banking = Bank.new
   end
 
-  def clear_splits
-    entry = current_book.entries.find(params[:entry_id])
-    splits = entry.splits.where(reconcile_state:'n')
-    splits.update_all(reconcile_state:'c')
-    @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
-    # render partial:'reports/balance'
+  # def clear_splits
+  #   entry = current_book.entries.find(params[:entry_id])
+  #   splits = entry.splits.where(reconcile_state:'n')
+  #   splits.update_all(reconcile_state:'c')
+  #   @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
+  #   # render partial:'reports/balance'
 
-  end
+  # end
 
-  def unclear_splits
-    entry = current_book.entries.find(params[:entry_id])
+  # def unclear_splits
+  #   entry = current_book.entries.find(params[:entry_id])
+  #   splits = entry.splits.where(reconcile_state:'c')
+  #   splits.update_all(reconcile_state:'n')
+  #   @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
+  #   # render partial:'reports/balance'
+  # end
+
+  def split_unclear
+    entry = current_book.entries.find(params[:id])
     splits = entry.splits.where(reconcile_state:'c')
     splits.update_all(reconcile_state:'n')
     @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
-    # render partial:'reports/balance'
+    render partial:'reports/balance'
   end
+  def split_clear
+    entry = current_book.entries.find(params[:id])
+    splits = entry.splits.where(reconcile_state:'n')
+    splits.update_all(reconcile_state:'c')
+    @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
+    render partial:'reports/balance'
+  end
+
+
 
   def custom
     set_param_date

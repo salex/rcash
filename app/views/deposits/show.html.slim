@@ -72,7 +72,7 @@
                 td = r.item
                 td.tright = r.quanity
                 td.tright = dmoney r.amount
-                -tot += r.amount
+                -tot += r.amount ||= 0
             tr
               td.strong Total
               td

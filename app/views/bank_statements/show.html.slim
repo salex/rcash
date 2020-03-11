@@ -24,6 +24,6 @@
     strong Reconciled date:
     = @bank_statement.reconciled_date
 
-  => link_to 'Edit', edit_bank_statement_path(@bank_statement)
-  '|
-  =< link_to 'Back', bank_statements_path
+  => link_to 'Edit', edit_bank_statement_path(@bank_statement), class: 'lime-link-button'
+  
+  =< link_to 'Back', bank_statements_path, class: 'blue-link-button'

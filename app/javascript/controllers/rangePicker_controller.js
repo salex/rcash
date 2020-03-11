@@ -11,7 +11,7 @@ import { Controller } from "stimulus"
 import Rails from "@rails/ujs";
 
 export default class extends Controller {
-  static targets = [ "from_date" ,'to_date','toOptions','fromOptions','byRange','byDate','pdf']
+  static targets = [ "from_date" ,'to_date','toOptions','fromOptions','byRange','byDate','pdf','account']
 
   connect() {
     // console.log("range_picker")
@@ -40,6 +40,7 @@ export default class extends Controller {
     console.log('wants a ledger pdf')
     console.log(event.target)
     const url = (event.target.value)
+
     this.assign(url)
 
 
@@ -49,6 +50,7 @@ export default class extends Controller {
     console.log('wants a split ledger pdf')
     console.log(event.target)
     const url = (event.target.value)
+
     this.assign(url)
 
   }
@@ -61,9 +63,15 @@ export default class extends Controller {
   }
 
   assign(url){
+    /* this is used it two places, account ledger and report
+      for reports it needs an account id it gets from optioal target account
+    */
     if(url.includes("fromto=1")) {
       if ((this.fromDate != undefined) && (this.toDate != undefined)) {
         url = url.replace('fromto=1',`from=${this.fromDate.value}&to=${this.toDate.value}`)
+        if (this.hasAccountTarget) {
+          url += `&account=${this.accountTarget.value}`
+        }
         location.assign(url)
       }else{
         alert('Sorry, from and to dates not set')

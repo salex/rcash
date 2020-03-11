@@ -17,7 +17,33 @@ button,
   border: none;
   font-weight: bold;
 }
+input[type="submit"]{
+  background-color: green;
+  color:white;
+  margin:4px 0 4px 0;
+  padding:8px;
+  border-radius:4px;
 
+  &:hover{
+    background-color: lightgreen;
+    color:#333;
+  }
+}
+.cancel-button{
+  background-color: yellow;
+  color:black;
+  margin:4px 0 4px 0;
+  padding:8px;
+  font-size: 110%;
+  border-radius:4px;
+  font-weight: bold;
+  &:hover{
+    background-color: lightgreen;
+    color:#333;
+  }
+
+
+}
 .link-button {
   background-color: lightgreen;
   padding:2px 8px;
@@ -39,10 +65,17 @@ button,
     color:green;
   }
 }
+.secondary-link{
+  color:saddlebrown;
+  &:hover{
+    color:green;
+  }
+}
+
 
 .lime-link-button {
   background-color: lime;
-  padding:1px 4px;
+  padding:2px 4px;
   text-decoration: none;
   // border:solid 1px green;
   margin-right: 4px;
@@ -57,8 +90,9 @@ button,
 }
 
 .blue-link-button {
-  background-color: blue;
-  padding:1px 4px;
+  background-color: #296b94;
+  color:white;
+  padding:2px 4px;
   text-decoration: none;
   // border:solid 1px green;
   margin-right: 4px;
@@ -67,8 +101,9 @@ button,
   font-weight: bold;
   // font-size: 1.1rem;
   &:hover{
-    background-color: lightblue;
-    color:#eee;
+    color:#333;
+    background-color: lighten(#296b94,30%);
+
   }
 }
 

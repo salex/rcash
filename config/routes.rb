@@ -1,17 +1,25 @@
 Rails.application.routes.draw do
-  get 'welcome/home'
-  get 'welcome/about'
-  get 'welcome/test'
+  get 'test/test'
+  patch 'test/fire'
+  patch 'test/clear'
+  patch 'test/unclear'
+  get 'test/link'
+  post 'test/link'
+
+
   resources :bank_statements do
     member do
       get :reconcile
       get :update_reconcile
+      patch :clear_splits
+      patch :unclear_splits
+
     end
-    collection do
-      # get :last
-      get :clear_splits
-      get :unclear_splits
-    end
+    # collection do
+    #   # get :last
+    #   # patch :clear_splits
+    #   # patch :unclear_splits
+    # end
   end
 
   resources :entries do
@@ -52,11 +60,9 @@ Rails.application.routes.draw do
       get :register_pdf
       get :split_register_pdf
       get :test
-      get :clear_splits
-      patch :clear_splits
-      get :unclear_splits
-      patch :unclear_splits
-      get :summary
+      # patch :clear_splits
+      # patch :unclear_splits
+      # get :summary
       get :trustee_audit
       get :custom
       get :audit
@@ -65,9 +71,13 @@ Rails.application.routes.draw do
 
 
     end
+    member do
+      patch :split_clear
+      patch :split_unclear
+    end
   end
 
-  resources :ofxes , only: [:index,:show,:edit,:update, :new] do
+  resources :ofxes do
     member do
       get :link
       get :new_entry
@@ -76,6 +86,8 @@ Rails.application.routes.draw do
     end
     collection do
       get :latest
+      get :matched
+
     end
   end
 
@@ -108,8 +120,10 @@ Rails.application.routes.draw do
   get 'about/reports'
   get 'about/checking'
 
-  get 'welcome/home'
+  
   get 'welcome/test'
+
+
   get 'welcome/about'
 
   get 'login', to: 'users#login', as: 'login'

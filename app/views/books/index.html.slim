@@ -15,7 +15,7 @@
           i class="fas fa-edit" 
           span.indent Edit Book
         li
-          i class="fas fa-trash" 
+          i class="fas fa-trash w3-text-red" 
           span.indent Delete/Destroy book. CAUTION This will destroy all associated Accounts, Entries and Splits
 
       p The'New Book' Button will create a new book with default accounts
@@ -58,7 +58,7 @@
                 = link_to edit_book_path(book) do
                   i class="fas fa-edit"
                 = link_to book, data: { confirm: 'Are you sure? This will destroy all Accounts, Entries, Spits, and Statements' }, method: :delete do
-                  i class="fas fa-trash"
+                  i class="fas fa-trash w3-text-red"
 
               / td = link_to 'Show', book
               / td = link_to 'Edit', edit_book_path(book)
@@ -66,4 +66,4 @@
 
       br
 
-      = link_to 'New Book', new_book_path, class:'button small'
+      = link_to 'New Book', new_book_path, class:'lime-link-button'
