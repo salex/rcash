@@ -9,13 +9,13 @@ class Report
   # :dates, :bmonth, :checking_acct, :savings_acct, :tmonths, :config
 
   def get_audit_config
-    filepath = Rails.root.join("config","audit_config.yaml")
+    filepath = Rails.root.join("yaml","audit_config.yaml")
     @audit_yaml = File.read(filepath)
     @audit_config = YAML.load(audit_yaml)
   end
 
   def put_audit_config(audit_config)
-    filepath = Rails.root.join("config","audit_config.yaml")
+    filepath = Rails.root.join("yaml","audit_config.yaml")
     File.write(filepath,audit_config)
   end
 

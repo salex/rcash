@@ -28,9 +28,9 @@ $dark-blue: #0F3E61;
 .goldey {background-color: $vfw_gold;color:#f8f8f8;}
 .strong {font-weight: bold;}
 .text-center {text-align: center!important;}
-.text-right {text-align: right!important;}
+.text-right,.tright {text-align: right!important;}
 
-
+.indent {margin-left:8px;}
 
 .sticky-menu {
   position: -webkit-sticky; /* Safari */

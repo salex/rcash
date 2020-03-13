@@ -201,6 +201,40 @@ class Book < ApplicationRecord
     query.where(id:uids).order(:post_date).reverse_order
   end
 
+  def contains_match_query(match,all=nil)
+    query = self.entries.where(Entry.arel_table[:description].matches("%#{match}%")).order(:post_date).reverse_order
+    return query if all.present?
+    p = query.pluck(:description,:id)
+    uids = p.uniq{ |s| s.first }.to_h.values
+    query.where(id:uids).order(:post_date).reverse_order
+  end
+
+
+  def self.entries_ledger(entries)
+    bal = @balance ||= 0
+
+    lines = [{id: nil,date: nil,numb:nil,desc:"Beginning Balance",
+        checking:{db:0,cr:0},details:[], memo:nil,r:nil,balance:bal}]
+    entries.each do |t|
+      date = t.post_date
+      line = {id: t.id,date: date.strftime("%m/%d/%Y"),numb:t.numb,desc:"#{t.description}",
+        checking:{db:0,cr:0},details:[], memo:nil,r:nil,balance:0}
+      t.splits.each do |s|
+        details = s.details
+
+        # if kids.include?(details[:aguid]) 
+          line[:checking][:db] += details[:db]
+          line[:checking][:cr] += details[:cr]
+          bal += details[:cr] 
+          line[:balance] = bal
+          line[:r] = details[:r]
+        line[:details] << details
+      end
+      lines << line
+    end
+    lines
+  end
+
 
   def create_book
     book = self

@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       patch :void
     end
     collection do
-      get :search
+      patch :search
       get :entry_search
     end
   end
@@ -62,13 +62,14 @@ Rails.application.routes.draw do
       get :test
       # patch :clear_splits
       # patch :unclear_splits
-      # get :summary
+      get :summary
       get :trustee_audit
       get :custom
       get :audit
       get :edit_config
       patch :update_config
-
+      patch :set_acct
+      get :set_acct
 
     end
     member do

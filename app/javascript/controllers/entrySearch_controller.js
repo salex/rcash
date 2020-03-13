@@ -10,10 +10,10 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "hidden",'showButton' ]
+  static targets = [ "hidden",'showButton','refresh','form']
 
   connect() {
-    // console.log("got a autocomplete")
+    console.log("got a search")
   }
 
   addSearched() {
@@ -34,4 +34,11 @@ export default class extends Controller {
     var showButton = this.showButtonTarget
     showButton.classList.toggle('w3-hide')
   }
+
+  onPostSuccess(event) {
+    console.log("got a success")
+    let [data, status, xhr] = event.detail;
+    this.refreshTarget.innerHTML = xhr.response;
+  }
+
 }

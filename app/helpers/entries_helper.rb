@@ -28,7 +28,7 @@ module EntriesHelper
       ['All',all.to_s]
 
     ]
-    content_tag(:select,options_for_select(options), data:{target:'rangePicker.fromOptions',action:'change->rangePicker#fromOption',date_id:date_id},id: :from_select)
+    content_tag(:select,options_for_select(options),class:'w3-select', data:{target:'rangePicker.fromOptions',action:'change->rangePicker#fromOption',date_id:date_id},id: :from_select)
   end
 
   def to_period_select(date_id:nil)
@@ -61,7 +61,7 @@ module EntriesHelper
       ['Current Date',today.to_s]
 
     ]
-    content_tag(:select,options_for_select(options), data:{target:'rangePicker.toOptions',action:'change->rangePicker#toOption',date_id:date_id}, id: :to_select)
+    content_tag(:select,options_for_select(options),class:'w3-select', data:{target:'rangePicker.toOptions',action:'change->rangePicker#toOption',date_id:date_id}, id: :to_select)
   end
 
 

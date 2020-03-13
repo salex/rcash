@@ -134,11 +134,11 @@ module ReportsHelper
       children(report["Equity"][:children])
       concat( tot_row("Total Equity",imoney(report["Equity"][:total],"$")))
       assets = imoney(report["Assets"][:total])
-      liabilities = imoney(report["Liabilities"][:total])
+      liabilities = imoney(report["Liabilities"][:total] * -1)
       equity = imoney(report["Equity"][:total])
       income = imoney(report["Income"][:total])
       expenses = imoney(report["Expense"][:total])
-      left = report["Assets"][:total] - report["Liabilities"][:total]
+      left = report["Assets"][:total] + report["Liabilities"][:total]
       right = report["Equity"][:total] + report["Income"][:total] - report["Expense"][:total]
 
       concat( content_tag(:h4,"Assets - Liabilities = Equity + (Income - Expenses)",class:'strong'))

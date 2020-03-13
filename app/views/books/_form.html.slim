@@ -7,15 +7,14 @@
           li = message
   .w3-row
     .m3.w3-col
-      h5 = header
+      h5.strong = header
       / - links.each do |l|
       /   div = l
     .m9.w3-col
       .actions 
         / strong Submit 
-        button[class='w3-button w3-round w3-hover-teal w3-blue']= f.submit
+        button = f.submit
 
     table.show-table
 
         = show_table_row(f.label( :name),f.text_field( :name))
-        = show_table_row('A longer label', text_field_tag(:sruff))

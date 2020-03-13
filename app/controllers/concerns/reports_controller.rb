@@ -67,12 +67,18 @@ class ReportsController < ApplicationController
     @range = bolq..eolq
     @config = Report.new.get_audit_config.to_o
     @summary = current_book.accounts.find_by(name:@config.current_assets).family_summary(@range.first,@range.last)
-
+    render layout: 'print'
   end
 
 
   def checking_balance
     @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
+  end
+
+  def set_acct
+    puts params.inspect
+    session[:acct_id] = params[:id]
+    head :ok
   end
 
   def test

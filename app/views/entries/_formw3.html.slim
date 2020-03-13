@@ -25,7 +25,7 @@
               td.strong.wp10 Date
               td.strong.wp6 Numb &plusmn;
               td.strong Description
-              td.strong 
+              td.strong
                 |Transfers&nbsp;&nbsp;&nbsp;
                 = content_tag(:span,'Add Split Row', class:' button link-button',
                   data:{action:"click->entryLedger#addSplit"}) 
@@ -37,7 +37,7 @@
           tbody id="entry"
 
             = entry_row(f.text_field(:post_date,class:'w8',
-              data:{controller:'flatpickr',action:"change->entryLedger#changed"},data:{target:'entryLedger.date'}),
+              data:{controller:'flatpickr',action:"change->entryLedger#changed",target:'entryLedger.date'}),
               f.text_field(:numb,class:'w5',data:{target:'entryLedger.numb',action:'keydown->entryLedger#numbChange'}),
               f.text_area(:description,class:"w22",data:{target:'entryLedger.description',action:"change->entryLedger#changed"}), 
               f.hidden_field(:fit_id))
@@ -52,7 +52,7 @@
               - sel_acct = f.select(:account_id,
                   options_for_select(current_book.settings[:acct_sel_opt_rev],selected: f.object.account_id,disabled:current_book.settings[:dis_opt],include_blank: ''),
                   {},
-                  class:'w30 entry-select',dir:"ltr",data:{target:'entryLedger.transfer',action:"change->entryLedger#changed"})
+                  class:'w3-select',dir:"ltr",data:{target:'entryLedger.transfer',action:"change->entryLedger#changed"})
                   / remember, disabled can be an array!
               - rstate = f.text_field(:reconcile_state,value:f.object.reconcile_state ||='n', class:'w1 w3-hide')
               - debit = f.text_field(:debit,value:Ledger.to_fixed(f.object.debit),class:'w8 w3-right-align',

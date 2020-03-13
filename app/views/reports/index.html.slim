@@ -1,10 +1,31 @@
 .w3-container.w3-white.min-height
-  #reports.w3-row.w3-row-padding[data-controller="rangePicker"]
+  #reports.w3-row.w3-row-padding[data-controller="rangePicker report" data-date="#{Date.today.to_s}"]
     .w3-col.s5
-      h5 Under Construction
+      h5.strong Under Construction
 
-      p Most reports have default options (from,to,level,etc), but you can change those options using the filters provided.
-      hr
+      p Most reports have default options (from-to Dates,level,etc), but you can change those options using the filters provided.
+      p VFW Reports are examples of creating custom reports for your operations. The Audit reports are nothing more than an expanded Bank Accounts balance with a checklist and checkoffs
+      .w3-card-2.w3-bar-block.w70p
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectSummary" data-url="#{summary_reports_path}"] Account Summary
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectCombo" data-url="#{summary_reports_path}"] Summary & P&L Combo
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectPL " data-url="#{profit_loss_reports_path}"] Profit/Loss
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectPL " data-url="#{trial_balance_reports_path}"] Trial Balance
+        .strong.indent VFW Reports
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectAuditConfig " data-url="#{edit_config_reports_path}"] Edit Audit Configuration 
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectAuditPDF " data-url="#{trustee_audit_reports_path}"] Trustee Audit PDF
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->rangePicker#selectAuditHTML " data-url="#{audit_reports_path}"] Trustee Audit HTML
+
+
+
+    
+
  
     .s7.w3-col
       .strong Date Filter
@@ -17,41 +38,59 @@
           = to_period_select
           |or 
           = text_field_tag :to_date, nil,data:{controller:'flatpickr',target:'rangePicker.to_date'},placeholder:'Pick To Date'
+      .strong Level Filter
+      .w3-row.w3-row-padding
+        = content_tag(:select,options_for_select([['Select',''],1,2,3,4],1),id: :level_select,class:'w3-select',
+          data:{target:'rangePicker.level'})
+
+      .strong Account Filter
+      .w3-row.w3-row-padding
+        = content_tag(:select,options_for_select(@acct_options,  session[:acct_id] ||= Current.book.checking_acct.id),id: :account_select,
+          data:{target:'rangePicker.account',action:'rangePicker#accountSet'},class:'w3-select')
+
+      .strong Account Ledger PDF Reports
+      .w3-row.w3-row-padding
         .s6.w3-col
           strong Account Ledger(pdf)
-          div= select_tag('register_pdf',options_for_select(report_select_options(7,'/reports/register_pdf')),prompt:"-Select Date-",data:{action:'rangePicker#selectPDF'})
+          / session[:acct_id] ||= Current.book.checking_acct.id
+          div.entry-select= select_tag('register_pdf',
+            options_for_select(report_select_options( nil,'/reports/register_pdf')),
+            prompt:"-Select Date-",data:{action:'rangePicker#selectPDF'},class:'w3-select')
         .s6.w3-col
           strong Split Account Ledger(pdf)
-          div= select_tag('register_pdf',options_for_select(report_select_options(7,'/reports/split_register_pdf')),prompt:"-Select Date-",data:{action:'rangePicker#selectSplit'})
+          div= select_tag('register_pdf',
+            options_for_select(report_select_options(nil,'/reports/split_register_pdf')),
+            prompt:"-Select Date-",data:{action:'rangePicker#selectSplit'},class:'w3-select')
+        
+      
 
+    p = "ca = #{session[:acct_id]}"
 
-
-    .s8.w3-col
-      .wrap
-        button = link_to "Profit/Loss", profit_loss_reports_path ,data:{behavior:'select_report_url'}
-      .wrap
-        .strong Level
-      .wrap
-        = content_tag(:select,options_for_select([['Select',''],1,2,3,4]),id: :level_select)
-      p.clearfix
-      .box 
-        button = link_to "Trial Balance", trial_balance_reports_path
-      p.clearfix
-      .strong Select Account
-      .wrap = content_tag(:select,options_for_select(@acct_options),id: :account_select,
-        data:{target:'rangePicker.account'})
-      .box
-        button = link_to "Account Summary", summary_reports_path ,data:{behavior:'select_report_url'}
-        button = link_to "QM Report", summary_reports_path ,data:{behavior:'select_report_url',combo:true}
-      p.clearfix
-      p VFW Test Reports - Need to figure out how to add custom reports!
-      p Trustee Audit report using Prawn
-      span.indent
-        button = link_to "Trustee Audit PDF", trustee_audit_reports_path 
-        button = link_to "Edit Audit Configuration", edit_config_reports_path 
-      p Trustee Audit report using html and media print
-      span.indent
-        button = link_to "Trustee Audit Print", audit_reports_path
+    / .s8.w3-col
+    /   .wrap
+    /   / .wrap
+    /   /   .strong Level
+    /   / .wrap
+    /   /   = content_tag(:select,options_for_select([['Select',''],1,2,3,4]),id: :level_select,class:'w3-select w30p')
+    /   / p.clearfix
+    /   .box 
+    /   / p.clearfix
+    /   / .strong Select Account
+    /   / .wrap = content_tag(:select,options_for_select(@acct_options),id: :account_select,
+    /   /   data:{target:'rangePicker.account'},class:'w3-select w30p')
+    /   .box
+    /     / button.lime-link-button[data-action="click->rangePicker#selectSummary" data-url="#{summary_reports_path}"] Account Summary
+    /     / button.lime-link-button[data-action="click->rangePicker#selectCombo" data-url="#{summary_reports_path}"] Combo Summary
+    /     / button.lime-link-button = link_to "QM Report", summary_reports_path ,data:{behavior:'select_report_url',combo:true}
+    /   p.clearfix
+    /   p VFW Test Reports - Need to figure out how to add custom reports!
+    /   p Trustee Audit report using Prawn
+    /   span.indent
+    /     button.lime-link-button = link_to "Trustee Audit PDF", trustee_audit_reports_path 
+    /     button.lime-link-button = link_to "Edit Audit Configuration", edit_config_reports_path 
+    /   p Trustee Audit report using html and media print
+    /   span.indent
+    /     button.lime-link-button = link_to "Trustee Audit Print", audit_reports_path
 
  
 

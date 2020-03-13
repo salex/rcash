@@ -1,28 +1,32 @@
-.w3-container.w3-white.min-height.scaffold
-  h1 Listing entries
+.w3-container.w3-white.min-height[data-controller="entrySearch"]
+  .w3-row-padding
+    .w3-col.m12
+      p You can search for entries descriptons by:
+    .w3-col.m4
+      span By matching *any* word or words in the search field
+    .w3-col.m4
 
-  table
-    thead
-      tr
-        th Numb
-        th Post date
-        th Description
-        th Fit
-        th
-        th
-        th
+      span By matching *all* words in the search field
+    .w3-col.m4
 
-    tbody
-      - @entries.each do |entry|
-        tr
-          td = entry.numb
-          td = entry.post_date
-          td = entry.description
-          td = entry.fit_id
-          td = link_to 'Show', entry
-          td = link_to 'Edit', edit_entry_path(entry)
-          td = link_to 'Destroy', entry, data: { confirm: 'Are you sure?' }, method: :delete
+      span By matching a phrase or parts of a description
+    .w3-col.m12
+    
+      = form_with( url:'/entries/search',method: :patch, html: {data: { type: "html", action: "ajax:success->entrySearch#onPostSuccess",target:'entrySearch.form' } }) do |form|
+        label.strong Search Field
 
-  br
+        = form.text_field :words, data: { target: "testTwo.payload" },class:'w30p'
+        span.strong.w3-margin &nbsp;&nbsp;
 
-  = link_to 'New Entry', new_entry_path
+        = form.radio_button(:how, "all")
+        span.strong.w3-margin Match *ALL* words
+        = form.radio_button(:how, "any")
+        span.strong.w3-margin Match *ANY* word
+
+        = form.radio_button(:how, "match")
+        span.strong.w3-margin Match Phrase
+        button = form.submit "Search Entries"
+  .w3-row-padding[data-target="entrySearch.refresh"]
+
+
+

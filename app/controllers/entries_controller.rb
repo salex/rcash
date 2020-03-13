@@ -5,7 +5,7 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    @entries = current_book.entries.order(:post_date)
+    # @entries = current_book.entries.order(:post_date)
   end
 
   # GET /entries/1
@@ -102,12 +102,15 @@ class EntriesController < ApplicationController
 
 
   def search
-    if params[:all].present?
+    if params[:how].present? && params[:how] == 'any'
       entries = current_book.contains_any_word_query(params[:words])
-    else
+    elsif  params[:how].present? && params[:how] == 'all'
       entries = current_book.contains_all_words_query(params[:words])
+    else
+      entries = current_book.contains_match_query(params[:words])
     end
-    @lines = Ledger.entries_ledger(entries)
+    @lines = Book.entries_ledger(entries)
+    render partial: '/entries/search'
   end
 
   def void
