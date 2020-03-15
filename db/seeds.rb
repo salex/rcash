@@ -14,6 +14,13 @@
 # book = Book.new(name:'default')
 # book.create_book
 
+#uncomment for branch import
+i = Import::ImportIcash.new(true)
+i.import_branches
+
+
+
 # ActiveRecord::Base.connection.tables.each do |t|
 #   ActiveRecord::Base.connection.reset_pk_sequence!(t)
 # end
+

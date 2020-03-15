@@ -56,7 +56,7 @@ module Import
 
     def create_book
       @book = ImportBook.new
-      book.name = "ICash"
+      book.name = "RCash"
       book.root = SecureRandom.uuid
       book.assets = SecureRandom.uuid
       book.liabilities = SecureRandom.uuid
@@ -73,6 +73,48 @@ module Import
       end
       book
     end
+
+    def import_branches
+      create_book
+      import_users
+      filepath = yaml_path + 'accounts.yaml'
+      accounts_array = YAML.load_file(filepath)
+      acct_hash = {}
+      # child_hash = {}
+      accounts_array.each do |acct|
+        acct.delete('guid')
+        acct.delete('created_at')
+        acct.delete('updated_at')
+        acct['book_id'] = 1
+        set_uuid(acct)
+        if !acct['level'].nil? && acct['level'] <= 3 # root template
+          acct_hash[acct['id']] = acct
+        #   if child_hash.has_key?(acct['parent_id'])
+        #     child_hash[acct['parent_id']] << acct['id']
+        #   else
+        #     child_hash[acct['parent_id']] = [acct['id']]
+        #   end
+        end
+      end
+
+      baseAccounts = []
+      curr_ids = acct_hash.keys
+      rep_ids = {}
+      nxt_id = 1
+      curr_ids.each.with_index{|v,i| rep_ids[v] = (i+nxt_id)}
+      acct_hash.each do |k,v|
+        v['id'] = rep_ids[v['id']]
+        unless v['parent_id'].nil?
+          v['parent_id'] = rep_ids[v['parent_id']]
+        end 
+        baseAccounts << v
+      end
+      # return baseAccounts
+      
+      ImportAccount.create(baseAccounts) if save
+      return "baseAccounts,book"
+    end
+
 
     def import_accounts
       filepath = yaml_path + 'accounts.yaml'
@@ -117,6 +159,41 @@ module Import
       ImportAccount.create(accounts_array) if save
       return "account"
     end 
+
+    def set_uuid(acct)
+      if acct['account_type'] == 'ROOT' && acct['name'] != "Template Root"
+        acct['uuid'] = book.root
+      elsif acct['parent_id'] == 1
+        case acct['account_type']
+        when 'ROOT'
+          acct['uuid'] = book.root
+        when 'ASSET'
+          acct['uuid'] = book.assets
+        when 'INCOME'
+          acct['uuid'] = book.income
+        when 'LIABILITY'
+          acct['uuid'] = book.liabilities
+        when 'EXPENSE'
+          acct['uuid'] = book.expenses
+        when 'EQUITY'
+          acct['uuid'] = book.equity
+        when 'BANK'
+          acct['uuid'] = SecureRandom.uuid
+        else
+          raise "A root child account has invalid account_type"
+        end
+      else
+        # special accounts defined in book or default
+        case acct['name']
+        when 'Checking'
+          acct['uuid'] = book.checking
+        when 'Savings'
+          acct['uuid'] = book.savings
+        else
+          acct['uuid'] = SecureRandom.uuid
+        end
+      end
+    end
 
     def import_entries
       filepath = yaml_path + 'entries.yaml'
@@ -219,7 +296,7 @@ module Import
     attr_accessor  :date, :yaml_path
 
     def initialize
-      @yaml_path = Rails.root.join('../Common/dumps')
+      @yaml_path = Rails.root.join('../../Common/dumps')
     end
 
     def dump_all
@@ -240,6 +317,13 @@ module Import
       yaml = ImportAccount.all.order(:id).as_json.to_yaml
       File.write(filepath,yaml)
     end
+
+    def dump_base_accounts
+      filepath = yaml_path + 'base_accounts.yaml'
+      yaml = ImportAccount.all.order(:id).as_json.to_yaml
+      File.write(filepath,yaml)
+    end
+
 
     def dump_entries
       filepath = yaml_path + 'entries.yaml'

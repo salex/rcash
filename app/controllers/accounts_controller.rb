@@ -7,6 +7,7 @@ class AccountsController < ApplicationController
   # GET /accounts.json
   def index
     @accounts = current_book.accounts.find(tree_ids)
+    # render :index_table
   end
 
   def index_table

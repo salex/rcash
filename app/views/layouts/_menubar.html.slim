@@ -26,26 +26,6 @@
           = link_to "About", about_about_path, class:"w3-bar-item w3-button" 
           - if current_user.is_super?
             = link_to "Users", users_path, class:"w3-bar-item w3-button" 
-
-    / -if Current.post_user || Current.post_visitor
-    /   / = link_to "Reporting", reports_path, class:"w3-bar-item w3-button" if Current.post_user || Current.post_visitor
-    /   = link_to "Markups", markups_path, class:"w3-bar-item w3-button" 
-    /   = link_to "Members", members_path, class:"w3-bar-item w3-button" 
-    /   = link_to "Officers", officers_path, class:"w3-bar-item w3-button" 
-    /   .w3-dropdown-hover
-    /     button.w3-button
-    /       | Reporting
-    /       i.fa.fa-caret-down
-    /     .w3-dropdown-content.w3-bar-block.w3-card-4
-    /       = link_to "Reporting Requirements", reports_path, class:"w3-bar-item w3-button" 
-
-    /       = link_to "Community Service", audit_summary_reports_path, class:"w3-bar-item w3-button" 
-    /       -if Current.post_user && Current.user.is_admin?
-    /         = link_to "Trustee Audit List", trustee_audits_path, class:"w3-bar-item w3-button" 
-
-    /         = link_to("Trustee Audit", get_audit_trustee_audits_path, class:"w3-bar-item w3-button" )
-    /       = link_to "Trustee Audit PDF", pdf_trustee_audits_path, class:"w3-bar-item w3-button" 
-
     - if @current_user.present?
       span.w3-bar-item.w3-button.w3-right = link_to "Logout", logout_path
       span.w3-bar-item.w3-button.w3-right = link_to "Profile", profile_path
@@ -54,7 +34,7 @@
     / - if Current.post_visitor
     /   span.w3-bar-item.w3-button.w3-right = link_to "Exit Vist", exit_visit_post_path(Current.post)
     - if session[:recent].present?
-      .w3-row-padding.recent-ledgers.w3-text-white
+      .w3-row-padding.recent-ledgers.w3-text-white[style="margin-bottom:4px;"]
         span &nbsp; Recent Ledgers: &nbsp
         - session[:recent].each do |k,v|
          = link_to v,account_path(k),class:'lime-link-button w3-text-black' 

@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 body {background-color: #0F3E61;}
-.min-height{min-height: 95vh;}
+.min-height{min-height: 85vh;}
 
 .strong {font-weight: bold;}
 
@@ -46,7 +46,10 @@ span.annotate, div.annotate, dd.annotate, dl.annotate, li.annnotate ,p.annotate{
   font-weight: normal;
 
 }
-
+img.image-fit{
+  max-width:100%;
+  height:auto;
+}
 span.indent {margin-right:16px;}
 
 table.small-table7, table.smalltable7 {
@@ -64,7 +67,7 @@ table.small-table7, table.smalltable7 {
     }
   }
   tr:nth-of-type(even) {
-    background-color:#F9F9F9;
+    background-color:#fffff8;
   }
   td, th {
     // font-size: 0.8rem;

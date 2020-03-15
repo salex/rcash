@@ -31,6 +31,6 @@
           = f.password_field :password_confirmation
     .w3-row
       .s3.w3-col
-        = f.button 'Update Profile',class:'button radius small strong'
+        = f.submit 'Update Profile',class:'button radius small strong'
       .s3.w3-col
-        = link_to "Cancel", root_path,class:'button unpad'
+        = link_to "Cancel", root_path,class:'cancel-button'

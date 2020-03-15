@@ -1,39 +1,45 @@
 .w3-container.w3-white.min-height
   h4.strong Listing deposits
 
-  table
+  table.smalltable7
     thead
       tr
         th Date
-        th Sales revenue
-        th Other revenue
-        th Cash sales
-        th Credit sales
-        th Tips paid
-        th Sales deposit
-        th Other deposit
-        th Total deposit
+        th Sales Rev
+        th Other Rev
+        th Cash Sales
+        th Credit Sales
+        th Tips Paid
+        th Sales Dep
+        th Other Dep
+        th Total Dep
         th Cash out
-        th
-        th
-        th
+        th Actions
+       
 
     tbody
       - @deposits.each do |deposit|
         tr
           td = deposit.date
-          td = deposit.sales_revenue
-          td = deposit.other_revenue
-          td = deposit.cash_sales
-          td = deposit.credit_sales
-          td = deposit.tips_paid
-          td = deposit.sales_deposit
-          td = deposit.other_deposit
-          td = deposit.total_deposit
-          td = deposit.cash_out
-          td = link_to 'Show', deposit
-          td = link_to 'Edit', edit_deposit_path(deposit)
-          td = link_to 'Destroy', deposit, data: { confirm: 'Are you sure?' }, method: :delete
+          td.tright = deposit.sales_revenue
+          td.tright = deposit.other_revenue
+          td.tright = deposit.cash_sales
+          td.tright = deposit.credit_sales
+          td.tright = deposit.tips_paid
+          td.tright = deposit.sales_deposit
+          td.tright = deposit.other_deposit
+          td.tright = deposit.total_deposit
+          td.tright = deposit.cash_out
+          td.actions 
+            = link_to deposit do
+              i class="fas fa-eye blue-link"
+            = link_to edit_deposit_path(deposit) do
+              i class="fas fa-edit blue-link"
+            = link_to deposit, data: { confirm: 'Are you sure? ' }, method: :delete do
+              i class="fas fa-trash w3-text-red"
+            / = link_to 'Show', deposit, class:'blue-link'
+            / = link_to 'Edit', edit_deposit_path(deposit), class:'blue-link'
+            / = link_to 'Destroy', deposit, data: { confirm: 'Are you sure?' }, method: :delete, class:'blue-link'
 
   br
 

@@ -87,7 +87,7 @@ class BooksController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params[:id])
-      if session[:book_id] != @book.id
+      if (session[:book_id] != @book.id) || @book.settings.blank?
         session[:book_id] = @book.id
         @book.get_settings
       end

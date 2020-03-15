@@ -1,6 +1,6 @@
 class Entry < ApplicationRecord
   belongs_to :book, default: -> { Current.book }
-
+  validates_uniqueness_of :fit_id, allow_blank: true
   attribute :amount, :integer
   attribute :reconciled
   has_many :splits, -> {order(:account_id)},dependent: :destroy, inverse_of: :entry
@@ -51,7 +51,7 @@ class Entry < ApplicationRecord
 
   def duplicate_with_bank(bank)
     new_entry = self.dup
-    new_entry.numb = bank.check_number
+    new_entry.numb = bank.check_number unless bank.check_number.to_i > 9000
     new_entry.post_date = bank.posted_at.to_date
     new_entry.fit_id = bank.fit_id
     amount = bank.amount_in_pennies

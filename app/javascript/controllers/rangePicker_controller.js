@@ -1,12 +1,9 @@
-// Visit The Stimulus Handbook for more details 
-// https://stimulusjs.org/handbook/introduction
-// 
-// This example controller works with specially annotated HTML like:
-//
-// <div data-controller="hello">
-//   <h1 data-target="hello.output"></h1>
-// </div>
-
+/*
+  This is currently a range picker for both Reports and Accounts
+  it sets from to dates that will be used by report generators
+  it will respond to account date changes or month select options generating ledger in account
+  It will do the same in reports where the account is varialbe
+*/
 import { Controller } from "stimulus"
 import Rails from "@rails/ujs";
 
@@ -114,22 +111,15 @@ export default class extends Controller {
   }
 
   accountSet(){
-    console.log("account set")
     const item = event.target
     const id = item.value
-    console.log(`account set ${id}`)
 
     Rails.ajax({
       url: "/reports/set_acct",
       type: "patch",
       data: "id="+id,
     })
-
   }
-
-
-
-
 
   getFromTo(){
     this.fromDate = this.from_dateTarget

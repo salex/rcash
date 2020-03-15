@@ -1,20 +1,31 @@
-#about.w3-container.w3-white.min-height.about
-  .w3-row.
+#about.w3-container.w3-white.min-height.about[data-controller="aboutPager"]
+  .w3-row
     .w3-col.s9
       h5.strong About Entry Ledgers
-      = image_tag('split_ledger.png')
+      = image_tag('split_ledger.png',class:'image-fit')
     .w3-col.s3
       h5.strong About Entries
-      button#pager.green.w90.toggler[data-url="#page1"] Entry Ledger
-      button.green.w90.toggler[data-url="#page2"] Entry Section
-      button.green.w90.toggler[data-url="#page3"] Splits Section
+      .w3-card-2.w3-bar-block.w100
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->aboutPager#goTo" data-url="page1"] Entry Ledger
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->aboutPager#goTo" data-url="page2"] Entry Section
+        .w3-bar-item
+          button.lite-goldey.w100[data-action="click->aboutPager#goTo" data-url="page3"] Splits Section
+        = render partial:'links'
 
-      = render partial:'links'
 
-  .w3-row.
+      / h5.strong About Entries
+      / button#pager.green.w90.toggler[data-url="#page1"] Entry Ledger
+      / button.green.w90.toggler[data-url="#page2"] Entry Ledger
+      / button.green.w90.toggler[data-url="#page3"] Splits Section
 
-    #page1.w3-col.s12.toggable
-      .w3-row.
+      / = render partial:'links'
+
+  .w3-row
+
+    #page1.w3-col.s12[data-target="aboutPager.page"]
+      .w3-row
 
         .w3-col.s6
           p The Entry Ledger is the only way to edit or create Entries and their associated Splits. The form has numerous features to assure that the Entry is valid before saving it. The ledger updates both the Entry and any Splits for that entry. There are six sections in the form.
@@ -36,8 +47,8 @@
 
            
         
-    #page2.w3-col.s12.toggable
-      .w3-row.
+    #page2.w3-col.s12.w3-hide[data-target="aboutPager.page"]
+      .w3-row
         .w3-col.s6
           h6.strong Entry Section
           p The entry section (light blue row background) contains three field
@@ -53,8 +64,8 @@
               |The Numb field in the Entry line (first line with Date) is historically used for a check number. You can use the += or the _- key to increment or decrement a Numb, or increment/decrement the last number entered in that field. Since I do a lot of debit card or web transactions, it has been expanded to include a key and a number. 'c2845' could represent a check number and 'w88' could represent a web transaction. As in GnuCash, there are no checks on the field, you can have duplicates.
 
 
-    #page3.w3-col.s12.toggable
-      .w3-row.
+    #page3.w3-col.s12.w3-hide[data-target="aboutPager.page"]
+      .w3-row
         .w3-col.s6
           h6.strong Entry Splits Section 
           p The Splits section (tan row background color) 6 data field and a field under the Date header that depends on the split state
@@ -76,7 +87,7 @@
           dl.indent
         
             dt Increase and Decrease field (or Debits Credits for Accountants!)
-            dd Much like GnuCash, iCash will try to keep your entries balanced. (sum of increases is equal to the sum of decreases)
+            dd Much like GnuCash, RCash will try to keep your entries balanced. (sum of increases is equal to the sum of decreases)
             dd There is a button in the transfer header that will clear all increases and decreases, again useful if you've duplicated an Entry
             dd 
               ul
@@ -93,10 +104,5 @@
 
 
       
-    / #page4.w3-col.s12.toggable
+    / #page4.w3-col.s12[data-target="aboutPager.page"]
     /   p page4
-
-javascript:
-  $(function() {
-    $('#pager').trigger('click');
-  });

@@ -1,29 +1,24 @@
 #about.w3-container.w3-white.min-height
   .w3-row.about
     .w3-col.s9
-      h5.strong About iCash
-      p iCash is a Web based double entry accounting application.
+      h5.strong About RCash
+      p RCash is a Web based double entry accounting application.
 
       p The about link buttons to the right will provide some detail on the the areas listed. This page is just an overview of the look, feel and flow of the application.
       .w3-row.w3-row-padding
         .w3-col.s6
-          p <strong>Buttons, Buttons, Buttons</strong> There are many, maybe too many! Almost all links use buttons or icons instead of an Anchors (the blue words on most web sites)
+          p <strong>Buttons, Buttons, Buttons</strong> There are many, maybe too many! Almost all links use Buttons or Icons instead of an Anchors (the blue words on most web sites)
           
           div
-            button a button
-            button= link_to 'home button',root_path
-            button.blue blue button
-            button.blue.large large blue button
-
-            button.green green button
-            button.cancel cancel/delete button
-            = link_to 'red link button',nil,class: :button
-            = link_to 'green link button',nil,class: [:button,:lime]
-
+            button.lime-link-button Lime Link Button
+            button.blue-link-button Blue Link Button
+            button.grey-link-button Grey Link Button
+            button.action-button Action Button
+            button.cancel-button Cancel Button
+            span.blue-link Blue Link
+        
             form
-              = submit_tag 'submit button'
-              <input type="button" value="input button">
-          p I don't use them all. Mainly the 'link button' for helpers. Blue or Green buttons depending on how I felt at the time! The cancel button to cancel or destroy, sometimes a form based link button for destroy.
+              = submit_tag 'Submit Button'
           h5.strong icons
           ul
             li <i class="fas fa-edit"></i> - Edit
@@ -50,7 +45,7 @@
 
 
     .w3-col.s3
-      / h5.strong iCash About Pages
+      / h5.strong RCash About Pages
       .w3-row
         .w3-col.s12
           = render partial:'links'

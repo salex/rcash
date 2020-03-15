@@ -40,9 +40,9 @@ h4 = header
   .actions = f.submit
 
 
-  / - splits = @account.splits.count
-  / - if splits.zero? && !@account.placeholder
-  /   button.cancel.large = link_to 'Delete Unused Account', @account, data: { confirm: 'Are you sure?' }, method: :delete 
+  - splits = @account.splits.count
+  - if (splits.zero? && !@account.placeholder) || (@account.placeholder && @account.leaf.blank?)
+    button.cancel-button.gold.w3-large = link_to 'Delete Unused Account', @account, data: { confirm: 'Are you sure?' }, method: :delete 
 
 
 

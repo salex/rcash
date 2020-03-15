@@ -32,8 +32,8 @@ input[type="submit"]{
 .cancel-button{
   background-color: yellow;
   color:black;
-  margin:4px 0 4px 0;
-  padding:8px;
+  margin-right:2px;
+  padding:4px 8px;
   font-size: 110%;
   border-radius:4px;
   font-weight: bold;
@@ -59,6 +59,26 @@ input[type="submit"]{
     color:#eee;
   }
 }
+
+.action-button {
+  background-color: lighten(blue,15%);
+  color:#eee;
+  padding:4px 8px;
+  text-decoration: none;
+  margin-right:2px;
+
+  // font-variant: small-caps;
+  // font-family: times;
+  font-weight: bold;
+  // font-size: 1.1rem;
+  border-radius:4px;
+  &:hover{
+     background-color: lighten(blue,25%);
+    color:#333;
+  }
+}
+
+
 .blue-link{
   color:blue;
   &:hover{
@@ -72,9 +92,12 @@ input[type="submit"]{
   }
 }
 
+a.block-link{
+  display: block; height: 100%;
+}
 
 .lime-link-button {
-  background-color: lighten(#0f0,20%);
+  background-color: lighten(#0f0,30%);
   padding:2px 4px;
   text-decoration: none;
   // border:solid 1px green;
@@ -87,11 +110,13 @@ input[type="submit"]{
     background-color: green;
     color:#eee!important;
   }
+  &.round{
+    border-radius:4px;
+  }
 }
 
-.blue-link-button {
-  background-color: #296b94;
-  color:white;
+.grey-link-button {
+  background-color: #ddd;
   padding:2px 4px;
   text-decoration: none;
   // border:solid 1px green;
@@ -101,10 +126,34 @@ input[type="submit"]{
   font-weight: bold;
   // font-size: 1.1rem;
   &:hover{
-    color:#333;
-    background-color: lighten(#296b94,30%);
-
+    background-color: #999;
+    color:#eee!important;
   }
+  &.round{
+    border-radius:4px;
+  }
+
+}
+
+.blue-link-button {
+  background-color: lighten(#8899dd,10%);
+  color:black;
+  padding:2px 4px;
+  text-decoration: none;
+  // border:solid 1px green;
+  margin-right: 4px;
+  // font-variant: small-caps;
+  // font-family: times;
+  font-weight: bold;
+  // font-size: 1.1rem;
+  &:hover{
+    color:#ddd;
+    background-color: darken(#8899dd,10%);
+  }
+  &.round{
+    border-radius:4px;
+  }
+
 }
 
 

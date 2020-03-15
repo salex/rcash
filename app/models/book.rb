@@ -209,6 +209,30 @@ class Book < ApplicationRecord
     query.where(id:uids).order(:post_date).reverse_order
   end
 
+  def contains_number_query(match,all=nil)
+    # query = self.entries.where('entries.numb like ?',"#{match}%").order(:post_date).reverse_order
+    query = self.entries.where(Entry.arel_table[:numb].matches("#{match}%")).order(:numb).reverse_order
+    puts "query.count #{match}  #{query.count}"
+    return query if all.present?
+    p = query.pluck(:description,:id)
+    uids = p.uniq{ |s| s.first }.to_h.values
+    query.where(id:uids).order(:post_date).reverse_order
+  end
+
+  def contains_amount_query(match,all=nil)
+    bacct_ids = self.settings[:tree_ids] - self.settings[:dis_opt]
+    eids = Split.where(account_id:bacct_ids).where(amount:match.to_i).pluck(:entry_id).uniq
+    # query = self.entries.where('entries.numb like ?',"#{match}%").order(:post_date).reverse_order
+    query = self.entries.where(id:eids).order(:post_date).reverse_order
+    puts "query.count #{match}  #{query.count}"
+    return query if all.present?
+    p = query.pluck(:description,:id)
+    uids = p.uniq{ |s| s.first }.to_h.values
+    query.where(id:uids).order(:post_date).reverse_order
+  end
+
+
+
 
   def self.entries_ledger(entries)
     bal = @balance ||= 0
