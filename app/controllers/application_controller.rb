@@ -40,6 +40,9 @@ class ApplicationController < ActionController::Base
   def current_book
     @current_book ||= Book.find_by(id:session[:book_id]) if session[:book_id]
     Current.book =@current_book 
+    if @current_book.present? && session[:tree_ids].blank?
+      @current_book.get_settings
+    end
     @current_book
   end
   helper_method :current_book

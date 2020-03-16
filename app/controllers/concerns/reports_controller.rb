@@ -11,12 +11,12 @@ class ReportsController < ApplicationController
 
   def profit_loss
     @report = Report.new.profit_loss({from:params[:from],to:params[:to],level:params[:level]})
-    # render plain: @report
+    render  layout: 'print'
   end
 
   def trial_balance
     @report = Report.new.trial_balance
-    # render plain: @report
+    render layout: 'print'
   end
 
   def summary
@@ -28,9 +28,9 @@ class ReportsController < ApplicationController
       if params[:combo].present?
         level = params[:level].present? ? params[:level] : 1
         @report = Report.new.profit_loss({from:@from,to:@to,level: level})
-        render template:"reports/summarypl"
+        render template:"reports/summarypl", layout: 'print'
       else
-        render template:'reports/summary'
+        render template:'reports/summary', layout: 'print'
       end
     end
   end

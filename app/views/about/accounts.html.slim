@@ -58,8 +58,31 @@
             span.annotate Note: GnuCash did not have this restriction. The demo imported transactions from GnuCash and placeholders may have entries. You can't add new Entries but there existence is accounted for in any balances. Optionally you can create a sub account and move those transactions to it.
       #page4.w3-row-padding.w3-show[data-target="aboutPager.page"]
         .w3-col.s8
-          h4.strong Checking Ledger
-          = image_tag('ledger.png',class:'image-fit')
+          .sticky-menu
+            h4.strong Checking Ledger
+            = image_tag('ledger.png',class:'image-fit')
+          h5.strong Filters
+          p There are two forms of an Account ledger for PDF version, Abbreviated or Split
+          ul
+            li The Abbreviated ledger only displays one Account transfer. If there is more than one transfer, the account transfer will be '--Split Transaction--'. Clicking on that will show all transfer for that entry.
+            li The split ledger show all transfers.
+          p <strong>Date Picker - </strong> Ledgers display Entries by a date range (from..to). There are a number of ways to set that range.
+          .w3-row-padding[data-controller="rangePicker"]
+            .s8.w3-col
+              .strong Filter - Select Period or Pick Date for Report Options
+              .w3-row-padding
+                .s7.w3-col.entry-select = from_period_select
+                .s5.w3-col= text_field_tag :from_date, nil,data:{controller:'flatpickr',target:'rangePicker.from_date'},placeholder:'Pick From Date'
+                .s7.w3-col.entry-select= to_period_select
+                .s5.w3-col= text_field_tag :to_date, nil,data:{controller:'flatpickr',target:'rangePicker.to_date'},placeholder:'Pick To Date'
+
+          ul
+            li The Filter Date Picker has pull downs to select the From and To period. Periods are, months, quarters and years (current and previous). Selecting a From period will set the To period, but you can change the selection. Periods selected populate the Date text field.
+            li The Date Picker text field allows you to enter any From and To Date
+            li The Register and Split Register pull downs (HTML or PDF) can use the date picker dates
+            li The Pick From and To dates are defined as Custom Dates in the Register and Split Register pull downs. 
+            li Besides the custom dates, you can also select any of the last 6 months instead of Custom Date
+          
         .w3-col.s4
           h4.strong Features
           ul
@@ -71,34 +94,8 @@
             li You can hide or show the Summary and Filters
             li You can edit any Entry
             li You can duplicate any entry to a new entry
-        .w3-col.s8
-          h5.strong Filters
-          p There are two forms of an Account ledger, Abbreviated or Split
-          ul
-            li The Abbreviated ledger only displays one Account transfer. If there is more than one transfer, the account transfer will be '--Split Transaction--'. Clicking on that will show all transfer for that entry.
-            li The split ledger show all transfers.
-          p <strong>Date Picker - </strong> Ledgers display Entries by a date range (from..to). There are a number of ways to set that range.
-          .w3-row-padding
-            .s12.w3-col
-              .strong Filter Date Picker
-              .w3-row-padding-padding
-                .s5.w3-col
-                  = from_period_select
-                  |or 
-                  = text_field_tag :from_date, nil,class:'datepicker-yymm',placeholder:'Pick From Date'
-                .s5.w3-col
-                  = to_period_select
-                  |or 
-                  = text_field_tag :to_date, nil,class:'datepicker-yymm',placeholder:'Pick To Date'
+            li You can AutoSearch for and Entry description, select a match and have an option to duplicate that entry.
 
-
-          ul
-            li The Filter Date Picker has pull downs to select the From and To period. Periods are, months, quarters and years (current and previous). Selecting a From period will set the To period, but you can change the selection. Periods selected populate the Date text field.
-            li The Date Picker text field allows you to enter any From and To Date
-            li The Register and Split Register pull downs (HTML or PDF) can use the date picker dates
-            li The Pick From and To dates are defined as Custom Dates in the Register and Split Register pull downs. 
-            li Besides the custom dates, you can also select any of the last 6 months instead of Custom Date
-          
         .w3-col.s4
           h5.strong Ledger Links
           ul

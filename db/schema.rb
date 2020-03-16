@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 2019_11_14_131054) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "accounts", force: :cascade do |t|
     t.string "uuid"
-    t.integer "book_id", null: false
+    t.bigint "book_id", null: false
     t.string "name"
     t.string "account_type"
     t.string "code"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_131054) do
   end
 
   create_table "bank_statements", force: :cascade do |t|
-    t.integer "book_id", null: false
+    t.bigint "book_id", null: false
     t.date "statement_date"
     t.integer "beginning_balance"
     t.integer "ending_balance"
@@ -83,7 +86,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_131054) do
   end
 
   create_table "revenues", force: :cascade do |t|
-    t.integer "deposit_id", null: false
+    t.bigint "deposit_id", null: false
     t.string "type"
     t.string "item"
     t.integer "quanity"
@@ -93,8 +96,8 @@ ActiveRecord::Schema.define(version: 2019_11_14_131054) do
   end
 
   create_table "splits", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "entry_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "entry_id", null: false
     t.string "memo"
     t.string "action"
     t.string "reconcile_state"

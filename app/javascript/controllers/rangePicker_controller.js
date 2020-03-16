@@ -37,6 +37,7 @@ export default class extends Controller {
   }
   selectPDF(){
     var url = (event.target.value)
+    this.setFromTo()
     //  if coming from reports, accout not assigned, asign it
     if (this.hasAccountTarget) {
       const acct = this.accountTarget.value
@@ -47,6 +48,7 @@ export default class extends Controller {
 
   selectSplit(){
     var url = (event.target.value)
+    this.setFromTo()
     //  if coming from reports, accout not assigned, asign it
     if (this.hasAccountTarget) {
       const acct = this.accountTarget.value
@@ -55,9 +57,11 @@ export default class extends Controller {
     this.assign(url)
   }
   selectLedger(){
-    const url = (event.target.value)
+    var url = (event.target.value)
+    this.setFromTo()
     this.assign(url)
   }
+
 
   selectSummary(){
     const button = event.target
@@ -129,6 +133,16 @@ export default class extends Controller {
     }
     return(`&from=${this.fromDate.value}&to=${this.toDate.value}`)
   }
+
+  setFromTo(){
+    if (this.fromDate == undefined && this.from_dateTarget.value != '') {
+      this.fromDate = this.from_dateTarget.value
+    }
+    if (this.toDate == undefined && this.to_dateTarget.value != '') {
+      this.toDate = this.to_dateTarget.value
+    }
+  }
+
   getLevel(){
     if (this.hasLevelTarget) {
       var lev = this.levelTarget.value
@@ -148,21 +162,17 @@ export default class extends Controller {
     */
     if(url.includes("fromto=1")) {
       if ((this.fromDate != undefined) && (this.toDate != undefined)) {
-        url = url.replace('fromto=1',`from=${this.fromDate.value}&to=${this.toDate.value}`)
+        url = url.replace('fromto=1',`from=${this.fromDate}&to=${this.toDate}`)
         if (this.hasAccountTarget) {
           url += `&account=${this.accountTarget.value}`
         }
         location.assign(url)
+        console.log(url)
       }else{
         alert('Sorry, from and to dates not set')
       }
     } else { 
-      // url = url.replace('?','.js?')
-      // Rails.ajax({
-      //   type: "get",
-      //   url: url,
-      //   // data: new FormData(this.element)
-      // })
+      console.log(url)
 
       location.assign(url)
     }

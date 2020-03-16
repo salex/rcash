@@ -22,6 +22,8 @@ $dark-blue: #0F3E61;
 .w40p {width:40%;}
 .w70p {width:70%!important;}
 .w80p {width:80%;}
+.w90p {width:90%!important;}
+
 
 .malty {background-color: $malt;color:#ddd;}
 .lgoldey,.lite-goldey  {background-color: lighten($vfw_gold,20);color:#333;}
@@ -51,6 +53,9 @@ img.image-fit{
   height:auto;
 }
 span.indent {margin-right:16px;}
+.small-caps {
+  font-variant: small-caps;
+}
 
 table.small-table7, table.smalltable7 {
   border-collapse: collapse;

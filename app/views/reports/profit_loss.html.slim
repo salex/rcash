@@ -1,19 +1,13 @@
-/ .w3-row.mhead.noprint
-/   .s9.columns
-/      == render partial:'home/underbar'
-/   .s3.columns
-/     h6.strong.malty Wilson-Parris Post - Gadsden AL
-
-/ .w3-row-padding.w3-ios-light-grey
-/   .w3-col.s3
-
-/     h4.strong 
-/       |Reconcile Bank Account 
-/   .w3-col.s9
-/     p= link_to 'Cancel/List', bank_statements_path, class:'lime-link-button'
 .w3-container.w3-white.min-height
 
   .w3-row
     .w3-col.s7
-      h5.strong = "Profit & Loss For Period Covering #{params[:from] ||= Date.today.beginning_of_year} to #{params[:to] ||= Date.today}"
-      = profit_loss_report(@report)
+      .strong 
+        = "Profit & Loss For Period Covering #{params[:from] ||= Date.today.beginning_of_year} to #{params[:to] ||= Date.today}"
+        button.lime-link-button.noprint.w3-right[onclick="goBack()"] Back Page
+      .fs8 = profit_loss_report(@report)
+javascript:
+  function goBack() {
+    window.history.back();
+  }
+
