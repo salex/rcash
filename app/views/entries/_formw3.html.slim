@@ -4,21 +4,23 @@
   .w3-col.s10.w3-padding
     / = link_to('Validate',nil, class="w3-button w3-blue", data:{action:"click->entryLedger#validate"})
     / = link_to("Validate",nil, id:'bvalidate',class:"w3-button w3-blue", data:{action:"click->entryLedger#validate"})
-    button.w3-button.w3-blue[data-action="click->entryLedger#validate"] Validate
+    #validate.button.w3-button.w3-blue[data-action="click->entryLedger#validate"] Validate
     = link_to('Cancel', session[:current_acct].present? ? account_path(session[:current_acct]) :request.headers['HTTP_REFERER'],
       class:"w3-button w3-yellow")
     - unless @entry.new_record?
       button= link_to 'Delete Entry',@entry, data: { confirm: 'Are you sure?' },class:'link-button', method: :delete 
       button= link_to 'Void Entry',void_entry_path(@entry),class:'link-button', data: { confirm: 'Are you sure?' }, method: :patch 
   .w3-row
-    = form_with model: @entry, data:{target:"entryLedger.theForm"} do |f| 
+    = form_with model: @entry, data:{target:"entryLedger.theForm"} do |f|
+      
+
       - if @entry.errors.any?
         #error_explanation[data-target="entryLedger.errors"]
           h2 = "#{pluralize(@entry.errors.count, "error")} prohibited this entry from being saved:"
           ul
             - @entry.errors.full_messages.each do |message|
               li = message
-      #ledger
+      #ledger[data-controller="autoNumber"]
         table.gl-table
           thead
             tr.header-row
@@ -38,9 +40,10 @@
 
             = entry_row(f.text_field(:post_date,class:'w8',
               data:{controller:'flatpickr',action:"change->entryLedger#changed",target:'entryLedger.date'}),
-              f.text_field(:numb,class:'w5',data:{target:'entryLedger.numb',action:'keydown->entryLedger#numbChange'}),
+              f.text_field(:numb,class:'w5',data:{target:'autoNumber.numb',action:'keydown->autoNumber#keyDown'}),
               f.text_area(:description,class:"w22",data:{target:'entryLedger.description',action:"change->entryLedger#changed"}), 
-              f.hidden_field(:fit_id))
+              f.hidden_field(:fit_id),
+              f.hidden_field(:lock_version))
 
           / render partial
           tbody[data-target="entryLedger.splitsTbody"]
@@ -62,6 +65,7 @@
               - amount = f.hidden_field(:amount,class:'',
                 data:{target:"entryLedger.amount"})
               - idhide = f.hidden_field(:id)
+              - lock = f.hidden_field(:lock_version)
               - destroy = f.check_box('_destroy',class:'s-delete',data:{action:"click->entryLedger#deleteRow"})
               - reconcile = f.object.reconcile_state
               = split_row(rid,
@@ -75,7 +79,8 @@
                 amount,
                 idhide,
                 destroy,
-                reconcile)
+                reconcile,
+                lock)
               - rid += 1
           tbody[data-target="entryLedger.deletesTbody"]
             tr
@@ -85,6 +90,6 @@
           span.balanced[data-target="entryLedger.balanced"] Start
         #submit = f.submit( "#{action_name == 'edit' ? 'Update' : 'Create'} Entry", 
           disabled: true,class:'w3-button w3-red',data:{target:'entryLedger.submit',action:'click->entryLedger#submitForm'})
-        #last_numbers[data-target="entryLedger.last_numbers" data-numbers="#{current_book.last_numbers.to_json}"]
+        #last_numbers[data-target="autoNumber.last_numbers" data-numbers="#{current_book.last_numbers.to_json}"]
   
       

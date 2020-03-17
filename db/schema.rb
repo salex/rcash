@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_14_131054) do
+ActiveRecord::Schema.define(version: 2020_03_17_134730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_131054) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "book_id", null: false
+    t.integer "lock_version"
     t.index ["book_id"], name: "index_entries_on_book_id"
     t.index ["description"], name: "index_entries_on_description"
     t.index ["post_date"], name: "index_entries_on_post_date"
@@ -105,6 +106,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_131054) do
     t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "lock_version"
     t.index ["account_id"], name: "index_splits_on_account_id"
     t.index ["entry_id"], name: "index_splits_on_entry_id"
   end

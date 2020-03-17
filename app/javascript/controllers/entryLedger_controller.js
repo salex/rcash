@@ -13,7 +13,7 @@ import Rails from '@rails/ujs';
 
 export default class extends Controller {
   static targets = [ "splitsTbody","deletesTbody","numb" ,'description','date','transfer','debit',
-  'credit','amount','balanced','submit', 'last_numbers',"theForm",'errors']
+  'credit','amount','balanced','submit',"theForm",'errors']
 
   connect() {
     let currSplits
@@ -316,62 +316,63 @@ export default class extends Controller {
     this.currStatus = status
   };
 
-  numbChange(){
-    event.preventDefault()
-    const numb = event.target
-    const e = event
-    if ((e.which !== 187) && (e.which !== 189)){
-      // console.log( e.which)
-      return;
-    } else {
-      // console.log("got a + or - keydown")
-      let adder, key, ltr, num;
-      if (e.which === 187) {
-        adder = 1;
-      } else {
-        adder = -1;
-      }
-      const last_numbers = this.last_numbersTarget
-      const json = JSON.parse(last_numbers.dataset.numbers);
+  // numbChange(){
+  //   // event.preventDefault()
+  //   const numb = event.target
+  //   const e = event
+  //   if ((e.which !== 187) && (e.which !== 189)){
+  //     console.log( e.which)
+  //     return false
+  //   } else {
+  //     // console.log("got a + or - keydown")
+  //     let adder, key, ltr, num;
+  //     if (e.which === 187) {
+  //       adder = 1;
+  //     } else {
+  //       adder = -1;
+  //     }
+  //     // e.which = 0
+  //     const last_numbers = this.last_numbersTarget
+  //     const json = JSON.parse(last_numbers.dataset.numbers);
 
-      // console.log(json)
-      if (numb.value === '') {
-        key = 'numb';
-        ltr = '';
-        num = '';
-      } else {
-        const val = numb.value;
-        ltr = val.replace(/\d+/,'');
-        num = val.replace(/\D+/,'');
-        if (num === '') {
-          key = ltr;
-        } else {
-          numb.value = ltr + (Number(num) + adder);
-          this.changed()       
-          return false;
-        }
-      }
+  //     // console.log(json)
+  //     if (numb.value === '') {
+  //       key = 'numb';
+  //       ltr = '';
+  //       num = '';
+  //     } else {
+  //       const val = numb.value;
+  //       ltr = val.replace(/\d+/,'');
+  //       num = val.replace(/\D+/,'');
+  //       if (num === '') {
+  //         key = ltr;
+  //       } else {
+  //         numb.value = ltr + (Number(num) + adder);
+  //         this.changed()       
+  //         return('') ;
+  //       }
+  //     }
 
-      // now have a key that has no number
-      const hasKey = json.hasOwnProperty(key);
-      // console.log( `has key ${hasKey} ${key} ${adder}`)
-      if (key === 'numb') {
-        // console.log("key is numb")
-        numb.value = json[key] + adder;
-      } else {
-        if (hasKey) {
-          const nxt = json[key] + adder;
-          numb.value = key + nxt;
-          json[key] = nxt;
-        } else {
-          json[key] = adder;
-          numb.value = key+'1';
-        }
-      }
-      this.changed()       
-      return false;
-    }
-  }
+  //     // now have a key that has no number
+  //     const hasKey = json.hasOwnProperty(key);
+  //     // console.log( `has key ${hasKey} ${key} ${adder}`)
+  //     if (key === 'numb') {
+  //       // console.log("key is numb")
+  //       numb.value = json[key] + adder;
+  //     } else {
+  //       if (hasKey) {
+  //         const nxt = json[key] + adder;
+  //         numb.value = key + nxt;
+  //         json[key] = nxt;
+  //       } else {
+  //         json[key] = adder;
+  //         numb.value = key+'1';
+  //       }
+  //     }
+  //     this.changed()       
+  //     return('') ;
+  //   }
+  // }
   
 
   /*
@@ -479,13 +480,11 @@ export default class extends Controller {
         this.set_state(s);
         return;
       }
-
       // yyyn
       if ((s.db === 0)  && (s.cr === 0) && (s.amount !== 0)) {
         this.clear_amt(s); 
         return;
       }
-
       // yyny
       if ((s.db === 0)  && (s.cr !== 0) && (s.amount === 0)) {
         this.set_cr_amount(s);
@@ -496,31 +495,26 @@ export default class extends Controller {
         this.set_cr_amount(s);
         return;
       }
-
       // ynyy
       if ((s.db !== 0)  && (s.cr === 0) && (s.amount === 0)) {
         this.set_db_amount(s);
         return;
       }
-
       // ynyn
       if ((s.db !== 0)  && (s.cr === 0) && (s.amount !== 0)) {
         this.set_db_amount(s);
         return;
       }
-
       // ynny
       if ((s.db !== 0)  && (s.cr !== 0) && (s.amount === 0)) {
         this.set_dbcr_amount(s);
         return;
       }
-
       // ynnn
       if ((s.db !== 0)  && (s.cr !== 0) && (s.amount !== 0)) {
         this.set_dbcr_amount(s);
         return;
       }
-
     // 8 test for account present
     } else { 
       // nyyy

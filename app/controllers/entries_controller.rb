@@ -70,6 +70,15 @@ class EntriesController < ApplicationController
         format.json { render json: @entry.errors, status: :unprocessable_entity }
       end
     end
+    rescue ActiveRecord::StaleObjectError
+      respond_to do |format|
+        format.html {
+          flash[:alert] = "This project has been updated while you were editing. Please refresh to see the latest version."
+          render :edit
+        }
+        format.json { render json: { error: "Stale object." } }
+      end
+    
   end
 
   # DELETE /entries/1
@@ -85,6 +94,7 @@ class EntriesController < ApplicationController
       end
     end
   end
+
 
   def duplicate
     # authorize Entry, :trustee?
