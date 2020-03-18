@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.12.0"
 
-set :application, "my_app_name"
+set :application, "rcash"
 set :repo_url, "git@https://github.com/salex/rcash.git"
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
