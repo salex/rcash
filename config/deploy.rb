@@ -2,7 +2,7 @@
 lock "~> 3.12.0"
 
 set :application, "rcash"
-set :repo_url, "git@https://github.com/salex/rcash.git"
+set :repo_url, "git@github.com:salex/rcash.git"
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, File.read('.ruby-version').strip
