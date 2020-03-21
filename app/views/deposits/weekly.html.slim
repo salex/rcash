@@ -6,6 +6,10 @@
       = link_to "List Deposits", deposits_path, class: "lime-link-button"
       = link_to "Month Summary", month_summary_deposits_path, class: "blue-link-button"
       = link_to "Last Month Summary", month_summary_deposits_path(date:(Date.today - 1.month)), class: "lime-link-button"
+      = link_to "Beer Inventory", beer_edit_deposits_path, class: "lime-link-button"
+      = link_to "Liquor Inventory", liquor_edit_deposits_path, class: "lime-link-button"
+
+
 
   hr
   .w3-row-padding

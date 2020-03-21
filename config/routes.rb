@@ -100,6 +100,11 @@ Rails.application.routes.draw do
     collection do
       get :weekly
       get :month_summary
+      get :beer_edit
+      patch :beer_update
+      get :liquor_edit
+      patch :liquor_update
+
     end
   end
 

@@ -108,7 +108,24 @@ class Deposit < ApplicationRecord
     ledger
   end
 
+  def self.update_liquor(params)
+    liquor_path = Rails.root.join('yaml/Inventory/liquor.yaml')
+    liquor = {}
+    params['deposit']["liquor"].each do |h|
+      liquor[h[0]] = h[1]
+    end
+    yaml = liquor.to_yaml
+    File.write(liquor_path,yaml)
+  end
 
-
+  def self.update_beer(params)
+    beer_path = Rails.root.join('yaml/Inventory/beer.yaml')
+    beer = {}
+    params['deposit']["beer"].each do |h|
+      beer[h[0]] = h[1]
+    end
+    yaml = beer.to_yaml
+    File.write(beer_path,yaml)
+  end
 
 end

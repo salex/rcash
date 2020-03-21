@@ -1,5 +1,5 @@
 class DepositsController < ApplicationController
-  before_action :set_deposit, only: [:show, :edit, :update, :destroy, :edit_other, :update_other]
+  # before_action :set_deposit, only: [:show, :edit, :update, :destroy, :edit_other, :update_other]
 
   # GET /deposits
   # GET /deposits.json
@@ -61,6 +61,28 @@ class DepositsController < ApplicationController
     end
   end
 
+  def beer_edit
+    @inv = Inventory.new
+    @inv.get_qoh
+    @inv.beer
+  end
+
+  def liquor_edit
+    @inv = Inventory.new
+    @inv.get_qoh
+    @inv.liquor
+  end
+
+  def liquor_update
+    Deposit.update_liquor(liquor_params)
+    redirect_to weekly_deposits_path, notice:'Liquor inventory updated'
+  end
+
+  def beer_update
+    Deposit.update_beer(beer_params)
+    redirect_to weekly_deposits_path, notice:'Beer inventory updated'
+  end
+
   def update_other
     respond_to do |format|
       if @deposit.update(deposit_params) && @deposit.update_other(deposit_params)
@@ -119,6 +141,15 @@ class DepositsController < ApplicationController
     def set_deposit
       @deposit = Deposit.find(params[:id])
     end
+
+    def liquor_params
+      params.permit!.to_h
+    end
+
+    def beer_params
+      params.permit!.to_h
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def deposit_params

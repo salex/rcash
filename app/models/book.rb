@@ -94,28 +94,6 @@ class Book < ApplicationRecord
     return self.settings
   end
 
-  # def last_numbers(ago=6)
-  #   from = Date.today.beginning_of_month - ago.months
-  #   nums = self.entries.where(Entry.arel_table[:post_date].gteq(from)).pluck(:numb).uniq.sort.reverse
-  #   obj = {numb: 0}
-  #   nums.each do |n|
-  #     if n.present?  # not blank or nil
-  #       ltr = n.gsub(/\d+/,'')
-  #       num = n.gsub(/\D+/,'').to_i
-  #       ltr = ltr.to_sym if ltr.present?
-  #       if ltr.present? && obj[ltr].present?
-  #         obj[ltr] = num if num > obj[ltr]
-  #       else
-  #         if ltr.present?
-  #           obj[ltr] = num 
-  #         else
-  #           obj[:numb] = num if num > obj[:numb]
-  #         end
-  #       end
-  #     end
-  #   end
-  #   obj
-  # end
   def last_numbers(ago=6)
     from = Date.today.beginning_of_month - ago.months
     nums = self.entries.where(Entry.arel_table[:post_date].gteq(from)).pluck(:numb).uniq.sort.reverse
@@ -230,9 +208,6 @@ class Book < ApplicationRecord
     uids = p.uniq{ |s| s.first }.to_h.values
     query.where(id:uids).order(:post_date).reverse_order
   end
-
-
-
 
   def self.entries_ledger(entries)
     bal = @balance ||= 0
