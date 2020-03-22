@@ -65,12 +65,15 @@ class DepositsController < ApplicationController
     @inv = Inventory.new
     @inv.get_qoh
     @inv.beer
+    render layout:'printable'
   end
 
   def liquor_edit
     @inv = Inventory.new
     @inv.get_qoh
     @inv.liquor
+    render layout:'printable'
+
   end
 
   def liquor_update
@@ -94,6 +97,19 @@ class DepositsController < ApplicationController
       end
     end
 
+  end
+
+  def upload_qoh
+  end
+
+  def update_qoh
+    qoh_path = Rails.root.join('yaml/inventory/qoh.csv')
+    io =  params[:text_field]
+    e = io.read
+    csv = e.force_encoding("UTF-8")
+    File.write(qoh_path,csv)
+    redirect_to weekly_deposits_path, notice:'Quanity on Hand updated' 
+    # render plain: io
   end
 
   # POST /deposits

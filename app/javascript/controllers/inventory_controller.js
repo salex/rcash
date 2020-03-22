@@ -22,7 +22,6 @@ export default class extends Controller {
 
   updateBeer(x){
     this.totalTarget.value = this.wbottles + this.cbottles + (this.cases * this.size )
-    console.log(x)
     if (x != 'no') {
       this.ckdTarget.checked = true
     }

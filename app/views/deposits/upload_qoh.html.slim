@@ -1,0 +1,14 @@
+.w3-container.w3-white.min-height.scaffold
+
+  .w3-row-padding
+    p Pick
+    .s5.w3-col
+      = form_with url: '/deposits/update_qoh', method: :patch do |f|
+  
+        .field
+          = f.label :key
+          = f.file_field :text_field
+
+        hr
+        = f.submit
+

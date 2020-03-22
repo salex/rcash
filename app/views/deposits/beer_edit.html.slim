@@ -1,6 +1,10 @@
 .w3-container.w3-white.min-height
   /p = @inv.inspect
   = form_with url: beer_update_deposits_path,method: :patch do |form|
+    div
+      button.noprint = form.submit
+      = link_to "Cancel", weekly_deposits_path, class:'cancel-button noprint indent'
+      span.indent.w3-right-align.blue-link[onclick="window.print()"] Print
 
     table.w70p
       tr
@@ -9,7 +13,8 @@
         th Order@
         th Size
         th Cases
-        th (w) Bottles (c)
+        th BotWi
+        th BotCo
         th Total
         th Ck'd
       - @inv.beer.each do |key,val|
@@ -18,22 +23,21 @@
           td = key
           td
             = val['curr']
-            = hidden_field_tag("[deposit][liquor][#{key}][curr]",val['curr'])
+            = hidden_field_tag("[deposit][beer][#{key}][curr]",val['curr'])
           td
             = val['order']
-            = hidden_field_tag("[deposit][liquor][#{key}][order]",val['order'])
+            = hidden_field_tag("[deposit][beer][#{key}][order]",val['order'])
           td= text_field_tag("[deposit][beer][#{key}][size]",val['size'], data:{target:'inventory.size',action:'change->inventory#updateBeer'},style:'width:100px;', class:'tright')
           td= select_tag("[deposit][beer][#{key}][cases]",options_for_select((0..15).to_a,val['cases']),include_blank:true,
             data:{target:'inventory.cases',action:'change->inventory#updateBeer'})
           td
             = select_tag("[deposit][beer][#{key}][wbottle]",options_for_select((0..24).to_a,val['wbottle']),include_blank:true,
              data:{target:'inventory.wbottles' ,action:'change->inventory#updateBeer'})
+          td
             = select_tag("[deposit][beer][#{key}][cbottle]",options_for_select((0..24).to_a,val['cbottle']),include_blank:true,
              data:{target:'inventory.cbottles' ,action:'change->inventory#updateBeer'})
 
           td= text_field_tag("[deposit][beer][#{key}][total]",val['total'],data:{target:'inventory.total'},style:'width:100px;', class:'tright')
           td= check_box_tag("[deposit][ckd]",0,false,data:{target:'inventory.ckd'})
-      button= form.submit
 
 
-  = link_to "Cancel", weekly_deposits_path, class:'cancel-button'

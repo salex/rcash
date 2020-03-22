@@ -33,8 +33,6 @@ export default class extends Controller {
       if (pages[i].id == url) {
         showMe = pages[i]
       }
-
-
     }
     showMe.classList.add('w3-show')
     

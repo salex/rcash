@@ -7,9 +7,12 @@ class OfxesController < ApplicationController
 
   def latest
     @ofx = current_book.ofxes.order(:statement_date).last
-    @account = @ofx.ofx_account
-
-    render action: :show
+    if @ofx.present?
+      @account = @ofx.ofx_account
+      render action: :show
+    else
+      redirect_to root_path, alert:'OFX is dependent on Bank Statements. There are no Bank Statements'
+    end
   end
 
   def new

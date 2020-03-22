@@ -1,11 +1,15 @@
-.w3-card-2.w3-bar-block
+.w3-card-2.w3-bar-block[data-controller="buttonLink"]
   .w3-bar-item
-    button.lite-goldey.w100 = link_to("About RCash",'/about/about') 
+    button.lite-goldey.w100[data-action="click->buttonLink#linkTo" data-url="/about/about"] About Rcash
+
   .w3-bar-item
-    button.lite-goldey.w100 = link_to("Accounts",'/about/accounts')
+    button.lite-goldey.w100[data-action="click->buttonLink#linkTo" data-url="/about/accounts"] Accounts
+
   .w3-bar-item
-    button.lite-goldey.w100 = link_to("Entries",'/about/entries')
+    button.lite-goldey.w100[data-action="click->buttonLink#linkTo" data-url="/about/entries"] Entries
+
   .w3-bar-item
-    button.lite-goldey.w100 = link_to("Banking",'/about/banking')
+    button.lite-goldey.w100[data-action="click->buttonLink#linkTo" data-url="/about/banking"] Banking
+
   .w3-bar-item
-    button.lite-goldey.w100 = link_to("Reports",'/about/reports')
+    button.lite-goldey.w100[data-action="click->buttonLink#linkTo" data-url="/about/reports"] Reports

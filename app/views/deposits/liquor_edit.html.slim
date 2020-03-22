@@ -1,6 +1,10 @@
 .w3-container.w3-white.min-height
   /p = @inv.inspect
   = form_with url: liquor_update_deposits_path,method: :patch do |form|
+    div
+      button.noprint = form.submit
+      = link_to "Cancel", weekly_deposits_path, class:'cancel-button noprint indent'
+      span.indent.w3-right-align.blue-link[onclick="window.print()"] Print
     table.w70p
       tr
         th Item
@@ -11,7 +15,6 @@
         th Percent
         th Total
       - @inv.liquor.each do |key,val|
-        -p val.class
         tr[data-controller="inventory"]
           td = key
           td
@@ -30,6 +33,4 @@
           td= text_field_tag("[deposit][liquor][#{key}][total]",val['total'],data:{target:'inventory.total'},style:'width:100px;', class:'tright')
           td= check_box_tag("[deposit][ckd]",0,false,data:{target:'inventory.ckd'})
 
-      button= form.submit
 
-  = link_to "Cancel", weekly_deposits_path, class:'cancel-button'

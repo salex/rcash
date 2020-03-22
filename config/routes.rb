@@ -104,6 +104,8 @@ Rails.application.routes.draw do
       patch :beer_update
       get :liquor_edit
       patch :liquor_update
+      get :upload_qoh
+      patch :update_qoh
 
     end
   end
