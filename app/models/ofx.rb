@@ -13,6 +13,7 @@ class Ofx < BankStatement
     self.ofx_data = io.read
     self.key = io.original_filename
     update_data
+    self.ending_balence = self.balance
     self.save
   end
 

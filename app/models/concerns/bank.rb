@@ -42,7 +42,7 @@ class Bank
     self.checking_ending_balance = checking_account.closing_family_balance_on(self.closing_date)
     self.checking_beginning_balance = checking_account.family_balance_on(statement_range.first)
     self.bank_beginning_balance = bs.beginning_balance
-    self.bank_ending_balance = bs.ending_balance
+    self.bank_ending_balance = bs.ending_balance ||= 0
     set_range_reconciled_balance
     test_balance = checking_ending_balance  -  uncleared_balance - range_reconciled_balance
     self.reconcile_diff = test_balance - bank_ending_balance
