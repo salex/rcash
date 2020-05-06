@@ -71,7 +71,6 @@ gem 'slim-rails'
 gem 'prawn'
 gem 'prawn-table'
 gem 'ofx', '~> 0.3.1' , github: 'annacruz/ofx', branch: 'master'
-gem 'font-awesome-sass', '~> 5.11.2'
 gem 'pundit'
 
-
+gem 'font-awesome-sass', '~> 5.12.0'

@@ -1,12 +1,12 @@
 .w3-container.w3-white.min-height
   /p = @inv.inspect
-  = form_with url: beer_update_deposits_path,method: :patch do |form|
+  = form_with url: beer_update_deposits_path,method: :patch,data:{controller:'inventory',target:'inventory.beer'} do |form|
     div
       button.noprint = form.submit
       = link_to "Cancel", weekly_deposits_path, class:'cancel-button noprint indent'
       span.indent.w3-right-align.blue-link[onclick="window.print()"] Print
 
-    table.w70p
+    table.small-table.w70p
       tr
         th Item
         th QOH
@@ -18,7 +18,7 @@
         th Total
         th Ck'd
       - @inv.beer.each do |key,val|
-        tr[data-controller="inventory"]
+        tr
           - p val
           td = key
           td

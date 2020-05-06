@@ -1,64 +1,61 @@
-// Visit The Stimulus Handbook for more details 
-// https://stimulusjs.org/handbook/introduction
-// 
-// This example controller works with specially annotated HTML like:
-//
-// <div data-controller="hello">
-//   <h1 data-target="hello.output"></h1>
-// </div>
-
+/* 
+  Rails.root/app/javascript/controllers/inventroy-controller.js
+*/
 import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = [ 'bottles',"wbottles", "cbottles","cases",'total','size','percent','ckd']
 
   connect() {
-    if (this.hasPercentTarget) {
-      this.updateLiquor('no')
-    }else{
-      this.updateBeer('no')
-    }
+    this.idx
   }
 
-  updateBeer(x){
-    this.totalTarget.value = this.wbottles + this.cbottles + (this.cases * this.size )
-    if (x != 'no') {
-      this.ckdTarget.checked = true
+  indexOfTargetInTargets(target,targets){
+    var i
+    for (i = 0; i < targets.length; i++) {
+      if (targets[i] == target) {break}
     }
+    return i
   }
 
-  updateLiquor(x){
+  updateBeer(){
+    var beer = event.target 
+    const beerTarget = beer.dataset.target.replace('inventory.','')
+    const beerTargets = eval(`this.${beerTarget}Targets`)
+    this.idx = this.indexOfTargetInTargets(beer,beerTargets)
+    this.totalTargets[this.idx].value = this.wbottles + this.cbottles + (this.cases * this.size )
+    this.ckdTargets[this.idx].checked = true
+  }
+
+  updateLiquor(){
+    var liquor =  event.target
+    const liquorTarget = liquor.dataset.target.replace('inventory.','')
+    const liquorTargets = eval(`this.${liquorTarget}Targets`)
+    this.idx = this.indexOfTargetInTargets(liquor,liquorTargets)
     const shots = ((this.size * (this.percent / 100.0)) / 35.5)
     const bottles = ((this.bottles  * this.size) / 35.5)
-    this.totalTarget.value = Math.round(bottles + shots)
-    if (x != 'no') {
-      this.ckdTarget.checked = true
-    }
-
+    this.totalTargets[this.idx].value = Math.round(bottles + shots)
+    this.ckdTargets[this.idx].checked = true
   }
 
   get cases(){
-    return Number(this.casesTarget.value)
+    return Number(this.casesTargets[this.idx].value)
   }
   get wbottles(){
-    return Number(this.wbottlesTarget.value)
+    return Number(this.wbottlesTargets[this.idx].value)
   }
   get cbottles(){
-    return Number(this.cbottlesTarget.value)
+    return Number(this.cbottlesTargets[this.idx].value)
   }
   get size(){
-    return Number(this.sizeTarget.value)
+    return Number(this.sizeTargets[this.idx].value)
   }
   get bottles(){
-    return Number(this.bottlesTarget.value)
+    return Number(this.bottlesTargets[this.idx].value)
   }
   get percent(){
-    return Number(this.percentTarget.value)
+    return Number(this.percentTargets[this.idx].value)
   }
-
-
-
-
 
 }
 

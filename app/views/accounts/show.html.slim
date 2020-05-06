@@ -16,11 +16,11 @@
           /   |&nbsp;&nbsp
           span.indent.w3-left.strong Search
           div.w3-left[data-controller="autocomplete entrySearch" 
-            data-autocomplete-url="/entries/entry_search" data-autocomplete-min-length="2"]
+            data-autocomplete-url="/entries/entry_search" data-autocomplete-min-length="2" style="z-index:20;"]
             input[type="text" data-target="autocomplete.input" placeholder="Entry Description Search" data-action="change->entrySearch#showSearched" style="width:300px;margin-right:8px;"]
             input[type="hidden" name="entry_id" data-target="autocomplete.hidden entrySearch.hidden" ]
             .w3-right.lime-link-button.w3-hide[data-target="entrySearch.showButton" data-action="click->entrySearch#addSearched" data-entryID=""] Duplicate
-            ul.w3-ul.w3-border[data-target="autocomplete.results"]
+            ul.w3-ul.w3-border[data-target="autocomplete.results" style="z-index:99;"]
 
 
         .m5.w3-col
