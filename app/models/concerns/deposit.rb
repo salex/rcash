@@ -109,7 +109,7 @@ class Deposit < ApplicationRecord
   end
 
   def self.update_liquor(params)
-    liquor_path = Rails.root.join('yaml/Inventory/liquor.yaml')
+    liquor_path = Rails.root.join('yaml/inventory/liquor.yaml')
     liquor = {}
     params['deposit']["liquor"].each do |h|
       liquor[h[0]] = h[1]
@@ -119,7 +119,7 @@ class Deposit < ApplicationRecord
   end
 
   def self.update_beer(params)
-    beer_path = Rails.root.join('yaml/Inventory/beer.yaml')
+    beer_path = Rails.root.join('yaml/inventory/beer.yaml')
     beer = {}
     params['deposit']["beer"].each do |h|
       beer[h[0]] = h[1]

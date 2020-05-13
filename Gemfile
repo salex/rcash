@@ -50,7 +50,7 @@ group :development do
   gem 'capistrano3-puma'
 
   gem 'sqlite3', '~> 1.4'
-
+  gem 'rails-erd'
 end
 
 group :test do
