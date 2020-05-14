@@ -1,20 +1,52 @@
-class Inventory
-
-  attr_accessor :beer, :liquor,:beer_path,:liquor_path
+class Inventory < Stash
   require 'csv'
 
-  def initialize
-    @beer = {}
-    @liquor = {}
-    @beer_path = Rails.root.join('yaml/inventory/beer.yaml')
-    @liquor_path = Rails.root.join('yaml/inventory/liquor.yaml')
+  # the below is a one time create simple inventory if you are only going to have one
+  after_initialize :set_stashable
 
+  def set_stashable
+    if self.new_record?
+      self.stashable_id = 1
+      self.stashable_type = "Stash"
+      seed
+    else
+      self.inventory = hash_data
+      self.beer = inventory['beer']
+      self.liquor = inventory['liquor']
+      self.qoh = CSV.parse(csv)
+      qoh.delete_at(0)
+    end
+  end
+
+  attribute :inventory
+  attribute :beer
+  attribute :liquor
+  attribute :qoh
+
+  serialize :hash_data, Hash
+
+
+  def seed
+    beer_path = Rails.root.join('yaml/inventory/beer.yaml')
+    liquor_path = Rails.root.join('yaml/inventory/liquor.yaml')
+    qoh_path = Rails.root.join('yaml/inventory/qoh.csv')
+    self.csv = File.read(qoh_path)
+    self.inventory = {}.with_indifferent_access
+    beer =  YAML.load_file(beer_path)
+    liquor = YAML.load_file(liquor_path)
+    inventory[:beer] = beer
+    inventory[:liquor] = liquor
+    self.beer = beer
+    self.liquor = liquor
+    self.hash_data = inventory
+    self.qoh = CSV.parse(csv)
+    qoh.delete_at(0)
   end
 
   def get_qoh
-    qoh_path = Rails.root.join('yaml/inventory/qoh.csv')
-    qoh = CSV.parse(File.read(qoh_path))
-    qoh.delete_at(0)
+    # qoh_path = Rails.root.join('yaml/inventory/qoh.csv')
+    # qoh = CSV.parse(File.read(qoh_path))
+    # qoh.delete_at(0)
     @beer_qoh = []
     @liquor_qoh = []
     revenue = ["Liqueur","Rum & Tequila","Whiskey","Gin & Vodka"]
@@ -22,92 +54,26 @@ class Inventory
       @liquor_qoh << item if revenue.include?(item[1])
       @beer_qoh << item if item[1] == 'Beer'
     end
-    if File.file?(@beer_path)
-      get_beer
-    else
-      create_beer
-    end
-    if File.file?(@liquor_path)
-      get_liquor
-    else
-      create_liquor
-    end
-    return nil
   end
 
-  def get_beer
-    last = YAML.load_file(@beer_path)
-    @beer_qoh.each do |item|
-      key = item[0]
-      if last.has_key?(key)
-        beer[key] = last[key]
-        beer[key]['curr'] = item[2].to_i
-        beer[key]['order'] = item[3].to_i
-      else
-        beer[key] = {
-          curr:item[2].to_i,
-          order:item[3].to_i,
-          size:24,
-          cases:0,
-          bottles_w:0,
-          bottles_c:0,
-          total:0
-        }.with_indifferent_access
-      end
+  def update_liquor(params)
+    liquor = {}
+    params['deposit']["liquor"].each do |h|
+      liquor[h[0]] = h[1]
     end
+    inventory[:liquor] =liquor
+    self.save
   end
 
-  def get_liquor
-    last = YAML.load_file(@liquor_path)
-    @liquor_qoh.each do |item|
-      key = item[0]
-      if last.has_key?(key)
-
-        liquor[key] = last[key]
-        liquor[key]['curr'] = item[2].to_i
-        liquor[key]['order'] = item[3].to_i
-      else
-        liquor[key] = {
-            curr:item[2].to_i,
-            order:item[3].to_i,
-            size:1000,
-            bottles:0,
-            percent:0,
-            total:0
-          }.with_indifferent_access
-      end
+  def update_beer(params)
+    beer = {}
+    params['deposit']["beer"].each do |h|
+      beer[h[0]] = h[1]
     end
+    inventory[:beer] = beer
+    self.save
   end
 
-  def create_beer
-    @beer_qoh.each do |item|
-      beer[item[0]] = {
-        curr:item[2].to_i,
-        order:item[3].to_i,
-        size:24,
-        cases:0,
-        bottles_w:0,
-        bottles_c:0,
-        total:0
-      }.with_indifferent_access
-    end
-    yaml = beer.to_yaml
-    File.write(@beer_path,yaml)
-  end
 
-  def create_liquor
-    @liquor_qoh.each do |item|
-      liquor[item[0]] = {
-        curr:item[2].to_i,
-        order:item[3].to_i,
-        size:1000,
-        bottles:0,
-        percent:0,
-        total:0
-      }.with_indifferent_access
-    end
-    yaml = liquor.to_yaml
-    File.write(@liquor_path,yaml)
-  end
 
 end

@@ -62,27 +62,29 @@ class DepositsController < ApplicationController
   end
 
   def beer_edit
-    @inv = Inventory.new
-    @inv.get_qoh
+    @inv = Inventory.last
+    # @inv.get_qoh
     @inv.beer
     render layout:'printable'
   end
 
   def liquor_edit
-    @inv = Inventory.new
-    @inv.get_qoh
+    @inv = Inventory.last
     @inv.liquor
     render layout:'printable'
 
   end
 
   def liquor_update
-    Deposit.update_liquor(liquor_params)
+    @inv = Inventory.last
+
+    results = @inv.update_liquor(liquor_params)
     redirect_to weekly_deposits_path, notice:'Liquor inventory updated'
   end
 
   def beer_update
-    Deposit.update_beer(beer_params)
+    @inv = Inventory.last
+    results = @inv.update_beer(beer_params)
     redirect_to weekly_deposits_path, notice:'Beer inventory updated'
   end
 

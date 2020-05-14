@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stashable: one
+  stashable_type: Stashable
+  type: 
+  date: 2020-05-14
+  hash_data: MyText
+  text_data: MyText
+  slim: MyText
+  yaml: MyText
+  csv: MyText
+  date_data: 2020-05-14
+  status: MyString
+
+two:
+  stashable: two
+  stashable_type: Stashable
+  type: 
+  date: 2020-05-14
+  hash_data: MyText
+  text_data: MyText
+  slim: MyText
+  yaml: MyText
+  csv: MyText
+  date_data: 2020-05-14
+  status: MyString

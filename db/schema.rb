@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_17_134730) do
+ActiveRecord::Schema.define(version: 2020_05_14_120540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,24 @@ ActiveRecord::Schema.define(version: 2020_03_17_134730) do
     t.integer "lock_version"
     t.index ["account_id"], name: "index_splits_on_account_id"
     t.index ["entry_id"], name: "index_splits_on_entry_id"
+  end
+
+  create_table "stashes", force: :cascade do |t|
+    t.string "stashable_type", null: false
+    t.bigint "stashable_id", null: false
+    t.string "type"
+    t.date "date"
+    t.text "hash_data"
+    t.text "text_data"
+    t.text "slim"
+    t.text "yaml"
+    t.text "csv"
+    t.date "date_data"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stashable_type", "stashable_id"], name: "index_stashes_on_stashable_type_and_stashable_id"
+    t.index ["type"], name: "index_stashes_on_type"
   end
 
   create_table "users", force: :cascade do |t|

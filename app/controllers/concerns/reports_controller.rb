@@ -134,8 +134,14 @@ class ReportsController < ApplicationController
 
   def update_config
     yaml = params[:yaml].gsub(/\r\n?/, "\n")
-    Report.new.put_audit_config(yaml)
-    redirect_to  reports_path, notice: 'Audit Confiuration saved'
+   
+    respond_to do |format|
+      if  Report.new.put_audit_config(yaml)
+        format.html { redirect_to  reports_path, notice: 'Audit Confiuration saved' }
+      else
+        format.html { render :edit_config }
+      end
+    end
 
   end
 
