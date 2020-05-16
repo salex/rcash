@@ -14,7 +14,7 @@ class TrusteeAudit < Prawn::Document
       eoq = (boq + 2.months).end_of_month
       @range = boq..eoq
     end
-    @config = Report.new.get_audit_config.to_o
+    @config = VfwReport.new.get_audit_config.to_o
 
 
     @summary = get_summary

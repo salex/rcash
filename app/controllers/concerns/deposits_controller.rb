@@ -109,7 +109,9 @@ class DepositsController < ApplicationController
     io =  params[:text_field]
     e = io.read
     csv = e.force_encoding("UTF-8")
-    File.write(qoh_path,csv)
+    inv = Inventory.last
+    inv.csv = csv
+    inv.save
     redirect_to weekly_deposits_path, notice:'Quanity on Hand updated' 
     # render plain: io
   end

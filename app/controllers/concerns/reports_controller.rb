@@ -1,8 +1,8 @@
 class ReportsController < ApplicationController
   before_action :require_book
+
   def index
     @acct_options  = @book.settings[:acct_sel_opt]
-
   end
 
   def destroy
@@ -53,24 +53,6 @@ class ReportsController < ApplicationController
       disposition: "inline"
   end
 
-  def trustee_audit
-    pdf = TrusteeAudit.new
-    send_data pdf.render, filename: "trustee_audit",
-      type: "application/pdf",
-      disposition: "inline"
-  end
-
-  def audit
-    # filepath = Rails.root.join("db/yaml","vfwcash.yaml")
-    bolq = Date.today.beginning_of_quarter - 3.months
-    eolq = bolq.end_of_quarter
-    @range = bolq..eolq
-    @config = Report.new.get_audit_config.to_o
-    @summary = current_book.accounts.find_by(name:@config.current_assets).family_summary(@range.first,@range.last)
-    render layout: 'print'
-  end
-
-
   def checking_balance
     @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
   end
@@ -85,23 +67,6 @@ class ReportsController < ApplicationController
 
     @banking = Bank.new
   end
-
-  # def clear_splits
-  #   entry = current_book.entries.find(params[:entry_id])
-  #   splits = entry.splits.where(reconcile_state:'n')
-  #   splits.update_all(reconcile_state:'c')
-  #   @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
-  #   # render partial:'reports/balance'
-
-  # end
-
-  # def unclear_splits
-  #   entry = current_book.entries.find(params[:entry_id])
-  #   splits = entry.splits.where(reconcile_state:'c')
-  #   splits.update_all(reconcile_state:'n')
-  #   @checking_balance = Bank.new(params[:closing_date],params[:closing_balance]).checkbook_balance
-  #   # render partial:'reports/balance'
-  # end
 
   def split_unclear
     entry = current_book.entries.find(params[:id])
@@ -124,27 +89,6 @@ class ReportsController < ApplicationController
     set_param_date
     render plain: params
   end
-
-  def edit_config
-    # filepath = Rails.root.join("db/yaml","vfwcash.yaml")
-    report = Report.new
-    report.get_audit_config
-    @vfwcashconfig = report.audit_yaml
-  end
-
-  def update_config
-    yaml = params[:yaml].gsub(/\r\n?/, "\n")
-   
-    respond_to do |format|
-      if  Report.new.put_audit_config(yaml)
-        format.html { redirect_to  reports_path, notice: 'Audit Confiuration saved' }
-      else
-        format.html { render :edit_config }
-      end
-    end
-
-  end
-
 
   private
 

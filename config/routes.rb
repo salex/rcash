@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
-  get 'test/test'
-  patch 'test/fire'
-  patch 'test/clear'
-  patch 'test/unclear'
-  get 'test/link'
-  post 'test/link'
+  # get 'test/test'
+  # patch 'test/fire'
+  # patch 'test/clear'
+  # patch 'test/unclear'
+  # get 'test/link'
+  # post 'test/link'
+
+  resources :vfw do
+    collection do
+      get :trustee_audit
+      get :audit
+      get :edit_config
+      patch :update_config
+    end
+  end
+
 
 
   resources :bank_statements do
@@ -52,6 +62,9 @@ Rails.application.routes.draw do
     end
   end
 
+
+
+
   resources :reports, only: :index do
     collection do
       get :profit_loss
@@ -63,11 +76,11 @@ Rails.application.routes.draw do
       # patch :clear_splits
       # patch :unclear_splits
       get :summary
-      get :trustee_audit
+      # get :trustee_audit
       get :custom
       get :audit
-      get :edit_config
-      patch :update_config
+      # get :edit_config
+      # patch :update_config
       patch :set_acct
       get :set_acct
 

@@ -23,9 +23,6 @@ class Inventory < Stash
   attribute :liquor
   attribute :qoh
 
-  serialize :hash_data, Hash
-
-
   def seed
     beer_path = Rails.root.join('yaml/inventory/beer.yaml')
     liquor_path = Rails.root.join('yaml/inventory/liquor.yaml')

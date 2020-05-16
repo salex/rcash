@@ -96,20 +96,17 @@ export default class extends Controller {
   }
   selectAuditPDF(){
     const button = event.target
-    const acct = this.accountTarget.value
     var url = button.dataset.url
     location.assign(url)
   }
 
   selectAuditConfig(){
     const button = event.target
-    const acct = this.accountTarget.value
     var url = button.dataset.url
     location.assign(url)
   }
   selectAuditHTML(){
     const button = event.target
-    const acct = this.accountTarget.value
     var url = button.dataset.url
     location.assign(url)
   }

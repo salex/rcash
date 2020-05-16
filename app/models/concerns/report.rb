@@ -1,28 +1,4 @@
 class Report
-  attr_accessor :audit_yaml, :audit_config
-
-   # The initializer sets attributes based on data in the db and from the config file
-   # that is common to all reports.
-
-  # debride think pulled over from vfw checkbook
-  # attr_accessor  :balances, :checking, :savings, :checking_funds,:savings_funds,
-  # :dates, :bmonth, :checking_acct, :savings_acct, :tmonths, :config
-
-  def get_audit_config
-    # filepath = Rails.root.join("yaml","audit_config.yaml")
-    # @audit_yaml = File.read(filepath)
-    # @audit_config = YAML.load(audit_yaml)
-    @audit_yaml = AuditConfig.first.yaml
-    @audit_config = YAML.load(@audit_yaml)
-  end
-
-  def put_audit_config(audit_config)
-    ac = AuditConfig.first
-    ac.yaml = audit_config
-    ac.save
-  end
-
-
 
   def trial_balance(options={})
     book = Current.book
