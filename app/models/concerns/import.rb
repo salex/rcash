@@ -35,7 +35,7 @@ module Import
 
     def initialize(save=false)
       @save = save
-      @yaml_path = Rails.root.join('../../Common/dumps')
+      @yaml_path = Rails.root.join('../../Common/dumps/rcash')
     end
 
     def import_all
@@ -54,6 +54,12 @@ module Import
       return "done"
     end
 
+    # After import need to set up stashes
+    #  s = Stash.new(date:Date.today,stashable_id:1,stashable_type:'Stash',status:'PointerSingleTableInheritance')
+    #  s.save(validate:false)
+    #  ac = AuditConfig.new
+    # inv = Inventory.new
+    
     def create_book
       @book = ImportBook.new
       book.name = "RCash"

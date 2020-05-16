@@ -38,6 +38,8 @@ class Inventory < Stash
     self.hash_data = inventory
     self.qoh = CSV.parse(csv)
     qoh.delete_at(0)
+    self.save
+    
   end
 
   def get_qoh
