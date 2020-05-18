@@ -1,5 +1,10 @@
 class WelcomeController < ApplicationController
   def home
+    if Current.book
+      render template: 'welcome/book'
+    else
+      render template: 'welcome/home'
+    end
   end
 
   def about
@@ -23,6 +28,15 @@ class WelcomeController < ApplicationController
     # puts "move right #{session[:test_list]}"
 
   end
+
+  def summary
+    current_assets = Current.book.current_assets
+    to = Date.today
+    from = to.beginning_of_year
+    @summary = current_assets.family_summary(from,to)
+    render template:'reports/summary'
+  end
+
 
   def move_two
     dir,id = params[:payload].split('|')

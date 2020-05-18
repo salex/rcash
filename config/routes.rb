@@ -146,6 +146,7 @@ Rails.application.routes.draw do
 
 
   get 'welcome/about'
+  get 'welcome/summary'
 
   get 'login', to: 'users#login', as: 'login'
   get 'logout', to: 'users#logout', as: 'logout'

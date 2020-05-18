@@ -25,6 +25,16 @@ $dark-blue: #0F3E61;
 .w90p {width:90%!important;}
 .w15 {width:15px;}
 .w20 {width:20px;}
+.mbtn{
+  background-color: lighten($malt,20%);
+  color:#ddd;
+  margin-bottom: 2px;
+}
+.gbtn{
+  background-color: $vfw_gold;
+  color:#fff;
+  margin-bottom: 2px;
+}
 
 .malty {background-color: $malt;color:#ddd;}
 .lgoldey,.lite-goldey  {background-color: lighten($vfw_gold,20);color:#333;}
@@ -73,7 +83,7 @@ table.small-table7, table.smalltable7 {
     }
   }
   tr:nth-of-type(even) {
-    background-color:#fffff8;
+    background-color:lighten(#A79055,42%);
   }
   td, th {
     // font-size: 0.8rem;
@@ -96,5 +106,38 @@ table.small-table7, table.smalltable7 {
     &.p4{ padding-left: 4rem;}
     &.p5{ padding-left: 5rem;}
     &.malt{ background-color: #ddd;}
+  }
+}
+
+.show-fields label, .form-fields label {
+  width:20%;
+  display:inline-block;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 8px;
+  &.half{
+    width:40%;
+
+  }
+}
+
+dl.show{
+  dd{
+    width:20%;
+    display:inline-block;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 8px;
+  }
+  dt{
+    display:inline-block;
+  }
+  dd{
+    break-before:always;
+  }
+  &.half{
+    dd{
+      width:40%;
+    }
   }
 }

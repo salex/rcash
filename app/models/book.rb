@@ -60,6 +60,10 @@ class Book < ApplicationRecord
     self.accounts.find_by(uuid:self.savings)
   end
 
+  def current_assets
+    self.accounts.find_by(name:'Current')
+  end
+
 
 
   def get_settings

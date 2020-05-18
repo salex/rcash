@@ -114,6 +114,25 @@ a.block-link{
     border-radius:4px;
   }
 }
+.gold-link-button {
+  background-color: #A79055;
+  padding:2px 4px;
+  text-decoration: none;
+  // border:solid 1px green;
+  margin-right: 4px;
+  // font-variant: small-caps;
+  // font-family: times;
+  font-weight: bold;
+  // font-size: 1.1rem;
+  &:hover{
+    background-color: green;
+    color:#eee!important;
+  }
+  &.round{
+    border-radius:4px;
+  }
+}
+
 
 .grey-link-button {
   background-color: #ddd;
