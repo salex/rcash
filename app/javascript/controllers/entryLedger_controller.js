@@ -61,6 +61,11 @@ export default class extends Controller {
   }
 
   submitForm(){
+    const button = this.submitTarget;
+    button.setAttribute('disabled','disabled');
+    button.classList.add('w3-red')
+    button.classList.remove('w3-green')
+
     const theForm = this.theFormTarget
     theForm.submit()
   }

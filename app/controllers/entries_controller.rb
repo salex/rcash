@@ -46,7 +46,6 @@ class EntriesController < ApplicationController
     @entry = current_book.entries.new(entry_params)
     # authorize Entry, :trustee?
     @bank_dup = @entry.fit_id.present?
-
     respond_to do |format|
       if @entry.valid_params?(entry_params) && @entry.save
         format.html { redirect_to redirect_path, notice: 'Entry was successfully created.' }

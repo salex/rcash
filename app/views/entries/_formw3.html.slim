@@ -42,8 +42,9 @@
               data:{controller:'flatpickr',action:"change->entryLedger#changed",target:'entryLedger.date'}),
               f.text_field(:numb,class:'w5',data:{target:'autoNumber.numb',action:'keydown->autoNumber#keyDown'}),
               f.text_area(:description,class:"w22",data:{target:'entryLedger.description',action:"change->entryLedger#changed"}), 
-              f.hidden_field(:fit_id),
-              f.hidden_field(:lock_version))
+              f.hidden_field(:fit_id))
+              / ,
+              / f.hidden_field(:lock_version))
 
           / render partial
           tbody[data-target="entryLedger.splitsTbody"]
@@ -65,7 +66,7 @@
               - amount = f.hidden_field(:amount,class:'',
                 data:{target:"entryLedger.amount"})
               - idhide = f.hidden_field(:id)
-              - lock = f.hidden_field(:lock_version)
+              / - lock = f.hidden_field(:lock_version)
               - destroy = f.check_box('_destroy',class:'s-delete',data:{action:"click->entryLedger#deleteRow"})
               - reconcile = f.object.reconcile_state
               = split_row(rid,
@@ -79,8 +80,9 @@
                 amount,
                 idhide,
                 destroy,
-                reconcile,
-                lock)
+                reconcile)
+                / ,
+                / lock)
               - rid += 1
           tbody[data-target="entryLedger.deletesTbody"]
             tr
