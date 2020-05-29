@@ -123,7 +123,7 @@ export default class extends Controller {
       button.setAttribute('disabled','disabled');
       button.classList.add('w3-red')
       button.classList.remove('w3-green')
-      event.preventDefault()
+      // event.preventDefault()
 
     }
   };
