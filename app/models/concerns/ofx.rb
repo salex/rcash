@@ -82,9 +82,11 @@ class Ofx < BankStatement
 
   def append_links(links,e,t)
     if links[t.fit_id].present?
-      links[t.fit_id] << {amount: t.amount_in_pennies,numb:t.check_number,entry_id:e.id,description:e.description,post_date: e.post_date}
+      links[t.fit_id] << {amount: t.amount_in_pennies,numb:t.check_number,
+        enumb:e.numb,entry_id:e.id,description:e.description,post_date: e.post_date.to_formatted_s(:number)}
     else
-      links[t.fit_id] = [{amount: t.amount_in_pennies,numb:t.check_number,entry_id:e.id,description:e.description,post_date: e.post_date}]
+      links[t.fit_id] = [{amount: t.amount_in_pennies,numb:t.check_number,
+        enumb:e.numb,entry_id:e.id,description:e.description,post_date: e.post_date.to_formatted_s(:number)}]
     end
   end
   

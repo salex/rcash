@@ -82,7 +82,7 @@
                     |Possible Link(s)&nbsp;
                     - bt.payee[bt.fit_id].each do |e|
                       button[class="blue-link"]
-                        = link_to "#{e[:description]}-#{e[:post_date]}",link_ofx_path(bt.fit_id, entry:e[:entry_id],class:'blue-link')
+                        = link_to "#{e[:enumb]} #{e[:description][0..19]} -#{e[:post_date]}",link_ofx_path(bt.fit_id, entry:e[:entry_id])
                 -else
                   td 
                     / - params ={amount:bt.amount_in_pennies,date:bt.posted_at.to_date,description:bt.name,memo:bt.memo,numb:bt.check_number}
