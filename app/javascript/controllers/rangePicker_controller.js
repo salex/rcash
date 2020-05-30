@@ -11,34 +11,28 @@ export default class extends Controller {
   static targets = [ "from_date" ,'to_date','toOptions','fromOptions','byRange','byDate','pdf','account','level']
 
   connect() {
-    console.log("range picker")
-    this.toDate
-    this.fromDate
+    // dates are input objects, not value
+    this.toDate =  this.to_dateTarget
+    this.fromDate = this.from_dateTarget
   }
 
   toOption(){
     var toSel = this.toOptionsTarget
-    this.toDate = this.to_dateTarget
-    this.toDate.value= toSel.value
-    // console.log(this.toDate)
+    this.toDate.value = toSel.value
   }
 
   fromOption() {
     var fromSel = this.fromOptionsTarget
-    this.fromDate = this.from_dateTarget
     var toSel = this.toOptionsTarget
-    this.toDate = this.to_dateTarget
     var fromIndex = fromSel.selectedIndex
     this.fromDate.value = fromSel.value
     toSel.selectedIndex = fromIndex
     this.toDate.value = toSel.value
-    // console.log(this.fromDate)
-
   }
+
   selectPDF(){
     var url = (event.target.value)
-    this.setFromTo()
-    //  if coming from reports, accout not assigned, asign it
+    //  if coming from reports, account not assigned, asign it
     if (this.hasAccountTarget) {
       const acct = this.accountTarget.value
       url += `&account=${acct}`
@@ -48,8 +42,7 @@ export default class extends Controller {
 
   selectSplit(){
     var url = (event.target.value)
-    this.setFromTo()
-    //  if coming from reports, accout not assigned, asign it
+    //  if coming from reports, account not assigned, asign it
     if (this.hasAccountTarget) {
       const acct = this.accountTarget.value
       url += `&account=${acct}`
@@ -58,7 +51,6 @@ export default class extends Controller {
   }
   selectLedger(){
     var url = (event.target.value)
-    this.setFromTo()
     this.assign(url)
   }
 
@@ -123,21 +115,10 @@ export default class extends Controller {
   }
 
   getFromTo(){
-    this.fromDate = this.from_dateTarget
-    this.toDate = this.to_dateTarget
     if (this.fromDate.value == '' || this.toDate.value == '') {
       return('')
     }
     return(`&from=${this.fromDate.value}&to=${this.toDate.value}`)
-  }
-
-  setFromTo(){
-    if (this.fromDate == undefined && this.from_dateTarget.value != '') {
-      this.fromDate = this.from_dateTarget.value
-    }
-    if (this.toDate == undefined && this.to_dateTarget.value != '') {
-      this.toDate = this.to_dateTarget.value
-    }
   }
 
   getLevel(){
@@ -150,27 +131,22 @@ export default class extends Controller {
     }
   }
 
-
-
-
   assign(url){
     /* this is used it two places, account ledger and report
       for reports it needs an account id it gets from optioal target account
     */
     if(url.includes("fromto=1")) {
+      console.log(`from ${this.fromDate.value}  to ${this.toDate.value}  url ${url}`)
       if ((this.fromDate != undefined) && (this.toDate != undefined)) {
-        url = url.replace('fromto=1',`from=${this.fromDate}&to=${this.toDate}`)
+        url = url.replace('fromto=1',`from=${this.fromDate.value}&to=${this.toDate.value}`)
         if (this.hasAccountTarget) {
           url += `&account=${this.accountTarget.value}`
         }
         location.assign(url)
-        console.log(url)
       }else{
         alert('Sorry, from and to dates not set')
       }
     } else { 
-      console.log(url)
-
       location.assign(url)
     }
   }
