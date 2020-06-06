@@ -1,4 +1,13 @@
+/*
+New POS sales
+total sales expected = total_net_sales + total_taxes + total_tips
+total cred sales = credit sales - tips
+item sales 
+  total_net_sales + tax (1.17 for liquor, 1.1 for others) + total_tips
 
+
+
+*/
 import { Controller } from "stimulus"
 
 export default class extends Controller {

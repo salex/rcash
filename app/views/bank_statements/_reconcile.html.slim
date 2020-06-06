@@ -1,17 +1,18 @@
 - @reconcile = reconcile if @reconcile.blank?
 .w3-row-padding
-  .s6.w3-col
+  .s8.w3-col
     - test_balance = @reconcile.checking_ending_balance  -  @reconcile.uncleared_balance - @reconcile.range_reconciled_balance
     - difference = test_balance - @reconcile.bank_ending_balance
 
     .strong =  "Balances (Checkbook  + Uncleared + Reconciled - Bank)  = Difference "
     .annotate Reconciled balance only applies to bank statements that have already been reconciled.
     .strong=  "Balances (#{imoney @reconcile.checking_ending_balance} + (#{imoney @reconcile.uncleared_balance*-1}) + (#{imoney @reconcile.range_reconciled_balance*-1}) - #{imoney @reconcile.bank_ending_balance})  = #{to_money difference} "
-  .s6.w3-col
+  .s4.w3-col
       - if difference.zero? && Date.current >= @bank_statement.statement_date
-        button.pretty  = link_to 'Reconcile', update_reconcile_bank_statement_path(@bank_statement)
+        button.w3-button.w3-blue-gray  = link_to 'Reconcile', update_reconcile_bank_statement_path(@bank_statement)
       - else
         .annotate Balance is either not zero or current date is less than the closing date
+
 hr
 .w3-row-padding
   .s6.w3-col.half-constrainer

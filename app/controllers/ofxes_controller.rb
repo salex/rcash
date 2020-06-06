@@ -16,7 +16,16 @@ class OfxesController < ApplicationController
   end
 
   def new
-    @ofx = current_book.ofxes.new
+    # @ofx = current_book.ofxes.new
+    last_statement = current_book.bank_statements.where.not(reconciled_date:nil).order(:reconciled_date).last
+    bb = 0
+    if last_statement.present?
+      next_month = last_statement.reconciled_date.end_of_month + 1.day
+      statement_range = Ledger.statement_range(next_month)
+      bb = last_statement.ending_balance
+    end
+    @ofx = current_book.ofxes.new(statement_date:statement_range.last,beginning_balance:bb,ending_balance:0)
+
   end
 
   def show
