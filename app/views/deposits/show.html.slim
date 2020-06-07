@@ -13,7 +13,7 @@
     
 
 
-
+  .w3-row
     .s4.w3-col
       h5 Deposit Details
       table.smalltable7
@@ -58,7 +58,7 @@
           td.tright Total Deposit(s) (1 or 2)
           td.tright = dmoney @deposit.total_deposit
     .s8.w3-col
-      .w3-row.w3-margin
+      .w3-row-padding
         .s5.w3-col
           h5 Sales by Revenue Class
           table.smalltable7
@@ -86,7 +86,6 @@
               tr
                 td.tright = dmoney( r.amount ||= 0.0)
                 td = r.remarks
-
         .s7.w3-col
           h5 Other Revenue Details
           - tot = 0.0

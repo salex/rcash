@@ -6,7 +6,7 @@
       / = link_to 'PDF', deposit_path(@deposit,format: :pdf)
     / h6.strong Deposit Summary
     / - else
-  .w3-row-padding.print-medium
+  .w3-row-padding
 
     .s12.w3-col
         
@@ -115,29 +115,29 @@
           th
           td.tright.strong = dmoney tot
 
-  .w3-row.w3-row-padding.print-medium
-    .s1.w3-col
-    .s10.w3-col.annotate 
+    .w3-row.w3-row-padding
+      .s1.w3-col
+      .s10.w3-col.annotate 
+        p
+        p We have reviewed that attached Post ledgers, Bank Statements, Bills and Receipts are in accordance to Post, Departments and National By-Laws requirements. We certify those requirements have been met to the best of our knowledge and belief.
+      .s1.w3-col
       p
-      p We have reviewed that attached Post ledgers, Bank Statements, Bills and Receipts are in accordance to Post, Departments and National By-Laws requirements. We certify those requirements have been met to the best of our knowledge and belief.
-    .s1.w3-col
-    p
-    .s4.w3-col
-      p
-      p
-      p __________________________
-      p Commander
-    .s4.w3-col
-      p
-      p
-      p __________________________
-      p Quartermaster
-    
-    .s4.w3-col
-      p
-      p
-      p __________________________
-      p Date
+      .s4.w3-col
+        p
+        p
+        p __________________________
+        p Commander
+      .s4.w3-col
+        p
+        p
+        p __________________________
+        p Quartermaster
+      
+      .s4.w3-col
+        p
+        p
+        p __________________________
+        p Date
 
   
 

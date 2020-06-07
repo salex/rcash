@@ -27,6 +27,26 @@
 
 
 @media print {
+  // width:9.0in;
+  // margin: 0 auto;
+
+  // body {background-color:inherit;}
+
+  // font-size: 1.9rem;
+  // h1,h2,h3,h4,h5,h6,p {
+  //   margin-bottom: 0.2rem;
+  // }
+  // li {font-size:0.7rem;}
+  // h1,h2,h3,h4,h5,h6,caption{font-size:1.2rem;}
+  // td, th {
+  //   font-size: 0.7rem;
+  //   padding: 0.4rem;
+  //   margin:0;
+  //   line-height: 1rem;
+  //   border:solid 1px #ccc;
+  // }
+   
+
   .page-break {page-break-after: always!important;}
   .top,.header {display:none;}
   fieldset {border:none;}
