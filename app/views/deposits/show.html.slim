@@ -164,6 +164,35 @@
               td.tright= dmoney debits
               td.tright= dmoney credits
 
+          h5 Combined Deposit Ledger
+          - ledger = @deposit.combined_ledger_deposit
+          - debits = 0.0
+          - credits = 0.0
+
+          table.smalltable7
+            tr
+              th Account
+              th Increase(d)
+              th Decrease(c)
+            - ledger[:debits].each do |l|
+              tr
+                td= l[0]
+                td.tright= dmoney l[1]
+                td.tright= l[2]
+                - debits += l[1]
+            - ledger[:credits].each do |l|
+              tr
+                td= l[0]
+                td.tright= l[1]
+                td.tright=  dmoney l[2]
+                - credits += l[2]
+
+            tr
+              th.strong Balance
+              td.tright= dmoney debits
+              td.tright= dmoney credits
+
+
   / = @deposit.sales_revenue
   / = @deposit.other_revenue
   / = @deposit.cash_sales

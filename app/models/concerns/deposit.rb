@@ -108,6 +108,26 @@ class Deposit < ApplicationRecord
     ledger
   end
 
+  def combined_ledger_deposit
+    sledger = sales_ledger_deposit
+    oledger = other_ledger_deposit
+    ledger = {debits:[],credits:[]}
+    sledger[:debits].each do |d|
+      ledger[:debits] << d
+    end
+    oledger[:debits].each do |d|
+      ledger[:debits] << d
+    end
+    sledger[:credits].each do |d|
+      ledger[:credits] << d
+    end
+    oledger[:credits].each do |d|
+      ledger[:credits] << d
+    end
+    ledger
+  end
+
+
   def self.update_liquor(params)
     liquor_path = Rails.root.join('yaml/inventory/liquor.yaml')
     liquor = {}
