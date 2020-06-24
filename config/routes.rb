@@ -1,4 +1,22 @@
 Rails.application.routes.draw do
+  resources :sales_items do
+    collection do
+      get :liquor
+      get :beer
+      get :beverage
+      get :food
+      get :liquor_inventory
+      patch :liquor_update
+      get :beer_inventory
+      patch :beer_update
+      get :pos_update
+      patch :update_pos
+    end
+    member do 
+      get :buy
+      patch :bought
+    end
+  end
   # get 'test/test'
   # patch 'test/fire'
   # patch 'test/clear'

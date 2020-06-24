@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_120540) do
+ActiveRecord::Schema.define(version: 2020_06_23_135324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,25 @@ ActiveRecord::Schema.define(version: 2020_05_14_120540) do
     t.float "amount"
     t.string "remarks"
     t.index ["deposit_id"], name: "index_revenues_on_deposit_id"
+  end
+
+  create_table "sales_items", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.float "price"
+    t.float "cost"
+    t.string "department"
+    t.float "markup"
+    t.integer "quanity"
+    t.integer "alert"
+    t.integer "size"
+    t.integer "cases"
+    t.integer "bottles"
+    t.integer "bottles_1"
+    t.string "bottles_2"
+    t.integer "percent"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "splits", force: :cascade do |t|

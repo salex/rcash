@@ -9,6 +9,13 @@ module ApplicationHelper
     content_tag :th, label
   end
 
+  def icon(klass, text = nil)
+    icon_tag = tag.i(class: klass)
+    text_tag = tag.span text
+    text ? tag.span(icon_tag + text_tag) : icon_tag
+  end
+
+
   def show_data(data)
     content_tag :td, data
   end
