@@ -1,0 +1,150 @@
+Item Name,UPC,Quantity on Hand,Alert Threshold,Unit Cost,Total Cost,Unit Price,Total Price,Status
+Amaretto,,40.000,0,0.63,25.2,3.5,140,Active
+Bacardi Rum,,27.000,20.00,0.7,18.9,4.25,114.75,Active
+Baileys,,0.000,0,1.29,0,4.25,0,Active
+Blue Curracao,,19.000,0,0.48,9.12,3.5,66.5,Active
+Bud Light,,0.000,48.00,1,0,2.25,0,Active
+Bud Light Lime,,47.000,20.00,1,47,2.25,105.75,Active
+Budweiser,,53.000,24.00,1,53,2.25,119.25,Active
+Bush NA,,5.000,6.00,1,5,2,10,Active
+Buttershots,,50.000,0,0.5,25,3.5,175,Active
+Canadian Club,,14.000,10.00,0.7,9.8,4.25,59.5,Active
+Captain Morgan,,20.000,20.00,0.78,15.6,4.25,85,Active
+Carolan Irish,,20.000,0,0.64,12.8,4.25,85,Active
+Club Soda,,0.000,0,0,0,1,0,Active
+Coffee: Decaf,,0.000,0,0,0,0.5,0,Active
+Coffee: Regular,,0.000,0,0,0,0.5,0,Active
+Coke,,0.000,0,0,0,1,0,Active
+Coke Zero,,0.000,0,0,0,1,0,Active
+Coors Light,,0.000,48.00,1,0,2.25,0,Active
+Corona Extra,,26.000,24.00,1,26,2.75,71.5,Active
+Corona Light,,67.000,10.00,1,67,2.75,184.25,Active
+Crackers,,0.000,0,0,0,0.75,0,Active
+Cream de Banana,,48.000,0,0.5,24,3.5,168,Active
+Creme de Cacao,,37.000,0,0.5,18.5,3.5,129.5,Active
+Creme de Menthe,,34.000,0,0.5,17,3.5,119,Active
+Crown Royal,,18.000,14.00,1.4,25.2,4.75,85.5,Active
+Crown Royal Apple,,2.000,14.00,1.43,2.86,4.75,9.5,Active
+Diet Coke,,0.000,0,0,0,1,0,Active
+Diet Dr Pepper,,0.000,0,0,0,1,0,Active
+Diet Pepsi,,0.000,0,0,0,1,0,Active
+Dr Pepper,,0.000,0,0,0,1,0,Active
+Fireball,,24.000,14.00,0.81,19.44,4.25,102,Active
+Gentleman Jack,,14.000,0,1.45,20.3,5.25,73.5,Active
+George Dickle,,0.000,14.00,0.92,0,4.25,0,Active
+Ginger Ale,,0.000,0,0,0,1,0,Active
+Hot Damn,,20.000,0,0.57,11.4,3.5,70,Active
+Jack Danial’s,,25.000,14.00,1.22,30.5,4.75,118.75,Active
+Jack Danial’s Fire,,0.000,14.00,1.28,0,4.75,0,Active
+Jack Danial’s Honey,,28.000,14.00,1.22,34.16,4.75,133,Active
+Jagermeister,,24.000,14.00,1.15,27.6,4.75,114,Active
+Jamison,,2.000,14.00,1.44,2.88,5.25,10.5,Active
+Jim Beam,,5.000,14.00,0.85,4.25,4.25,21.25,Active
+Jim Beam Fire,,0.000,0,0.89,0,4.25,0,Active
+Jim Bean Peach,,21.000,12.00,1.43,30.03,3.5,73.5,Active
+Jose Cuervo Gold,,17.000,20.00,1.03,17.51,4.75,80.75,Active
+Jose Cuervo Silver,,0.000,20.00,1.03,0,4.75,0,Active
+Juice Cranberry,,0.000,0,0,0,1,0,Active
+Juice Lemonade,,0,0,0,0,1,0,Active
+Juice Orange,,0.000,0,0,0,1,0,Active
+Juice Pineapple,,0.000,0,0,0,1,0,Active
+Juice Tomato,,0.000,0,0,0,1,0,Active
+Kuhlua,,0.000,0,1.15,0,4,0,Active
+Large Chips,,0.000,0,0,0,1,0,Active
+Lime/Straw Rita,,12.000,12.00,1,12,2,24,Active
+Long island,,27.000,0,0.33,8.91,4.25,114.75,Active
+Malibu Coconut,,0.000,20.00,0.74,0,4.25,0,Active
+Malibu Mango,,22.000,10.00,0.74,16.28,4.25,93.5,Active
+Marker’s Mark,,9.000,10.00,1.48,13.32,5.25,47.25,Active
+Michelob Ultra,,0.000,36.00,1,0,2.75,0,Active
+Miller High Life,,47.000,24.00,1,47,2.25,105.75,Active
+Miller Light,,0.000,48.00,1,0,2.25,0,Active
+Miller MGD,,31.000,12.00,1,31,2.25,69.75,Active
+Misc 1.00,,0.000,0,0,0,1,0,Active
+Misc 1.25,,0.000,0,0,0,1.25,0,Active
+Misc 2.00,,0.000,0,0,0,2,0,Active
+Misc Liquor,,0.000,0,0,0,3.5,0,Active
+Mt Dew,,0.000,0,0,0,1,0,Active
+Natural Light,,16.000,24.00,1,16,2.25,36,Active
+New Amsterdam Red Berry,,23.000,10.00,0.64,14.72,4.25,97.75,Active
+Peach Schnapps,,39.000,14.00,0.46,17.94,3.5,136.5,Active
+Peppermint Schnapps,,39.000,0,0.46,17.94,3.5,136.5,Active
+Pepsi,,0.000,0,0,0,1,0,Active
+Pinnacle Whipped Cream,,28.000,10.00,0.79,22.12,4.25,119,Active
+Propel,,0.000,0,0,0,2,0,Active
+Red Bull,,0.000,0,0,0,2,0,Active
+Ritas Tropical,,57.000,12.00,0.75,42.75,2,114,Active
+R&R,,11.000,8.00,0.5,5.5,3.5,38.5,Active
+Seagram’s 7 Crown,,16.000,14.00,0.55,8.8,3.5,56,Active
+Seagram’s Gin,,31.000,0,0.55,17.05,3.5,108.5,Active
+Seagram’s VO,,37.000,14.00,0.81,29.97,4.25,157.25,Active
+Segrams’s Cooler,,42.000,24.00,0.75,31.5,2,84,Active
+Small Chips,,0.000,0,0,0,0.5,0,Active
+Smirnoff,,54.000,20.00,0.67,36.18,4.25,229.5,Active
+Smirnoff Carmel,,25.000,0,0.74,18.5,4.25,106.25,Active
+Smirnoff Vanilla,,14.000,0,0.74,10.36,4.25,59.5,Active
+Sour Apple,,37.000,0,0.48,17.76,3.5,129.5,Active
+Southern Comfort,,28.000,10.00,0.78,21.84,4.25,119,Active
+Sprite,,0.000,0,0,0,1,0,Active
+Tito's Handmade,,20.000,10.00,1,20,4.25,85,Active
+Tonic,,0.000,0,0,0,1,0,Active
+Triple Sec,,23.000,0,0.5,11.5,0.5,11.5,Active
+Vermoth,,20.000,0,0.5,10,3.5,70,Active
+Water,,0.000,0,0,0,1,0,Active
+Well Bourbon,,65.000,25.00,0.48,31.2,3.5,227.5,Active
+Well Coffee (Chapala),,28.000,10.00,0.49,13.72,3.5,98,Active
+Well Gin,,26.000,0,0.31,8.06,3.5,91,Active
+Well Liqueur (E&J),,12.000,0,0.64,7.68,3.5,42,Active
+Well Rum (Aristocrat),,49.000,20.00,0.31,15.19,3.5,171.5,Active
+Well Scotch(Usher/100),,85.000,10.00,0.7,59.5,3.5,297.5,Active
+Well Tequila (Montezuma),,43.000,20.00,0,0,3.5,150.5,Active
+Well Vodka (Aristocrat),,13.000,14.00,0.31,4.03,3.5,45.5,Active
+Well Whiskey,,40.000,14.00,0.55,22,3.5,140,Active
+Wild Turkey,,6.000,14.00,1.18,7.08,4.75,28.5,Active
+Yuengling,,8.000,24.00,1.1,8.8,2.75,22,Active
+1,,0,0,0,0,0,0,Inactive
+10,,0,0,0,0,0,0,Inactive
+11,,0,0,0,0,0,0,Inactive
+2,,0,0,0,0,0,0,Inactive
+3,,0,0,0,0,0,0,Inactive
+4,,0,0,0,0,0,0,Inactive
+5,,0,0,0,0,0,0,Inactive
+6,,0,0,0,0,0,0,Inactive
+7,,0,0,0,0,0,0,Inactive
+8,,0,0,0,0,0,0,Inactive
+9,,0,0,0,0,0,0,Inactive
+Alabama Slammer,,0,0,0,0,4.5,0,Inactive
+Bahama Mama,,0,0,0,0,4.5,0,Inactive
+Black Russian,,0,0,0,0,4.5,0,Inactive
+Bloody Mary,,0.000,0,0,0,4.5,0,Inactive
+Buttery Nipple,,0.000,0,0,0,3.5,0,Inactive
+Cadillac Margarita,,0,0,0,0,5.75,0,Inactive
+Chocolate Cake,,0,0,0,0,4.5,0,Inactive
+Corona Lite,,18.000,0,1,18,2.75,49.5,Inactive
+Cosmopolitan,,0,0,0,0,4.5,0,Inactive
+Creamsicle,,0,0,0,0,4.5,0,Inactive
+Daiquiri,,0,0,0,0,4.5,0,Inactive
+Dewars,,0.000,6.00,1.33,0,4.75,0,Inactive
+Fuzzy Navel,,0,0,0,0,3.5,0,Inactive
+Jolly Rancher,,0,0,0,0,3.5,0,Inactive
+Kamikaze,,0,0,0,0,4.5,0,Inactive
+Lemon Drop,,0,0,0,0,4.5,0,Inactive
+Long Island Iced Tea,,0,0,0,0,5.75,0,Inactive
+Margarita,,0.000,0,0,0,4.5,0,Inactive
+Martini,,0,0,0,0,4.5,0,Inactive
+Midori Sour,,0,0,0,0,3.5,0,Inactive
+Mudslide,,0,0,0,0,4.5,0,Inactive
+Old Fashioned,,0,0,0,0,4.5,0,Inactive
+Pina Colada,,0,0,0,0,4.5,0,Inactive
+Red Headed Slut,,0,0,0,0,4.75,0,Inactive
+Sex On Beach,,0.000,0,0,0,4.5,0,Inactive
+Sour Apple Martini,,0,0,0,0,4.5,0,Inactive
+Strawberry Colada,,0,0,0,0,4.75,0,Inactive
+Strawberry Daiquiri,,0,0,0,0,4.5,0,Inactive
+Strawberry Margarita,,0,0,0,0,4.5,0,Inactive
+Surfer on Acid,,0,0,0,0,4.75,0,Inactive
+Tequila Sunrise,,0.000,0,0,0,3.5,0,Inactive
+Tom Collins,,0,0,0,0,4,0,Inactive
+Whiskey Sour,,0,0,0,0,4,0,Inactive
+White Russian,,0.000,0,0,0,4.5,0,Inactive
+Woo Woo,,0,0,0,0,4.5,0,Inactive

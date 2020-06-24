@@ -61,32 +61,32 @@ class DepositsController < ApplicationController
     end
   end
 
-  def beer_edit
-    @inv = Inventory.last
-    # @inv.get_qoh
-    @inv.beer
-    render layout:'printable'
-  end
+  # def beer_edit
+  #   @inv = Inventory.last
+  #   # @inv.get_qoh
+  #   @inv.beer
+  #   render layout:'printable'
+  # end
 
-  def liquor_edit
-    @inv = Inventory.last
-    @inv.liquor
-    render layout:'printable'
+  # def liquor_edit
+  #   @inv = Inventory.last
+  #   @inv.liquor
+  #   render layout:'printable'
 
-  end
+  # end
 
-  def liquor_update
-    @inv = Inventory.last
+  # def liquor_update
+  #   @inv = Inventory.last
 
-    results = @inv.update_liquor(liquor_params)
-    redirect_to weekly_deposits_path, notice:'Liquor inventory updated'
-  end
+  #   results = @inv.update_liquor(liquor_params)
+  #   redirect_to weekly_deposits_path, notice:'Liquor inventory updated'
+  # end
 
-  def beer_update
-    @inv = Inventory.last
-    results = @inv.update_beer(beer_params)
-    redirect_to weekly_deposits_path, notice:'Beer inventory updated'
-  end
+  # def beer_update
+  #   @inv = Inventory.last
+  #   results = @inv.update_beer(beer_params)
+  #   redirect_to weekly_deposits_path, notice:'Beer inventory updated'
+  # end
 
   def update_other
     respond_to do |format|
@@ -101,20 +101,20 @@ class DepositsController < ApplicationController
 
   end
 
-  def upload_qoh
-  end
+  # def upload_qoh
+  # end
 
-  def update_qoh
-    qoh_path = Rails.root.join('yaml/inventory/qoh.csv')
-    io =  params[:text_field]
-    e = io.read
-    csv = e.force_encoding("UTF-8")
-    inv = Inventory.last
-    inv.csv = csv
-    inv.save
-    redirect_to weekly_deposits_path, notice:'Quanity on Hand updated' 
-    # render plain: io
-  end
+  # def update_qoh
+  #   qoh_path = Rails.root.join('yaml/inventory/qoh.csv')
+  #   io =  params[:text_field]
+  #   e = io.read
+  #   csv = e.force_encoding("UTF-8")
+  #   inv = Inventory.last
+  #   inv.csv = csv
+  #   inv.save
+  #   redirect_to weekly_deposits_path, notice:'Quanity on Hand updated' 
+  #   # render plain: io
+  # end
 
   # POST /deposits
   # POST /deposits.json
@@ -162,13 +162,13 @@ class DepositsController < ApplicationController
       @deposit = Deposit.find(params[:id])
     end
 
-    def liquor_params
-      params.permit!.to_h
-    end
+    # def liquor_params
+    #   params.permit!.to_h
+    # end
 
-    def beer_params
-      params.permit!.to_h
-    end
+    # def beer_params
+    #   params.permit!.to_h
+    # end
 
 
     # Never trust parameters from the scary internet, only allow the white list through.
