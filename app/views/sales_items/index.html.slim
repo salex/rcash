@@ -1,5 +1,5 @@
 .w3-container.w3-white.min-height
-  .w3-row-padding
+  .w3-row-padding.noprint
     h3.w3-col.s3 = "Listing #{request.path.gsub('/',' ').gsub('_',' ').split.map { |x| x.capitalize }.join(" ")} "
     .w3-col.s9.w3-padding 
       = link_to "Sales Items",sales_items_path, class:'lime-link-button w3-padding' 
@@ -13,6 +13,7 @@
       = link_to "POS Update",pos_update_sales_items_path, class:'lime-link-button w3-padding' 
 
 
+  - tcost = 0
 
   table.small-table7[data-controller="sortTable"]
     thead
@@ -39,6 +40,7 @@
 
     tbody
       - @sales_items.each do |sales_item|
+        - tcost += sales_item.cost * sales_item.quanity
         tr
           td = sales_item.name
           td = sales_item.type
@@ -47,7 +49,10 @@
           td = sales_item.department
           / td = sales_item.markup
           td = sales_item.quanity
-          td = sales_item.alert
+          - if sales_item.alert >= sales_item.quanity
+            td.w3-text-red = sales_item.alert
+          - else
+            td = sales_item.alert
           td = sales_item.size
           td = sales_item.cases
           td = sales_item.bottles
@@ -59,5 +64,5 @@
             = link_to icon('fas fa-edit'), edit_sales_item_path(sales_item), title: 'Edit it', class: 'btn-icon warning mr-4 w3-text-orange'
             = link_to icon('fas fa-trash'),  sales_item, title: 'Destroy it', class: ' btn-icon mr-4 w3-text-red', method: :delete, data: { confirm: 'Are you sure?', remote: true }
             = link_to icon('far fa-shopping-cart'),buy_sales_item_path(sales_item),class: 'btn-icon  w3-text-blue mr-4'
-
+  p.strong = "Total Cost/Inventory Value: #{tcost.round(2)}"
 

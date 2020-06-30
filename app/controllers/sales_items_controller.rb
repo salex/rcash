@@ -56,12 +56,14 @@ class SalesItemsController < ApplicationController
     case @sales_item.type
     when "Beer"
       @sales_item.buy_beer(sales_item_params)
+      rpath = beer_sales_items_path
     when "Liquor"
       @sales_item.buy_liquor(sales_item_params)
+      rpath = liquor_sales_items_path
     end
     respond_to do |format|
       if @sales_item.save
-        format.html { redirect_to @sales_item, notice: 'Sales item was successfully purchased.' }
+        format.html { redirect_to rpath, notice: 'Sales item was successfully purchased.' }
         format.json { render :show, status: :created, location: @sales_item }
       else
         format.html { render :new }

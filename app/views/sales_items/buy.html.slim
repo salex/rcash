@@ -8,6 +8,8 @@
             li = message
     p Purchase price is total price (bottles, cases). Size is ML for Liquor and cases for Beer
     .form-fields
+      .actions = f.submit
+
       .field
         label Name:
         span = @sales_item.name
@@ -29,4 +31,4 @@
           = f.label :cases
           = f.number_field :cases
 
-    .actions = f.submit
+    = link_to "Cancel", index_path(@sales_item), class:'cancel-button'

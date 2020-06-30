@@ -31,6 +31,7 @@ input[type="submit"]{
 }
 .cancel-button{
   background-color: yellow;
+  border:solid 1px darken(yellow,15%);
   color:black;
   margin-right:2px;
   padding:4px 8px;
@@ -38,7 +39,7 @@ input[type="submit"]{
   border-radius:4px;
   font-weight: bold;
   &:hover{
-    background-color: lightgreen;
+    background-color: darken(yellow,15%);
     color:#333;
   }
 
