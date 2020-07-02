@@ -127,10 +127,18 @@ class SalesItemsController < ApplicationController
   def liquor_inventory
     @liquor =  Liquor.order(:name)
   end
+  def liquor_print
+    @liquor =  Liquor.order(:name)
+  end
+
 
   def beer_inventory
     @beer =  Beer.order(:name)
   end
+  def beer_print
+    @beer =  Beer.order(:name)
+  end
+
 
   def update_pos
     io =  params[:text_field]

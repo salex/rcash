@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get :liquor_inventory
       patch :liquor_update
       get :beer_inventory
+      get :beer_print
+      get :liquor_print
       patch :beer_update
       get :pos_update
       patch :update_pos
