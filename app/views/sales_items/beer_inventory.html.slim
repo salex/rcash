@@ -15,6 +15,7 @@
         th Cases
         th BotWi
         th BotCo
+        th BotLo
         th Total
         th &#10003;
       - @beer.each do |item|
@@ -36,8 +37,9 @@
           td
             = select_tag("[beer][#{item.id}][bottles_2]",options_for_select((0..24).to_a,item.bottles_2),include_blank:true,
              data:{target:'inventory.cbottles' ,action:'change->inventory#updateBeer'})
-
+          td= text_field_tag("[beer][#{item.id}][bottles]",item.bottles,data:{target:'inventory.bottles'},style:'width:100px;', class:'tright')
           td= text_field_tag("[beer][#{item.id}][total]",item.total,data:{target:'inventory.total'},style:'width:100px;', class:'tright')
+
           td= check_box_tag("[ckd]",0,false,data:{target:'inventory.ckd'})
 
 

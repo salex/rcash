@@ -139,14 +139,29 @@ class SalesItemsController < ApplicationController
     @beer =  Beer.order(:name)
   end
 
+  def downloaded
+    items_path = Rails.root.join('yaml/inventory/menu-item-detail.csv')
+    inventory_path = Rails.root.join('yaml/inventory/inventory-detail.csv')
 
-  def update_pos
-    io =  params[:text_field]
+    io = params[:item_details]
     e = io.read
     csv = e.force_encoding("UTF-8")
-    SalesItem.update_sales_items(csv)
-    redirect_to sales_items_path, notice: "Pupdate POS items"
+    File.write(items_path,csv)
+    io = params[:inv_details]
+    e = io.read
+    csv = e.force_encoding("UTF-8")
+    File.write(inventory_path,csv)
+    SalesItem.sync
+    redirect_to root_path, notice: "Should be downloaded and sync'd"
   end
+
+  # def update_pos
+  #   io =  params[:text_field]
+  #   e = io.read
+  #   csv = e.force_encoding("UTF-8")
+  #   SalesItem.update_sales_items(csv)
+  #   redirect_to sales_items_path, notice: "Pupdate POS items"
+  # end
 
 
   private

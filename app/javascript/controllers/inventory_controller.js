@@ -23,6 +23,8 @@ export default class extends Controller {
     const beerTarget = beer.dataset.target.replace('inventory.','')
     const beerTargets = eval(`this.${beerTarget}Targets`)
     this.idx = this.indexOfTargetInTargets(beer,beerTargets)
+    // console.log(`w ${this.wbottles} c ${this.cbottles}`)
+    this.bottlesTargets[this.idx].value = this.wbottles + this.cbottles
     this.totalTargets[this.idx].value = this.wbottles + this.cbottles + (this.cases * this.size )
     this.ckdTargets[this.idx].checked = true
   }

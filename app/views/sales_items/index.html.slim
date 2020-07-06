@@ -2,15 +2,15 @@
   .w3-row-padding.noprint
     h3.w3-col.s3 = "Listing #{request.path.gsub('/',' ').gsub('_',' ').split.map { |x| x.capitalize }.join(" ")} "
     .w3-col.s9.w3-padding 
-      = link_to "Sales Items",sales_items_path, class:'lime-link-button w3-padding' 
+      = link_to "Sales Items",sales_items_path, class:'lime-link-button round w3-padding' 
 
-      = link_to "Liquor",liquor_sales_items_path, class:'lime-link-button w3-padding' 
-      = link_to "Beer",beer_sales_items_path, class:'lime-link-button w3-padding' 
-      = link_to "Beverage",beverage_sales_items_path, class:'lime-link-button w3-padding' 
-      = link_to "Food",food_sales_items_path, class:'lime-link-button w3-padding' 
-      = link_to "Liquor Inv",liquor_inventory_sales_items_path, class:'lime-link-button w3-padding' 
-      = link_to "Beer Inv",beer_inventory_sales_items_path, class:'lime-link-button w3-padding' 
-      = link_to "POS Update",pos_update_sales_items_path, class:'lime-link-button w3-padding' 
+      = link_to "Liquor",liquor_sales_items_path, class:'lime-link-button round w3-padding' 
+      = link_to "Beer",beer_sales_items_path, class:'lime-link-button round w3-padding' 
+      = link_to "Beverage",beverage_sales_items_path, class:'lime-link-button round w3-padding' 
+      = link_to "Food",food_sales_items_path, class:'lime-link-button round w3-padding' 
+      = link_to "Liquor Inv",liquor_inventory_sales_items_path, class:'lime-link-button round w3-padding' 
+      = link_to "Beer Inv",beer_inventory_sales_items_path, class:'lime-link-button round w3-padding' 
+      = link_to "POS Update",pos_download_sales_items_path, class:'lime-link-button round w3-padding' 
 
 
   - tcost = 0

@@ -6,7 +6,7 @@
         ul
           - @sales_item.errors.full_messages.each do |message|
             li = message
-    p Purchase price is total price (bottles, cases). Size is ML for Liquor and cases for Beer
+    p Purchase price is price per (bottles, cases). Size is ML for Liquor and cases for Beer
     .form-fields
       .actions = f.submit
 
@@ -26,6 +26,10 @@
         .field
           = f.label :size
           = f.number_field :size
+        .field
+          = f.label :Bottles
+          = f.number_field :bottles
+
       -else
         .field
           = f.label :cases

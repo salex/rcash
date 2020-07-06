@@ -11,8 +11,10 @@ Rails.application.routes.draw do
       get :beer_print
       get :liquor_print
       patch :beer_update
-      get :pos_update
-      patch :update_pos
+      # get :pos_update
+      get :pos_download
+      # patch :update_pos
+      patch :downloaded
     end
     member do 
       get :buy

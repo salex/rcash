@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_23_135324) do
+ActiveRecord::Schema.define(version: 2020_07_04_142357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,10 +109,11 @@ ActiveRecord::Schema.define(version: 2020_06_23_135324) do
     t.integer "cases"
     t.integer "bottles"
     t.integer "bottles_1"
-    t.string "bottles_2"
+    t.integer "bottles_2"
     t.integer "percent"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
   end
 
   create_table "splits", force: :cascade do |t|

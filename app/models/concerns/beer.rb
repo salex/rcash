@@ -4,6 +4,17 @@ class Beer < SalesItem
     SalesItem.model_name
   end
 
+  def current_bottles
+    btls = (self.size * (self.cases || 0)) + (self.bottles_1 || 0) + (self.bottles_2.to_i || 0)
+  end
+
+  def get_cases
+    cases = (self.quanity / self.size).to_i
+  end
+
+  def get_bottles
+    bottles = self.quanity - (get_cases * self.size)
+  end
 
   def buy_beer(params)
     cases = params[:cases].to_i
