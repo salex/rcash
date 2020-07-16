@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get :beer
       get :beverage
       get :food
+      get :wine
       get :liquor_inventory
       patch :liquor_update
       get :beer_inventory

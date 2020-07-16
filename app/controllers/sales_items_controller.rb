@@ -23,6 +23,11 @@ class SalesItemsController < ApplicationController
     @sales_items = Food.order(:name)
     render :index
   end
+  def wine
+    @sales_items = Wine.order(:name)
+    render :index
+  end
+
 
 
   # GET /sales_items/1
@@ -102,7 +107,9 @@ class SalesItemsController < ApplicationController
         when 'Bevrage'
           format.html { redirect_to beverage_sales_items_path, notice: 'Beverage item was successfully updated.' }
         when 'Food'
-          format.html { redirect_to foor_sales_items_path, notice: 'Food item was successfully updated.' }
+          format.html { redirect_to food_sales_items_path, notice: 'Food item was successfully updated.' }
+        when 'Wine'
+          format.html { redirect_to wine_sales_items_path, notice: 'Wine item was successfully updated.' }
         else  
           format.html { redirect_to @sales_item, notice: 'Sales item was successfully updated.' }
           format.json { render :show, status: :ok, location: @sales_item }

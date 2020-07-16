@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  include UsersHelper
+  # makes sign_out abailable
 
   before_action :current_book
   before_action :current_user
   before_action :session_expiry
   # before_action :config_set
   
-  include UsersHelper
-  # makes sign_out abailable
 
   def current_user
     @current_user ||= User.find_by(id:session[:user_id]) if session[:user_id]
