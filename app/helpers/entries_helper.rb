@@ -104,7 +104,7 @@ module EntriesHelper
     if eid.present?
       (id_hidden + delete +'<i class=" fas fa-minus-square">Del</i>'.html_safe).html_safe
     else
-      (id_hidden + +'<span><i data-action="click->entryLedger#cutRow" class="fas fa-cut"></i></span>'.html_safe).html_safe
+      (id_hidden + +'<span data-target="entryLedger.deletes"><i data-action="click->entryLedger#cutRow" class="fas fa-cut"></i></span>'.html_safe).html_safe
     end
   end
 
