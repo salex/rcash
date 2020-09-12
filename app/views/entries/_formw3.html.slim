@@ -67,7 +67,7 @@
                 data:{target:"entryLedger.amount"})
               - idhide = f.hidden_field(:id)
               / - lock = f.hidden_field(:lock_version)
-              - destroy = f.check_box('_destroy',class:'s-delete',data:{action:"click->entryLedger#deleteRow"})
+              - destroy = f.check_box(:_destroy,class:'s-delete',data:{target:"entryLedger.deletes",action:"click->entryLedger#deleteRow"})
               - reconcile = f.object.reconcile_state
               = split_row(rid,
                 eid,

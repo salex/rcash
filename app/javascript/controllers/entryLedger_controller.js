@@ -1,11 +1,6 @@
 // Visit The Stimulus Handbook for more details 
 // https://stimulusjs.org/handbook/introduction
 // 
-// This example controller works with specially annotated HTML like:
-//
-// <div data-controller="hello">
-//   <h1 data-target="hello.output"></h1>
-// </div>
 
 import { Controller } from "stimulus"
 import Rails from '@rails/ujs';
@@ -13,14 +8,13 @@ import Rails from '@rails/ujs';
 
 export default class extends Controller {
   static targets = [ "splitsTbody","deletesTbody","numb" ,'description','date','transfer','debit',
-  'credit','amount','balanced','submit',"theForm",'errors']
+  'credit','amount','balanced','submit',"theForm",'errors','deletes']
 
   connect() {
     let currSplits
     let currStatus
     let valid
     if (!this.haserrorsTarget){
-      console.log('no errors')
       this.validate()
     }
   }
@@ -33,18 +27,97 @@ export default class extends Controller {
   }
 
   changed() {
-    // event.preventDefault()
+    // called when date, description, credit, debit or account changed
+    // then items must be present and valid
     this.getSplits()
     this.getStatus(this.currSplits)
     this.check_valid()
   }
+
+  getSplits() {
+    let transfers = this.transferTargets
+    let debits = this.debitTargets
+    let credits = this.creditTargets
+    let amounts = this.amountTargets
+    let numbSplits = debits.length
+    let deletes = this.deletesTargets
+    this.currSplits = []
+    for (var i = 0;  i < numbSplits; i++) {
+      let split = {}
+      split.sindex = i 
+      // node elem
+      split.$cr = credits[i]
+      split.$db = debits[i]
+      split.$amount = amounts[i]
+      split.$acct = transfers[i]
+      // do addbits on db and cr
+      if (debits[i].value != '') {
+        debits[i].value = this.addbits(debits[i].value)
+      }
+      if (credits[i].value != '') {
+        credits[i].value = this.addbits(credits[i].value)
+      }
+      // set numbers
+      split.acct = Number(transfers[i].value)
+      split.db = Number(debits[i].value)
+      split.cr = Number(credits[i].value)
+      split.amount = Number(amounts[i].value)
+      split.is_deleted = deletes[i].checked
+      if (split.is_deleted === undefined){ split.is_deleted = false}
+
+      split.valid = false
+      split.blank = false
+      split.incomplete = false
+      split.isCredit = false
+      split.isDebit = false
+      split.scratch = false
+      split.has_account =false
+      split.has_amount = false
+      this.currSplits[i] = split
+    }
+    // console.log(this.currSplits)
+  }
+
+  /*
+   * decaffeinate suggestions:
+   * DS101: Remove unnecessary use of Array.from
+   * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+   */
+  getStatus = function(splits) {
+    // status changes after any of the 4 attributes are changed
+    let status = {
+      blank_row: null,
+      incomplete_row: null,
+      scratch_row: null,
+      blank_rows: 0,
+      balance: 0,
+      sbalance: 0,
+      valid: true
+    };
+
+    for (let s of Array.from(splits)) {
+      this.set_split(s);
+      if (s.blank) { status.blank_rows += 1; }
+      if ((status.blank_row === null) && s.blank) { status.blank_row = s.sindex; }
+      if ((status.incomplete_row === null) && s.incomplete && !s.is_deleted) { status.incomplete_row = s.sindex; }
+      if ((status.scratch_row === null) && s.scratch) { status.scratch_row = s.sindex; }
+
+      status.valid = status.valid && s.valid;
+      if (s.is_deleted === false) {
+        status.balance += s.amount
+      }else{
+        this.clear_split(s)
+      }
+      if (s.scratch) { status.sbalance += s.amount; }
+    }
+    this.currStatus = status
+  };
 
   cutRow(){
     const tr = event.target.closest('tr')
     const tbody = tr.parentNode
     tbody.removeChild(tr)
     this.changed()
-
   }
 
   deleteRow(){
@@ -65,7 +138,6 @@ export default class extends Controller {
     button.setAttribute('disabled','disabled');
     button.classList.add('w3-red')
     button.classList.remove('w3-green')
-
     const theForm = this.theFormTarget
     theForm.submit()
   }
@@ -77,30 +149,14 @@ export default class extends Controller {
   reconcile() {
     const sp = event.target
     const td = sp.closest('td')
-    // const span = td.querySelector('span')
     const inpt = td.querySelector('input')
-    // console.log(span)
     if (inpt.value === 'n') {
       inpt.value = 'c'
-
     }else if (inpt.value == 'c'){
       inpt.value = 'n'
     }
     sp.innerHTML = inpt.value
   }
-
-  // $('#splits .s-reconcile').on 'click', (e) ->
-  //   # console.log "trying to flip reconcile"
-  //   td = $(this)
-  //   inp = td.find('input')
-  //   spn = td.find('span')
-  //   if inp.val() is 'n' or '' 
-  //     inp.val('c')
-  //   else if inp.val() is 'c'
-  //     inp.val('n')
-  //   spn.text(inp.val())
-
-
   /*
    * decaffeinate suggestions:
    * DS102: Remove unnecessary code created because of implicit returns
@@ -128,14 +184,13 @@ export default class extends Controller {
       button.setAttribute('disabled','disabled');
       button.classList.add('w3-red')
       button.classList.remove('w3-green')
-      // event.preventDefault()
-
     }
   };
 
   entry_valid() {
     return(this.dateTarget.value !== '') && (this.descriptionTarget.value !== '')
   }
+  
   splits_valid = function(evalid) {
     // console.log "START"
     let isValid;
@@ -191,39 +246,27 @@ export default class extends Controller {
       isValid =  `${evalid} Splits Valid: `;
     } else {
       if (this.currStatus.balance === 0) {
-        isValid = `${evalid} Splits Invalid: Account Missing:`; 
+        isValid = this.currStatus.incomplete_row != null ? `${evalid} Splits Invalid: Account Orphaned:` : `${evalid} Splits Invalid: Account Missing:`; 
       } else {
         isValid = `${evalid} Splits Invalid: Imbalanced: `;
       }
     }
     balanced.innerHTML =(isValid+ ` Balance: (${(balance / 100).toFixed(2)})`);
     if (this.currStatus.blank_rows < 2) {
-      const last =  this.currSplits.length - 1;
-      this.addSplit(last);
+      this.addSplit();
     }
     return valid;
   };
 
   clearAmounts() {
-    // event.preventDefault()
-    // var transfers = this.transferTargets
     var debits = this.debitTargets
-    // var credits = this.creditTargets
-    // var amounts = this.amountTargets
-    // var numbSplits = debits.length
-    var i
-    for (i = 0;  i < debits.length; i++) {
-      console.log(`gonna clear row ${i}`)
+    for (var i = 0;  i < debits.length; i++) {
       this.clear_split(this.currSplits[i])
-      // debits[i].value = ''
-      // credits[i].value = ''
-      // amounts[i].value = ''
     }
     this.changed()
   }
 
   addSplit() {
-    // event.preventDefault()
     var splits = this.splitsTbodyTarget
     var new_tr = splits.lastChild.cloneNode(true)
     var old_numb = Number(new_tr.getAttribute('id').replace(/\D/g, ''))
@@ -232,159 +275,25 @@ export default class extends Controller {
     var selects = new_tr.querySelectorAll("select")
     var i
     for (i = 0; i < inputs.length; i++) {
-      // console.log(inputs[i])
       var iid = inputs[i].getAttribute('id')
       var iname = inputs[i].getAttribute('name')
       inputs[i].setAttribute('id',iid.replace(old_numb,new_numb))
       inputs[i].setAttribute('name',iname.replace(old_numb,new_numb))
-      // console.log(inputs[i])
-      if (inputs[i].value != 'n') {
+      if (iid.includes("reconcile")){
+        inputs[i].value = 'n' 
+      }else{
         inputs[i].value = '' 
       }
     }
     for (i = 0; i < selects.length; i++) {
-      // console.log(inputs[i])
       var iid = selects[i].getAttribute('id')
       var iname = selects[i].getAttribute('name')
       selects[i].setAttribute('id',iid.replace(old_numb,new_numb))
       selects[i].setAttribute('name',iname.replace(old_numb,new_numb))
-      // console.log(selects[i])
     }
      splits.appendChild(new_tr)
   }
 
-  getSplits() {
-    let transfers = this.transferTargets
-    let debits = this.debitTargets
-    let credits = this.creditTargets
-    let amounts = this.amountTargets
-    let numbSplits = debits.length
-    this.currSplits = []
-    for (var i = 0;  i < numbSplits; i++) {
-      let split = {}
-      split.sindex = i 
-      // node elem
-      split.$cr = credits[i]
-      split.$db = debits[i]
-      split.$amount = amounts[i]
-      split.$acct = transfers[i]
-      // do addbits on db and cr
-      if (debits[i].value != '') {
-        debits[i].value = this.addbits(debits[i].value)
-      }
-      if (credits[i].value != '') {
-        credits[i].value = this.addbits(credits[i].value)
-      }
-      // set numbers
-      split.acct = Number(transfers[i].value)
-      split.db = Number(debits[i].value)
-      split.cr = Number(credits[i].value)
-      split.amount = Number(amounts[i].value)
-      split.valid = false
-      split.blank = false
-      split.incomplete = false
-      split.credit = false
-      split.debit = false
-      split.scratch = false
-      split.has_account =false
-      split.has_amount = false
-      this.currSplits[i] = split
-    }
-  }
-
-  /*
-   * decaffeinate suggestions:
-   * DS101: Remove unnecessary use of Array.from
-   * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
-   */
-  getStatus = function(splits) {
-    // status changes after any of the 4 attributes are changed
-    let status = {
-      blank_row: null,
-      incomplete_row: null,
-      scratch_row: null,
-      blank_rows: 0,
-      balance: 0,
-      sbalance: 0,
-      valid: true
-    };
-    for (let s of Array.from(splits)) {
-      this.set_split(s);
-      if (s.blank) { status.blank_rows += 1; }
-      if ((status.blank_row === null) && s.blank) { status.blank_row = s.sindex; }
-      if ((status.incomplete_row === null) && s.incomplete) { status.incomplete_row = s.sindex; }
-      if ((status.scratch_row === null) && s.scratch) { status.scratch_row = s.sindex; }
-      status.valid = status.valid && s.valid;
-      status.balance = (status.balance += s.amount);
-      if (s.scratch) { status.sbalance = (status.sbalance += s.amount); }
-    }
-    this.currStatus = status
-  };
-
-  // numbChange(){
-  //   // event.preventDefault()
-  //   const numb = event.target
-  //   const e = event
-  //   if ((e.which !== 187) && (e.which !== 189)){
-  //     console.log( e.which)
-  //     return false
-  //   } else {
-  //     // console.log("got a + or - keydown")
-  //     let adder, key, ltr, num;
-  //     if (e.which === 187) {
-  //       adder = 1;
-  //     } else {
-  //       adder = -1;
-  //     }
-  //     // e.which = 0
-  //     const last_numbers = this.last_numbersTarget
-  //     const json = JSON.parse(last_numbers.dataset.numbers);
-
-  //     // console.log(json)
-  //     if (numb.value === '') {
-  //       key = 'numb';
-  //       ltr = '';
-  //       num = '';
-  //     } else {
-  //       const val = numb.value;
-  //       ltr = val.replace(/\d+/,'');
-  //       num = val.replace(/\D+/,'');
-  //       if (num === '') {
-  //         key = ltr;
-  //       } else {
-  //         numb.value = ltr + (Number(num) + adder);
-  //         this.changed()       
-  //         return('') ;
-  //       }
-  //     }
-
-  //     // now have a key that has no number
-  //     const hasKey = json.hasOwnProperty(key);
-  //     // console.log( `has key ${hasKey} ${key} ${adder}`)
-  //     if (key === 'numb') {
-  //       // console.log("key is numb")
-  //       numb.value = json[key] + adder;
-  //     } else {
-  //       if (hasKey) {
-  //         const nxt = json[key] + adder;
-  //         numb.value = key + nxt;
-  //         json[key] = nxt;
-  //       } else {
-  //         json[key] = adder;
-  //         numb.value = key+'1';
-  //       }
-  //     }
-  //     this.changed()       
-  //     return('') ;
-  //   }
-  // }
-  
-
-  /*
-   * decaffeinate suggestions:
-   * DS102: Remove unnecessary code created because of implicit returns
-   * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
-   */
   clear_split = function(s) {
     s.amount = 0;
     s.cr = 0;
@@ -393,7 +302,7 @@ export default class extends Controller {
     s.$db.value = '';
     s.$amount.value = '';
     this.set_state(s)
-    this.getStatus
+    // this.getStatus(this.currSplits)
   };
 
   clear_amt = function(s) {
@@ -403,26 +312,26 @@ export default class extends Controller {
   };
 
   set_db_amount = function(s) {
-    const db = s.db.toFixed(2);
+    const db = Math.abs(s.db).toFixed(2);
     s.$db.value = db;
     s.$cr.value = '';
     s.cr = 0;
     const amt = db.replace('.',''); 
     s.amount = Number(amt);
     s.$amount.value = (s.amount);
-    s.debit = true;
+    s.isDebit = true;
     return this.set_state(s);
   };
 
   set_cr_amount = function(s) {
-    const cr = s.cr.toFixed(2);
+    const cr = Math.abs(s.cr).toFixed(2);
     s.$cr.value = (cr);
     s.$db.value = ('');
     s.db = 0;
     const amt = cr.replace('.',''); 
     s.amount = Number(amt) * -1;
     s.$amount.value = (s.amount);
-    s.credit = true;
+    s.isCredit = true;
     return this.set_state(s);
   };
 
@@ -440,7 +349,6 @@ export default class extends Controller {
   };
 
   set_chg_dbcr_amount = function(s) {
-    // console.log "chg what? id #{s.sindex} ac #{(s.acct)} db #{(s.db)} cr #{(s.cr)} amt #{(s.amount)}"
     // assume if cr and db present, they want to replace what was auto balanced with the other value
     const amt = Number((s.db - s.cr));
 
@@ -463,12 +371,13 @@ export default class extends Controller {
   set_state = function(s) {
     s.has_account = s.acct !== 0;
     s.has_amount = s.amount !== 0;
-    s.debit = s.db !== 0;
-    s.credit = s.cr !== 0;
-    s.blank = (!s.has_account && !s.debit && !s.credit && !s.has_amount);
-    s.incomplete = s.has_account && !s.debit && !s.credit && !s.has_amount;
-    s.scratch = !s.has_account && (s.debit || s.credit) && s.has_amount;
-    return s.valid = (s.has_account && (s.credit || s.debit)) || (s.blank || s.incomplete);
+    s.isDebit = s.db !== 0;
+    s.isCredit = s.cr !== 0;
+    s.blank = (!s.has_account && !s.isDebit && !s.isCredit && !s.has_amount);
+    s.incomplete = s.has_account && !s.isDebit && !s.isCredit && !s.has_amount;
+    if (s.is_deleted){s.incomplete=false}
+    s.scratch = !s.has_account && (s.isDebit || s.isCredit) && s.has_amount;
+    return s.valid = (s.has_account && (s.isCredit || s.isDebit || s.is_deleted)) || (s.blank) // || s.incomplete);
   };
 
   /*
