@@ -1,7 +1,6 @@
 .w3-row-padding.w3-ios-light-grey
   .w3-row.noprint
     .s12.w3-col.noprint 
-      / - if policy(@account).trustee?
       .w3-row-padding
         .m2.w3-col
           - unless @account.placeholder.present?
@@ -24,15 +23,11 @@
 
 
         .m5.w3-col
-          / form[ data-controller="ajax-request" data-ajax-request-url="/accounts/#{@account.id}/set_recent"]
-          /   button[data-action="click->ajax-request#makeRequest" class="lime-link-button"] Toggle Acct in Recent Ledger
           .w3-left
             - if session[:recent][@account.id.to_s].present?
               i.fa.fa-toggle-on = link_to("Toggle Recent Ledger",account_path(@account,toggle: true),class:'blue-link')
             - else
               i.fa.fa-toggle-off = link_to("Toggle Recent Ledger",account_path(@account,toggle: true),class:'blue-link')
-            / = check_box_tag :recent_acct, @account.id, session[:recent][@account.id.to_s].present?, data:{id: @account.id}
-          / = i.toggle &nbsp;Toggle Acct in Recent Ledger
           .w3-left
             |&nbsp; | &nbsp;
             i.fa.fa-toggle-off[data-controller="toggler" data-action="click->toggler#toggleChild" data-childClass="toggleMe"]
@@ -92,14 +87,3 @@
     #Ledger
       = render partial: 'accounts/ledger', locals:{from:@from,to:@to,account:@account}
 
-
-  / - arr =  current_book.description_lookup(6)
-  / - desc = arr.pluck(0).to_json
-  / - ids = arr.pluck(1).to_json
-
-  / #autoData.hidden data-array=desc data-match=ids 
-  /   javascript:
-  /     // $(function() {
-  /     //   $('#autoData').trigger('load');
-        
-  /     // });

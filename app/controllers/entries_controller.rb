@@ -102,7 +102,7 @@ class EntriesController < ApplicationController
 
   def entry_search
     @entries = current_book.auto_search(params)
-    puts "it be searching"
+    puts "it be searching #{@entries.count}"
     if @entries
       render partial:'entries/search_results'
     end
