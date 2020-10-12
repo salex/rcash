@@ -29,6 +29,7 @@ class DepositsController < ApplicationController
     end
     eom = bom.end_of_month
     @deposits = Deposit.where(date:bom..eom).order(:date)
+    render template:'deposits/month_summary', layout: 'htmlprint'  
   end
 
   # GET /deposits/new

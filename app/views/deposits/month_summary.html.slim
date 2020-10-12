@@ -2,6 +2,7 @@
   .w3-row-padding
     .show-links.s12.w3-col.noprint
       = link_to 'Weekly', weekly_deposits_path, class: "button bbutton"
+      |&nbsp;&nbsp;
       = link_to 'ShowAll', deposits_path, class: "button bbutton"
       / = link_to 'PDF', deposit_path(@deposit,format: :pdf)
     / h6.strong Deposit Summary
