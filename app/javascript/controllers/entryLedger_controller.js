@@ -336,32 +336,33 @@ export default class extends Controller {
   };
 
  set_dbcr_amount = function(s) {
-    const amt = Number((s.db - s.cr));
-    if (amt >= 0) {
-      s.cr = 0;
-      s.db = amt;
-      return this.set_db_amount(s);
-    } else { 
+    // made a mistake in entering cr or db, swap amount
+    if (s.amount >= 0) {
+      // use cr value since db was amount used
       s.db = 0;
-      s.cr = amt * -1;
-      return this.set_cr_amount(s);
-    }
-  };
-
-  set_chg_dbcr_amount = function(s) {
-    // assume if cr and db present, they want to replace what was auto balanced with the other value
-    const amt = Number((s.db - s.cr));
-
-    if (amt >= 0) {
-      // debit was last set, change to new credit
-      // s.$db.val('');
       return this.set_cr_amount(s);
     } else { 
-      // credit was last set, change to new debit
       s.cr = 0;
+      // use db value since cr was amount used
       return this.set_db_amount(s);
     }
   };
+
+  // set_chg_dbcr_amount = function(s) {
+  //   // assume if cr and db present, they want to replace what was auto balanced with the other value
+  //   console.log('chg-dbcr-amount')
+  //   const amt = Number((s.db - s.cr));
+
+  //   if (amt >= 0) {
+  //     // debit was last set, change to new credit
+  //     // s.$db.val('');
+  //     return this.set_cr_amount(s);
+  //   } else { 
+  //     // credit was last set, change to new debit
+  //     s.cr = 0;
+  //     return this.set_db_amount(s);
+  //   }
+  // };
 
   /*
    * decaffeinate suggestions:
@@ -419,6 +420,7 @@ export default class extends Controller {
         this.set_db_amount(s);
         return;
       }
+      // this won't do anything if acct is zero
       // ynny
       if ((s.db !== 0)  && (s.cr !== 0) && (s.amount === 0)) {
         this.set_dbcr_amount(s);
@@ -461,6 +463,7 @@ export default class extends Controller {
         this.set_db_amount(s);
         return;
       }
+      // amount does not affect if both db and cr set
       // nnny
       if ((s.db !== 0)  && (s.cr !== 0) && (s.amount === 0)) {
         this.set_dbcr_amount(s);
@@ -468,7 +471,7 @@ export default class extends Controller {
       }
       // nnnn
       if ((s.db !== 0)  && (s.cr !== 0) && (s.amount !== 0)) {
-        this.set_chg_dbcr_amount(s);
+        this.set_dbcr_amount(s);
         return;
       }
     }
