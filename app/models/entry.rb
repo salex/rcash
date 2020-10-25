@@ -7,12 +7,11 @@ class Entry < ApplicationRecord
 
 
   accepts_nested_attributes_for :splits, 
-    :reject_if =>  proc { |att| att[:amount].to_i.zero? && att['account_id'].to_i.zero?},
+    :reject_if =>  proc { |att| att[:amount].to_i.zero? && att[:account_id].to_i.zero?},
     allow_destroy: true
 
-  def valid_params?(params)
+  def valid_params?(params_hash)
     split_sum = 0
-    params_hash = params.to_h
     params_hash[:splits_attributes].each{|k,s| split_sum += s[:amount].to_i if s[:_destroy].to_i.zero?}
     unless split_sum.zero?
       errors.add(:amount, "Unbalanced: debits, credits must balance")

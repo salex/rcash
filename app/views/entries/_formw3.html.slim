@@ -2,8 +2,6 @@
   .w3-col.s2
     h5.strong = header
   .w3-col.s10.w3-padding
-    / = link_to('Validate',nil, class="w3-button w3-blue", data:{action:"click->entryLedger#validate"})
-    / = link_to("Validate",nil, id:'bvalidate',class:"w3-button w3-blue", data:{action:"click->entryLedger#validate"})
     #validate.button.w3-button.w3-blue[data-action="click->entryLedger#validate"] Validate
     = link_to('Cancel', session[:current_acct].present? ? account_path(session[:current_acct]) :request.headers['HTTP_REFERER'],
       class:"w3-button w3-yellow")
@@ -11,9 +9,8 @@
       button= link_to 'Delete Entry',@entry, data: { confirm: 'Are you sure?' },class:'link-button', method: :delete 
       button= link_to 'Void Entry',void_entry_path(@entry),class:'link-button', data: { confirm: 'Are you sure?' }, method: :patch 
   .w3-row
-    = form_with model: @entry, data:{target:"entryLedger.theForm"} do |f|
+    = form_with model: @entry, data:{target:"entryLedger.theForm",action:'  keypress->entryLedger#preventSubmit'} do |f|
       
-
       - if @entry.errors.any?
         #error_explanation[data-target="entryLedger.errors"]
           h2 = "#{pluralize(@entry.errors.count, "error")} prohibited this entry from being saved:"
@@ -81,17 +78,11 @@
                 idhide,
                 destroy,
                 reconcile)
-                / ,
-                / lock)
               - rid += 1
-          tbody[data-target="entryLedger.deletesTbody"]
-            tr
-              th colspan="7" Deleted Splits
-
+        hr.underline
         div style="float:right;"
           span.balanced[data-target="entryLedger.balanced"] Start
-        #submit = f.submit( "#{action_name == 'edit' ? 'Update' : 'Create'} Entry", 
-          disabled: true,class:'w3-button w3-red',data:{target:'entryLedger.submit',action:'click->entryLedger#submitForm'})
+        button.w3-red.w3-large.w3-disabled.w3-round.w3-padding.strong.w3-margin-top[data-target="entryLedger.submit" data-action="click->entryLedger#submitForm" disabled="disabled"] = "#{action_name == 'edit' ? 'Update' : 'Create'} Entry"
         #last_numbers[data-target="autoNumber.last_numbers" data-numbers="#{current_book.last_numbers.to_json}"]
   
       

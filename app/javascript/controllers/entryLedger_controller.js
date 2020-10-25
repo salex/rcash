@@ -15,19 +15,12 @@ export default class extends Controller {
     let currStatus
     let valid
     if (!this.haserrorsTarget){
-      this.validate()
+      this.changed()
     }
   }
 
-  validate(){
-    // event.preventDefault()
-    this.getSplits()
-    this.getStatus(this.currSplits)
-    this.check_valid()
-  }
-
   changed() {
-    // called when date, description, credit, debit or account changed
+    // called when date, description, credit, debit or account changed and on connect
     // then items must be present and valid
     this.getSplits()
     this.getStatus(this.currSplits)
@@ -94,11 +87,13 @@ export default class extends Controller {
       sbalance: 0,
       valid: true
     };
-
+    // console.log(`get rid of array from ${splits.length}`)
+    // for (var s = 0;  s < splits.length; i++) {
     for (let s of Array.from(splits)) {
       this.set_split(s);
       if (s.blank) { status.blank_rows += 1; }
       if ((status.blank_row === null) && s.blank) { status.blank_row = s.sindex; }
+
       if ((status.incomplete_row === null) && s.incomplete && !s.is_deleted) { status.incomplete_row = s.sindex; }
       if ((status.scratch_row === null) && s.scratch) { status.scratch_row = s.sindex; }
 
@@ -121,25 +116,28 @@ export default class extends Controller {
   }
 
   deleteRow(){
+    // delete row is now in place, just clear the amounts and marks it red
     const checkbox = event.target
     const tbodySplits = this.splitsTbodyTarget
-    const tbodyDeletes = this.deletesTbodyTarget
     const tr = checkbox.closest('tr')
     if (checkbox.checked == true) {
-      tbodyDeletes.append(tr)
+      tr.classList.add('deleted-row')
     } else {
-      tbodySplits.prepend(tr)
+      tr.classList.remove('deleted-row')
     }
     this.changed()
   }
 
+  preventSubmit(){
+    if (event.keyCode == 13) {
+      event.preventDefault()
+    }
+  }
+
   submitForm(){
-    const button = this.submitTarget;
-    button.setAttribute('disabled','disabled');
-    button.classList.add('w3-red')
-    button.classList.remove('w3-green')
-    const theForm = this.theFormTarget
-    theForm.submit()
+    // disable button to prevent double click and submit form
+    this.submitTarget.setAttribute('disabled','disabled');
+    this.theFormTarget.submit()
   }
 
   selectit(){
@@ -157,11 +155,7 @@ export default class extends Controller {
     }
     sp.innerHTML = inpt.value
   }
-  /*
-   * decaffeinate suggestions:
-   * DS102: Remove unnecessary code created because of implicit returns
-   * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
-   */
+
   check_valid = function() {
     let invalid;
     let evalid =  this.entry_valid();
@@ -177,13 +171,15 @@ export default class extends Controller {
       button.removeAttribute('disabled');
       button.classList.add('w3-green')
       button.classList.remove('w3-red')
+      button.classList.remove('w3-disabled')
 
-      // return button.parent().css('background-color','lightgreen');
     } else {
       this.valid = false
       button.setAttribute('disabled','disabled');
       button.classList.add('w3-red')
       button.classList.remove('w3-green')
+      button.classList.add('w3-disabled')
+
     }
   };
 
@@ -236,6 +232,7 @@ export default class extends Controller {
       // lets update status in case there was a double call
       this.getSplits()
       this.getStatus(this.currSplits)
+
       // return(this.changed())
     }
     balance = this.currStatus.balance
@@ -255,6 +252,7 @@ export default class extends Controller {
     if (this.currStatus.blank_rows < 2) {
       this.addSplit();
     }
+
     return valid;
   };
 
@@ -269,10 +267,13 @@ export default class extends Controller {
   addSplit() {
     var splits = this.splitsTbodyTarget
     var new_tr = splits.lastChild.cloneNode(true)
-    var old_numb = Number(new_tr.getAttribute('id').replace(/\D/g, ''))
+    var new_tr_id  = new_tr.getAttribute('id')
+    var old_numb = Number(new_tr_id.replace(/\D/g, ''))
     var new_numb = old_numb + 1
+    new_tr.setAttribute('id',new_tr_id.replace(old_numb,new_numb))
     var inputs = new_tr.querySelectorAll("input")
     var selects = new_tr.querySelectorAll("select")
+    new_tr.setAttribute('id',new_tr_id.replace(old_numb,new_numb))
     var i
     for (i = 0; i < inputs.length; i++) {
       var iid = inputs[i].getAttribute('id')

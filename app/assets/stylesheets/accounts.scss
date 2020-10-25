@@ -63,6 +63,8 @@ table.gl-table {
   tr {background-color: lighten(yellow,40)!important;}
   tr.entry-row {background-color: lighten(blue,39)!important;}
   tr.header-row {background-color: lighten(lawngreen,40)!important;}
+  tr.deleted-row {background-color: lighten(red,40)!important;}
+
 
   .required {background-color:lighten(lightgreen,15);}
 
