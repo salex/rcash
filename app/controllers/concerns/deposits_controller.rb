@@ -1,4 +1,5 @@
 class DepositsController < ApplicationController
+  before_action :require_book
   before_action :set_deposit, only: [:show, :edit, :update, :destroy, :edit_other, :update_other]
 
   # GET /deposits
@@ -159,6 +160,14 @@ class DepositsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def require_book
+      if current_user.blank?
+        deny_access
+      else
+        redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      end
+    end
+
     def set_deposit
       @deposit = Deposit.find(params[:id])
     end

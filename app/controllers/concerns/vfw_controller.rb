@@ -39,9 +39,11 @@ class VfwController < ApplicationController
   end
 
   private
-
   def require_book
-    redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
-    @book = Current.book
+    if current_user.blank?
+      deny_access
+    else
+      redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+    end
   end
 end

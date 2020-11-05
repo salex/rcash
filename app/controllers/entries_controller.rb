@@ -21,7 +21,6 @@ class EntriesController < ApplicationController
     else 
       account = Account.new
     end
-    # @options  = Stash.find_by(key:'acct_sel_opt').hash_data
     @entry = current_book.entries.new(post_date:Date.today)
     1.upto(3) do |i|
       aid = i == 1 ? account.id : nil
@@ -141,11 +140,16 @@ class EntriesController < ApplicationController
 
 
   private
-    def require_book
-      redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
-    end
 
     # Use callbacks to share common setup or constraints between actions.
+    def require_book
+      if current_user.blank?
+        deny_access
+      else
+        redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      end
+    end
+
     def redirect_path
       if @bank_dup.present?
         latest_ofxes_path

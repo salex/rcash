@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def home
-    if Current.book
+    if Current.book && Current.user
       render template: 'welcome/book'
     else
       render template: 'welcome/home'

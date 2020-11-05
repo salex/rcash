@@ -118,7 +118,11 @@ class BankStatementsController < ApplicationController
 
   private
     def require_book
-      redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      if current_user.blank?
+        deny_access
+      else
+        redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      end
     end
 
     # Use callbacks to share common setup or constraints between actions.

@@ -2,7 +2,7 @@ class ReportsController < ApplicationController
   before_action :require_book
 
   def index
-    @acct_options  = @book.settings[:acct_sel_opt]
+    @acct_options  = Current.book.settings[:acct_sel_opt]
   end
 
   def destroy
@@ -93,8 +93,11 @@ class ReportsController < ApplicationController
   private
 
   def require_book
-    redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
-    @book = Current.book
+    if current_user.blank?
+      deny_access
+    else
+      redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+    end
   end
 
   def set_account

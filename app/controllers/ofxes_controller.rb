@@ -145,10 +145,13 @@ class OfxesController < ApplicationController
   # end
 
   private
-    def require_book
-      # puts " checking book is there from ajax"
+  def require_book
+    if current_user.blank?
+      deny_access
+    else
       redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
     end
+  end
 
 
   # debride not a real crud model

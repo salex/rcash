@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :require_book
   before_action :set_book, only: [:show, :edit, :update, :destroy, :open]
 
   # GET /books
@@ -84,6 +85,12 @@ class BooksController < ApplicationController
 
 
   private
+
+    def require_book
+      deny_access if current_user.blank?
+      # redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params[:id])

@@ -1,4 +1,5 @@
 class InventoriesController < ApplicationController
+  before_action :require_book
   before_action :set_inventory, only: [:show, :edit, :update, :destroy]
 
   # GET /inventories
@@ -63,6 +64,14 @@ class InventoriesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def require_book
+      if current_user.blank?
+        deny_access
+      else
+        redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      end
+    end
+
     def set_inventory
       @inventory = Inventory.find(params[:id])
     end

@@ -1,4 +1,6 @@
 class SalesItemsController < ApplicationController
+  before_action :require_book
+
   before_action :set_sales_item, only: [:show, :edit, :update, :destroy, :buy, :bought]
 
   # GET /sales_items
@@ -173,6 +175,14 @@ class SalesItemsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def require_book
+      if current_user.blank?
+        deny_access
+      else
+        redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      end
+    end
+
     def set_sales_item
       @sales_item = SalesItem.find(params[:id])
     end

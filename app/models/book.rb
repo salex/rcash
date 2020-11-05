@@ -252,10 +252,6 @@ class Book < ApplicationRecord
     settings = {skip:true}
     book.save
 
-  # end
-
-  # def create_accts
-  #   book = self
 
     broot = book.accounts.create(  
       {:name=>"Root Account",

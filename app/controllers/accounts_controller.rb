@@ -102,11 +102,16 @@ class AccountsController < ApplicationController
 
 
   private
-    def require_book
-      redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
-    end
 
     # Use callbacks to share common setup or constraints between actions.
+    def require_book
+      if current_user.blank?
+        deny_access
+      else
+        redirect_to(books_path, alert:'Current Book is required') if current_book.blank?
+      end
+    end
+
     def set_param_date
       @today = Date.today
       if params[:date].present?
